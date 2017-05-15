@@ -15,6 +15,7 @@ public class Question {
 	
 	public int getResponse(int qNum)	
 	{
+		
 		return((int) Math.random() * 5);		//for now it will just do this, for testing purposes
 	}
 }

@@ -26,6 +26,10 @@ public class Survey {
 		return(q.getResponse(qNum));
 	}
 	
+	int getVisual()
+	{
+		return(0);
+	}
 	@SuppressWarnings("unused")
 	private boolean checkValid()
 	{
