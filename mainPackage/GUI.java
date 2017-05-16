@@ -40,9 +40,11 @@ public class GUI extends JFrame implements ActionListener{
 	Container pane;
 	JMenuItem chooseQHeight;
 	JMenuItem chooseAHeight;
+	JMenuItem displayBounds;
 	JTree survey;
 	DefaultMutableTreeNode question;
 	
+	/*		*/
 	public static void main(String[] args) throws IOException
 	{
 		new GUI();     
@@ -68,7 +70,9 @@ public class GUI extends JFrame implements ActionListener{
 		chooseQHeight.addActionListener(this);
 		chooseAHeight = new JMenuItem("Answer Height");
 		chooseAHeight.addActionListener(this);
-		export = new JMenuItem("Export Responses");
+		displayBounds = new JMenuItem("Display Bounds");
+		displayBounds.addActionListener(this);
+		export = new JMenuItem("Export...");
 		export.addActionListener(this);
 		actions.add(run);
 		actions.add(newRun);
@@ -156,14 +160,17 @@ public class GUI extends JFrame implements ActionListener{
 				a.displayForm();
 				a.displaySelector();
 				a.reloadVis();
-				
 			} catch (Exception e1) {
 				setStatus("Error.  See stack trace.");
 				e1.printStackTrace();
 			}
 			
 		}
-	}
+		else if(e.getSource() == displayBounds)
+		{
+			System.out.println();
+		}
+	} 
 	
 	public void setStatus(String s)		//update the status bar
 	{
