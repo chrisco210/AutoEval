@@ -17,9 +17,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import popupMenus.ImageAreaSelector;
+import responses.Survey;
+
 public class GUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public File source;
+	
 	/*		--------GUI ITEMS--------		*/
 	JMenuBar topMenu;
 	JMenu file;
@@ -38,14 +42,6 @@ public class GUI extends JFrame implements ActionListener{
 	JMenuItem chooseAHeight;
 	JTree survey;
 	DefaultMutableTreeNode question;
-	JPopupMenu chooseQHeightMenu;
-	JPopupMenu chooseAHeightMenu;
-	JSpinner chooseHeightSpinnerAX;
-	JSpinner chooseHeightSpinnerAY;
-	JSpinner chooseHeightSpinnerQX;
-	JSpinner chooseHeightSpinnerQY;
-	SpinnerModel chooseCoordsSpinnerQX;
-	SpinnerModel chooseCoordsSpinnerQY;
 	
 	public static void main(String[] args) throws IOException
 	{
@@ -100,20 +96,11 @@ public class GUI extends JFrame implements ActionListener{
 		statusLabel.setText("Done.");
 		pane.add(statusLabel, BorderLayout.SOUTH);
 		
-		//Popup menu for choosing question height
-		chooseQHeightMenu = new JPopupMenu("Choose Question Size");
-		chooseCoordsSpinnerQX = new SpinnerNumberModel(0,0,Integer.MAX_VALUE, 1);
-		chooseCoordsSpinnerQY = new SpinnerNumberModel(0,0,Integer.MAX_VALUE, 1);
-		chooseHeightSpinnerQX = new JSpinner(chooseCoordsSpinnerQX);
-		chooseHeightSpinnerQY = new JSpinner(chooseCoordsSpinnerQY);
-		chooseHeightSpinnerQX.setBounds(100, 100, 50, 30);
-		chooseQHeightMenu.add(chooseHeightSpinnerQX);
-		chooseQHeightMenu.add(chooseHeightSpinnerQY);
-		chooseQHeightMenu.setSize(100,50);
 		
 		setVisible(true);		//Display the form
 	}
 	
+	//Handles 
 	public void actionPerformed(ActionEvent e)
 	{	
 		//Read menu bar inputs
@@ -129,9 +116,8 @@ public class GUI extends JFrame implements ActionListener{
 			try{	//Remove any existing images from the display
 				remove(imageLabel);
 			} catch(Exception ex) { }
+			
 			//Image display
-
-			setStatus("Failed to display " + source.toString());
 			BufferedImage img;
 			
 			//Attempt to display the image, catches IO exception
@@ -141,31 +127,41 @@ public class GUI extends JFrame implements ActionListener{
 			imageLabel = new JLabel(surveyImage);
 			imageLabel.setSize(100, 100);
 			pane.add(imageLabel, BorderLayout.CENTER);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-
+			} catch (IOException ex) {		//Handle IOException
+				ex.printStackTrace();
+				setStatus("Caught " + ex.getCause().toString());
 			}
 			setVisible(false);
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(e.getSource() == run)
+		else if(e.getSource() == run)		//Start a pixel count read, not finished
 		{
 			System.out.println("Started pixel count parse");
 			Survey s = new Survey(source, 0,0);
+			
 		}
-		else if(e.getSource() == newRun)
+		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
 			System.out.println("Started visual parse");
 		}
-		else if(e.getSource() == export)
+		else if(e.getSource() == export)		//export the created data to a variety of formats
 		{
 			System.out.println("Export menu selected");
 		}
-		else if(e.getSource() == chooseQHeight)
+		else if(e.getSource() == chooseQHeight)		//Choose question height
 		{
-			chooseQHeightMenu.show(this, this.getX(), this.getY());
+			try {
+				ImageAreaSelector a = new ImageAreaSelector(source);
+				a.displayForm();
+				a.displaySelector();
+				a.reloadVis();
+				
+			} catch (Exception e1) {
+				setStatus("Error.  See stack trace.");
+				e1.printStackTrace();
+			}
+			
 		}
 	}
 	

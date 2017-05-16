@@ -1,8 +1,8 @@
-package mainPackage;
+package responses;
 
 import java.awt.image.BufferedImage;
 
-public class Question {
+public class Question extends AbstractResponse {
 	private int optionHeight;
 	BufferedImage questionData;
 	
