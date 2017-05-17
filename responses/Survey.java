@@ -10,9 +10,13 @@ public class Survey {
 	private static File surveySrc;
 	private int qHeight;
 	private int optHeight;
-	
-	public Survey(File f, int qHeight, int optHeight)
+	private int questionXCorner;
+	private int questionYCorner;
+		
+	public Survey(File f, int qX, int qY,int qHeight, int optHeight)
 	{
+		questionXCorner = qX;
+		questionYCorner = qY;
 		this.qHeight = qHeight;
 		this.optHeight = optHeight;
 		surveySrc = f;
