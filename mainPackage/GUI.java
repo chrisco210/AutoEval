@@ -23,6 +23,7 @@ import responses.Survey;
 public class GUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	public File source;
+	public int[] questionAns;
 	
 	/*		--------GUI ITEMS--------		*/
 	JMenuBar topMenu;
@@ -141,8 +142,11 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if(e.getSource() == run)		//Start a pixel count read, not finished
 		{
+			//Instantiate the ImageAreaSelector class earlier, need to use it to get the point data
+			Point p1 = a.getBound1();
+			Point p2 - a.getBound2();
 			System.out.println("Started pixel count parse");
-			Survey s = new Survey(source, 0,0);
+			Survey s = new Survey(source, p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
 			
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
