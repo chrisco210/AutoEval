@@ -1,6 +1,8 @@
 package popupMenus;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +21,7 @@ import javax.swing.JTextField;
 
 public class ImageAreaSelector extends AreaSelector implements ActionListener{
 	private BufferedImage imgBuff;
+	private BufferedImage origImg;
 	JLabel displayImg;
 	JScrollPane imgPane;
 	BorderLayout fullPane;
@@ -40,6 +44,7 @@ public class ImageAreaSelector extends AreaSelector implements ActionListener{
 	{
 		imgBuff = ImageIO.read(f);
 		displayImg = new JLabel(new ImageIcon(imgBuff));
+		origImg = imgBuff;
 	}
 	
 	public void displaySelector() 
@@ -94,21 +99,36 @@ public class ImageAreaSelector extends AreaSelector implements ActionListener{
 		return(bound2);
 	}
 	
+	public void setBound1()
+	{
+		bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
+	}
+	public void setBound2()
+	{
+		bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
-			//Do stuff here
+			//Set the point bounds
+			setBound1();		
+			setBound2();
+			Graphics2D g2d = imgBuff.createGraphics();
+			g2d.setColor(Color.red);
+			g2d.drawRect(bound1.x, bound1.y, bound2.x - bound1.x, bound2.y - bound1.y);		//Draw the rectangle on the image
+			super.reloadVis();
+			g2d.dispose();
+			imgBuff = origImg;
 		}
 		else if(eventSource == okButton)
 		{
 			System.out.println("OK Button Pressed");
 			try{
-				bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
-				bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
-				System.out.println(bound1.toString());
-				System.out.println(bound1.toString());
+				System.out.println(getBound1().toString());
+				System.out.println(getBound2().toString());
 				super.hide();
 			} catch(Exception ex) {
 				ex.printStackTrace();
