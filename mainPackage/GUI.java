@@ -1,29 +1,30 @@
 package mainPackage;
 import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Panel;
-import java.awt.Toolkit;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.*;
-
+import java.io.File;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import popupMenus.ImageAreaSelector;
+import popupMenus.NumberChooser;
 import responses.Survey;
 
 public class GUI extends JFrame implements ActionListener{
+	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
 	public File source;
-	public int[] questionAns;
+	public int[] questionAns;	//Store the responses to the questions.  
+	public static int questionCount;
+	//fucking terrible variable naming. I know.
+	public static Point pq1;		//Option bound 1
+	public static Point pq2;		//Option bound 2
+	public static Point po1;		//Option bound 1
+	public static Point po2;		//Option bound 2
 	
 	/*		--------GUI ITEMS--------		*/
 	JMenuBar topMenu;
@@ -44,8 +45,8 @@ public class GUI extends JFrame implements ActionListener{
 	JMenuItem displayBounds;
 	JTree survey;
 	DefaultMutableTreeNode question;
+	JMenuItem setQuestionCount;
 	
-	/*		*/
 	public static void main(String[] args) throws IOException
 	{
 		new GUI();     
@@ -58,21 +59,21 @@ public class GUI extends JFrame implements ActionListener{
         pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		
-		//Menu Bar stuff
+		//Menu Bar stuff.  Holy shit.
 		topMenu = new JMenuBar();
 		open = new JMenuItem("Open");
 		open.addActionListener(this);
 		actions = new JMenu("Actions");
-		run = new JMenuItem("Parse Evaluation (Pixel Count)");
+		run = new JMenuItem("Parse Form (Pixel Count)");
 		run.addActionListener(this);
-		newRun = new JMenuItem("Parse Evaluations (Visual)");
+		newRun = new JMenuItem("Parse Form(Visual)");
 		newRun.addActionListener(this);
 		chooseQHeight = new JMenuItem("Question Height");
 		chooseQHeight.addActionListener(this);
-		chooseAHeight = new JMenuItem("Answer Height");
-		chooseAHeight.addActionListener(this);
 		displayBounds = new JMenuItem("Display Bounds");
 		displayBounds.addActionListener(this);
+		setQuestionCount = new JMenuItem("# of questions...");
+		setQuestionCount.addActionListener(this);
 		export = new JMenuItem("Export...");
 		export.addActionListener(this);
 		actions.add(run);
@@ -83,7 +84,7 @@ public class GUI extends JFrame implements ActionListener{
 		view = new JMenu("View");
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);
-		edit.add(chooseAHeight);
+		edit.add(setQuestionCount);
 		topMenu.add(file);
 		topMenu.add(edit);
 		topMenu.add(actions);
@@ -106,8 +107,11 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	//Handles 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{	
+		ImageAreaSelector a = null;
+		NumberChooser num = null;
 		//Read menu bar inputs
 		if(e.getSource() == open){
 			JFileChooser fc = new JFileChooser();
@@ -143,11 +147,14 @@ public class GUI extends JFrame implements ActionListener{
 		else if(e.getSource() == run)		//Start a pixel count read, not finished
 		{
 			//Instantiate the ImageAreaSelector class earlier, need to use it to get the point data
-			Point p1 = a.getBound1();
-			Point p2 - a.getBound2();
-			System.out.println("Started pixel count parse");
-			Survey s = new Survey(source, p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
 			
+			System.out.println("Started pixel count parse");
+			Survey s = new Survey(source, a.getBound1().x, 
+					a.getBound2().y, 
+					a.getBound2().y - a.getBound1().y, 
+					a.getBound2().x - a.getBound1().x,
+					num.getValue());
+			a.destroy();
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
@@ -160,7 +167,7 @@ public class GUI extends JFrame implements ActionListener{
 		else if(e.getSource() == chooseQHeight)		//Choose question height
 		{
 			try {
-				ImageAreaSelector a = new ImageAreaSelector(source);
+				a = new ImageAreaSelector(source);
 				a.displayForm();
 				a.displaySelector();
 				a.reloadVis();
@@ -168,11 +175,13 @@ public class GUI extends JFrame implements ActionListener{
 				setStatus("Error.  See stack trace.");
 				e1.printStackTrace();
 			}
-			
 		}
-		else if(e.getSource() == displayBounds)
+		else if(e.getSource() == setQuestionCount)
 		{
-			System.out.println();
+			num = new NumberChooser();
+			num.displayForm();
+			num.createInputField();
+			num.reloadVis();
 		}
 	} 
 	

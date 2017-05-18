@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import responses.Bound;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class ImageAreaSelector extends AreaSelector implements ActionListener{
+import mainPackage.GUI;
+
+public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener{
 	private BufferedImage imgBuff;
 	private BufferedImage origImg;
 	JLabel displayImg;
@@ -35,6 +37,9 @@ public class ImageAreaSelector extends AreaSelector implements ActionListener{
 	JPanel bottomPanel;
 	JButton visualizeButton;
 	JButton okButton;
+	JLabel imageSizeLabel;
+	
+	
 	
 	//Integers to 
 	private Point bound1;
@@ -82,7 +87,8 @@ public class ImageAreaSelector extends AreaSelector implements ActionListener{
 		visualizeButton.addActionListener(this);
 		okButton = new JButton("OK");
 		okButton.addActionListener(this);
-		bottomPanel.add(new JLabel());		//Filler for the extra grid space
+		imageSizeLabel = new JLabel("Size: "+imgBuff.getWidth() + "x" + imgBuff.getHeight());
+		bottomPanel.add(imageSizeLabel);		//Filler for the extra grid space
 		bottomPanel.add(visualizeButton);
 		bottomPanel.add(okButton);
 		
@@ -99,27 +105,54 @@ public class ImageAreaSelector extends AreaSelector implements ActionListener{
 		return(bound2);
 	}
 	
-	public void setBound1()
+	private void setBound1()
 	{
 		bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
+		GUI.pq1 = bound1;
 	}
-	public void setBound2()
+	private void setBound2()
 	{
 		bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
+		GUI.pq2 = bound2;
+	}
+	
+	//New function for setting the bounds
+	private void setBound(Bound b)
+	{
+		switch(b)		//Check what the return value should be based on the enum input from Bound
+		{
+		case questionBound1:
+			bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
+			GUI.pq1 = bound1;
+			break;
+		case questionBound2:
+			bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
+			GUI.pq2 = bound2;
+			break;
+		case responseBound1:
+			bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
+			GUI.po1 = bound1;
+			break;
+		case responseBound2:
+			bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
+			GUI.po2 = bound2;
+			break;
+		}
 	}
 	
 	@Override
+	//BIG PROBLEM: without pressing the visualize button, the values will not get set.
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
 			//Set the point bounds
-			setBound1();		
+			setBound1();
 			setBound2();
 			Graphics2D g2d = imgBuff.createGraphics();
 			g2d.setColor(Color.red);
 			g2d.drawRect(bound1.x, bound1.y, bound2.x - bound1.x, bound2.y - bound1.y);		//Draw the rectangle on the image
-			super.reloadVis();
+			reloadVis();
 			g2d.dispose();
 			imgBuff = origImg;
 		}

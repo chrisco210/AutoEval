@@ -8,26 +8,26 @@ import javax.imageio.ImageIO;
 
 public class Survey {
 	private static File surveySrc;
-	private int qHeight;
-	private int optHeight;
+	private int questionHeight;
 	private int questionXCorner;
 	private int questionYCorner;
-		
-	public Survey(File f, int qX, int qY,int qHeight, int optHeight)
+	private int questionWidth;
+	private int questionCount;
+	
+	//File, corner x coord, corner y coord, question height, question width
+	public Survey(File f, int qX, int qY,int qHeight, int qWidth, int num)
 	{
+		surveySrc = f; 		//Set the input file
 		questionXCorner = qX;
 		questionYCorner = qY;
-		this.qHeight = qHeight;
-		this.optHeight = optHeight;
-		surveySrc = f;
+		questionWidth = qWidth;
+		questionHeight = qHeight;
 	}
 	
 	int getResponse(int qNum) throws IOException
 	{
-		BufferedImage b = ImageIO.read(surveySrc);
-		BufferedImage qBuffer = b.getSubimage(0, 0, 0, 0);		//Change these values later
-		Question q = new Question(qBuffer, qBuffer.getHeight() / 4);	//not sure what the height should be
-		return(q.getResponse(qNum));
+		return((int) Math.random()*5);
+		
 	}
 	
 	int getVisual()
