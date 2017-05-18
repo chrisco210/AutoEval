@@ -54,9 +54,9 @@ public class GUI extends JFrame implements ActionListener{
 	public GUI() throws IOException
 	{
 		setTitle("AutoEval");
-        setSize(1000, 750);        
-        setDefaultCloseOperation(EXIT_ON_CLOSE);    
-        pane = getContentPane();
+        	setSize(1000, 750);        
+        	setDefaultCloseOperation(EXIT_ON_CLOSE);    
+        	pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		
 		//Menu Bar stuff.  Holy shit.
