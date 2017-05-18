@@ -22,8 +22,11 @@ import javax.swing.JTextField;
 import mainPackage.GUI;
 
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener{
+	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;
 	private BufferedImage origImg;
+	
+	/*		--------GUI ELEMENTS--------		*/
 	JLabel displayImg;
 	JScrollPane imgPane;
 	BorderLayout fullPane;
@@ -57,8 +60,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		bottomPanel = new JPanel();
 		imgPane = new JScrollPane(displayImg);
 		fullPane = new BorderLayout();
-		super.pane.setLayout(fullPane);
-		super.pane.add(imgPane, BorderLayout.CENTER);		//Create a jscrollpane for the image
+		pane.setLayout(fullPane);
+		pane.add(imgPane, BorderLayout.CENTER);		//Create a jscrollpane for the image
 		
 		//Position labels, and text fields - point 1
 		Pos1Label = new JLabel("Point 1");
@@ -93,7 +96,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		bottomPanel.add(okButton);
 		
 		//Add the bottom panel to the layout
-		super.pane.add(bottomPanel, BorderLayout.SOUTH);
+		pane.add(bottomPanel, BorderLayout.SOUTH);
 	}
 	
 	public Point getBound1()
@@ -116,31 +119,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		GUI.pq2 = bound2;
 	}
 	
-	//New function for setting the bounds
-	private void setBound(Bound b)
-	{
-		switch(b)		//Check what the return value should be based on the enum input from Bound
-		{
-		case questionBound1:
-			bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
-			GUI.pq1 = bound1;
-			break;
-		case questionBound2:
-			bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
-			GUI.pq2 = bound2;
-			break;
-		case responseBound1:
-			bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
-			GUI.po1 = bound1;
-			break;
-		case responseBound2:
-			bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
-			GUI.po2 = bound2;
-			break;
-		}
-	}
-	
-	@Override
 	//BIG PROBLEM: without pressing the visualize button, the values will not get set.
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
@@ -162,7 +140,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			try{
 				System.out.println(getBound1().toString());
 				System.out.println(getBound2().toString());
-				super.hide();
+				hide();
 			} catch(Exception ex) {
 				ex.printStackTrace();
 			}
