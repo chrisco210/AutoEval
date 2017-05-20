@@ -1,7 +1,5 @@
 package popupMenus;
 
-import java.awt.Container;
-
 import javax.swing.JFrame;
 
 public abstract class AbstractValueSelector extends Popup{
@@ -18,7 +16,36 @@ public abstract class AbstractValueSelector extends Popup{
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * Allows for specialized rendering of the value input field
+	 */
 	abstract void createInputField();
-	abstract Object getValue();
+	/**
+	 * 
+	 */
 	abstract void setValue();
+	/**
+	 * Reload the visibility of the elements, useful for adding new components to the form.
+	 */
+	public void reloadVis()
+	{
+		frame.setVisible(false);
+		frame.setVisible(true);
+	}
+	
+	/**
+	 * Remove the form from memory
+	 */
+	public void destroy()
+	{
+		frame.dispose();
+	}
+	
+	/**
+	 * Hide the form from view
+	 */
+	public void hide()
+	{
+		frame.setVisible(false);
+	}
 }

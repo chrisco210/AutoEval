@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import responses.Bound;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,9 +44,20 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	
 	
 	//Integers to 
+	/**
+	 * The first point of the rectangle selection
+	 */
 	private Point bound1;
+	/**
+	 * The second point of the rectangle selection
+	 */
 	private Point bound2;
 	
+	/**
+	 * Displays a form to select an area on an image
+	 * @param f The image to diplay in the selector
+	 * @throws IOException 
+	 */
 	public ImageAreaSelector(File f) throws IOException
 	{
 		imgBuff = ImageIO.read(f);
@@ -55,6 +65,9 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		origImg = imgBuff;
 	}
 	
+	/**
+	 * Displays the image and components to set points
+	 */
 	public void displaySelector() 
 	{
 		bottomPanel = new JPanel();
@@ -99,20 +112,34 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		pane.add(bottomPanel, BorderLayout.SOUTH);
 	}
 	
+	/**
+	 * Get the first point
+	 * @return	A point class of the selected location on the image
+	 */
 	public Point getBound1()
 	{
 		return(bound1);
 	}
+	/**
+	 * Get the second point
+	 * @return A point class of the selected location on the image
+	 */
 	public Point getBound2()
 	{
 		return(bound2);
 	}
 	
+	/**
+	 * Set the Point class based on the data given
+	 */
 	private void setBound1()
 	{
 		bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
 		GUI.pq1 = bound1;
 	}
+	/**
+	 * Se the point class based on the data given
+	 */
 	private void setBound2()
 	{
 		bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));

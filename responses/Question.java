@@ -3,6 +3,7 @@ package responses;
 import java.awt.image.BufferedImage;
 
 public class Question extends AbstractResponse {
+	@SuppressWarnings("unused")
 	private int optionHeight;
 	BufferedImage questionData;
 	
@@ -11,11 +12,5 @@ public class Question extends AbstractResponse {
 		questionData = b;
 		optionHeight = r;
 		
-	}
-	
-	public int getResponse(int qNum)	
-	{
-		
-		return((int) Math.random() * 5);		//for now it will just do this, for testing purposes
 	}
 }

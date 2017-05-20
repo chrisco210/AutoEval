@@ -8,9 +8,12 @@ public abstract class Popup {
 	protected Container pane;
 	protected JFrame frame = new JFrame();
 	
+	/**
+	 * Dislays the form
+	 */
 	abstract void displayForm();
 	
-	public void reloadVis()
+	/*public void reloadVis()
 	{
 		frame.setVisible(false);
 		frame.setVisible(true);
@@ -24,5 +27,5 @@ public abstract class Popup {
 	public void hide()
 	{
 		frame.setVisible(false);
-	}
+	}*/
 }
