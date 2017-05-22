@@ -1,6 +1,9 @@
 package responses;
 
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Survey {
 	private static File surveySrc;
@@ -18,7 +21,7 @@ public class Survey {
 	 * @param questionYCorner The y coordinate of the base point for the question area
 	 * @param questionHeight The height of the question area
 	 * @param questionWidth The width of the question area
-	 * @param questionCount The number of questions
+	 * @param questionCount The number of options
 	 */
 	public Survey(File f, int qX, int qY,int qHeight, int qWidth, int num)
 	{
@@ -34,6 +37,18 @@ public class Survey {
 		System.out.println("Question Width: " + questionWidth);
 		System.out.println("Question height: " + questionHeight);
 		System.out.println("Question Count: " + questionCount);
+	}
+	
+	/**
+	 * Gets the response to the specified question number
+	 * @param q is the question number to get the response to.  Not yet implemented
+	 * @return the most likely response, 
+	 * @throws IOException 
+	 */
+	public int getResponse(int qNum) throws IOException
+	{
+		MultipleChoice q = new MultipleChoice(ImageIO.read(surveySrc).getSubimage(questionXCorner, questionYCorner, questionWidth, questionHeight), questionCount);
+		return(q.getResponse());
 	}
 	
 	/**

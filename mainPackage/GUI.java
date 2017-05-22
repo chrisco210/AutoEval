@@ -90,7 +90,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		chooseQHeight.addActionListener(this);
 		displayBounds = new JMenuItem("Display Bounds");
 		displayBounds.addActionListener(this);
-		setQuestionCount = new JMenuItem("# of questions...");
+		setQuestionCount = new JMenuItem("# of options...");
 		setQuestionCount.addActionListener(this);
 		export = new JMenuItem("Export...");
 		export.addActionListener(this);
@@ -181,20 +181,24 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(e.getSource() == run)		//Start a pixel count read, not finished
+		else if(e.getSource() == run)		//Start a pixel count read
 		{
-			//Instantiate the ImageAreaSelector class earlier, need to use it to get the point data
-			System.out.println("Started pixel count parse");
-			System.out.println("PREINSTANCOUNT: " + num.getValue());
-			@SuppressWarnings("unused")
+			consoleLog("Started Pixel Count Parse");
+			
 			Survey s = new Survey(source, a.getBound1().x, 
-					a.getBound2().y, 
+					a.getBound1().y, 
 					a.getBound2().y - a.getBound1().y, 
 					a.getBound2().x - a.getBound1().x,
 					num.getValue()
 			);
+			
 			a.destroy();
 			num.destroy();
+			try {
+				consoleLog(Integer.toString(s.getResponse(0)));
+			} catch (IOException e1) {
+				e1.printStackTrace();		//How did you even get here. oh yeah. i have no checks. ill do that later. TODO
+			}
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
@@ -242,7 +246,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			
+			setStatus(Integer.toString(num.getValue()));
 		}
 	}
 	@Override

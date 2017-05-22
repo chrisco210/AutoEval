@@ -1,6 +1,6 @@
 package responses;
 
-//Will need to do something with this
+//This class literaly does nothing.
 public abstract class AbstractResponse {
-	
+	public abstract int getResponse();
 }
