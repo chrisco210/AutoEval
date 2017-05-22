@@ -1,5 +1,6 @@
 package responses;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public class MultipleChoice extends AbstractResponse {
@@ -17,7 +18,7 @@ public class MultipleChoice extends AbstractResponse {
 	{
 		questionData = b;
 		optionCount = r;
-		blackCount = new int[optionCount];
+		blackCount = new int[optionCount + 1];
 	}
 	/**
 	 * Multiple choice question constructor with threshhold value
@@ -30,7 +31,7 @@ public class MultipleChoice extends AbstractResponse {
 		questionData = b;
 		optionCount = r;
 		threshhold = t;
-		blackCount = new int[optionCount];
+		blackCount = new int[optionCount + 1];
 	}
 
 	/**
@@ -38,22 +39,29 @@ public class MultipleChoice extends AbstractResponse {
 	 * @return the chosen response, from 1 - optionCount.  Returns 0 if no response can be chosen
 	 */
 	public int getResponse() {
+		//All this needs to be reworked -----------------------------------------------
 		for(int q = 0; q < optionCount; q++)		//Cycle through each response
+		{
+			System.out.println("----------------" + q + "--------------------");
 			for(int i = (questionData.getHeight() / 5) * q; i < (questionData.getHeight() / 5) * (q + 1); i++)		//Cycles through each of the question zones
+			{
+				System.out.println("!===" + i);
 				for(int j = 0; j < questionData.getWidth(); j++)		//Cycles through the rows of the image
 				{
-					Color c = new Color(questionData.getRGB(j, i))
+					Color c = new Color(questionData.getRGB(j, i));
 					if((c.getRed() < 15) && (c.getBlue() < 15) && (c.getGreen() < 15))		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
-						blackCount[q]++;			//If the pixel is selected, the blackCount of the question is increased
+						blackCount[q + 1]++;			//If the pixel is selected, the blackCount of the question is increased
+					System.out.println("(" + j + "," + i + ")" + blackCount[q]);
 				}
+			}
+		}
+		//------------------------------------------------------------------------------------
 		
 		int chosenResponse = 0;		//The response that is decided 
-		for(int i = 0; i < blackCount.length; i++)
-		{
-			if(blackCount[i] > blackCount[i - 1])		//This will throw an exception, arrayOutOfBounds
-				chosenResponse = i + 1;
-			System.out.println(i);		//debug, remove this
-		}
+		
+		System.out.println("----------------------------------------------------");
+		for(int i : blackCount)
+			System.out.println(i);
 		if(chosenResponse < threshhold)		//For those who used a threshhold, check if it is valid or something
 			return(0);
 		return(chosenResponse);		//Return the response

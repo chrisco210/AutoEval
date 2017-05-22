@@ -145,13 +145,13 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	{	
 		//Read menu bar inputs
 		if(e.getSource() == open){
+			setStatus("Opening File");
 			JFileChooser fc = new JFileChooser();
 			int i = fc.showOpenDialog(this);
 			if(i == JFileChooser.APPROVE_OPTION)
 			{
 				source = fc.getSelectedFile();
-				System.out.println(source.getPath());
-				
+				consoleLog(source.toString());
 				try {
 					a = new ImageAreaSelector(source);
 				} catch (IOException e1) {
@@ -183,7 +183,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		else if(e.getSource() == run)		//Start a pixel count read
 		{
-			consoleLog("Started Pixel Count Parse");
+			setStatus("Parsing");
 			
 			Survey s = new Survey(source, a.getBound1().x, 
 					a.getBound1().y, 
@@ -197,8 +197,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			try {
 				consoleLog(Integer.toString(s.getResponse(0)));
 			} catch (IOException e1) {
-				e1.printStackTrace();		//How did you even get here. oh yeah. i have no checks. ill do that later. TODO
+				setStatus("Error.");
+				consoleLog(e1.getLocalizedMessage());
 			}
+			setStatus("Done.");
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
@@ -206,14 +208,16 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		else if(e.getSource() == export)		//export the created data to a variety of formats
 		{
-			System.out.println("Export menu selected");
+			setStatus("Export.");
 		}
 		else if(e.getSource() == chooseQHeight)		//Choose question height
 		{
+			setStatus("Choosing Option Height");
 			try {
 				a.displayForm();
 				a.displaySelector();
 				a.reloadVis();
+				setStatus("Done.");
 			} catch (Exception e1) {
 				setStatus("Error.  See stack trace.");
 				consoleLog(e1.getMessage());
@@ -221,17 +225,16 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		else if(e.getSource() == setQuestionCount)
 		{
+			setStatus("Getting Question Count");
 			num.displayForm();
 			num.createInputField();
 			num.reloadVis();
+			setStatus("Done.");
 		}
-		
-		
 	} 
 	
 	public void setStatus(String s)		//update the status bar
 	{
-		System.out.println(s);
 		consoleLog(s);
 		statusLabel.setText(s);
 		statusLabel.setVisible(false);
@@ -239,6 +242,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	}
 	public void consoleLog(String s)
 	{
+		System.out.println(s);
 		consoleTextBox.append("\n" + s);
 	}
 	@Override
