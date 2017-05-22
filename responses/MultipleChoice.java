@@ -41,8 +41,11 @@ public class MultipleChoice extends AbstractResponse {
 		for(int q = 0; q < optionCount; q++)		//Cycle through each response
 			for(int i = (questionData.getHeight() / 5) * q; i < (questionData.getHeight() / 5) * (q + 1); i++)		//Cycles through each of the question zones
 				for(int j = 0; j < questionData.getWidth(); j++)		//Cycles through the rows of the image
-					if(questionData.getRGB(i, j) < 0x00100)		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
+				{
+					Color c = new Color(questionData.getRGB(j, i))
+					if((c.getRed() < 15) && (c.getBlue() < 15) && (c.getGreen() < 15))		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
 						blackCount[q]++;			//If the pixel is selected, the blackCount of the question is increased
+				}
 		
 		int chosenResponse = 0;		//The response that is decided 
 		for(int i = 0; i < blackCount.length; i++)
