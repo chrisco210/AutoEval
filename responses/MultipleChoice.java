@@ -43,7 +43,7 @@ public class MultipleChoice extends AbstractResponse {
 		for(int q = 0; q < optionCount; q++)		//Cycle through each response
 		{
 			System.out.println("----------------" + q + "--------------------");
-			for(int i = (questionData.getHeight() / 5) * q; i < (questionData.getHeight() / 5) * (q + 1); i++)		//Cycles through each of the question zones
+			for(int i = (questionData.getHeight() / optionCount) * q; i < (questionData.getHeight() / optionCount) * (q + 1); i++)		//Cycles through each of the question zones
 			{
 				System.out.println("!===" + i);
 				for(int j = 0; j < questionData.getWidth(); j++)		//Cycles through the rows of the image
