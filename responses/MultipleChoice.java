@@ -57,7 +57,7 @@ public class MultipleChoice extends AbstractResponse {
 		int chosenResponse = 0;		//The response that is decided 
 		
 		System.out.println("----------------------------------------------------");
-		for(int i = 1; i <= blackCount.length; i++)
+		for(int i = 1; i < blackCount.length; i++)
 		{
 			System.out.println(i);
 			if(blackCount[i] > blackCount[i - 1])
