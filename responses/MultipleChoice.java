@@ -39,31 +39,33 @@ public class MultipleChoice extends AbstractResponse {
 	 * @return the chosen response, from 1 - optionCount.  Returns 0 if no response can be chosen
 	 */
 	public int getResponse() {
-		//All this needs to be reworked -----------------------------------------------
 		for(int q = 0; q < optionCount; q++)		//Cycle through each response
 		{
-			System.out.println("----------------" + q + "--------------------");
 			for(int i = (questionData.getHeight() / optionCount) * q; i < (questionData.getHeight() / optionCount) * (q + 1); i++)		//Cycles through each of the question zones
 			{
 				System.out.println("!===" + i);
 				for(int j = 0; j < questionData.getWidth(); j++)		//Cycles through the rows of the image
 				{
 					Color c = new Color(questionData.getRGB(j, i));
-					if((c.getRed() < 15) && (c.getBlue() < 15) && (c.getGreen() < 15))		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
+					if((c.getRed() < threshhold) && (c.getBlue() < threshhold) && (c.getGreen() < threshhold))		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
 						blackCount[q + 1]++;			//If the pixel is selected, the blackCount of the question is increased
-					System.out.println("(" + j + "," + i + ")" + blackCount[q]);
+					System.out.println("(" + j + "," + i + ")" + blackCount[q]);		//debug, to be removed
 				}
 			}
 		}
-		//------------------------------------------------------------------------------------
 		
 		int chosenResponse = 0;		//The response that is decided 
 		
 		System.out.println("----------------------------------------------------");
-		for(int i : blackCount)
+		for(int i = 1; i <= blackCount.length; i++)
+		{
 			System.out.println(i);
-		if(chosenResponse < threshhold)		//For those who used a threshhold, check if it is valid or something
-			return(0);
+			if(blackCount[i] > blackCount[i - 1])
+				chosenResponse = i;
+		}
+		//This needs to be fixed, it will not work
+		//if(1 == 2)		//For those who used a threshhold, check if it is valid or something
+		//	return(0);
 		return(chosenResponse);		//Return the response
 	}
 }
