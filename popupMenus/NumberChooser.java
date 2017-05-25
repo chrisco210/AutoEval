@@ -19,6 +19,12 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	JSpinner numberChooser;
 	final SpinnerNumberModel numModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
 	
+	public NumberChooser()
+	{
+		createForm();
+		createInputField();
+	}
+	
 	/**
 	 * Creates the spinner to choose the number value
 	 */
@@ -76,5 +82,10 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 		setValue();
 		hide();
 		System.out.println(getValue());
+	}
+
+	@Override
+	void displayForm() {
+		
 	}
 }

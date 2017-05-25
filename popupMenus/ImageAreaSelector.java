@@ -63,6 +63,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		imgBuff = ImageIO.read(f);
 		displayImg = new JLabel(new ImageIcon(imgBuff));
 		origImg = imgBuff;
+		displayForm();
+		displaySelector();
 	}
 	
 	/**

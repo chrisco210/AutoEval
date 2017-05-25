@@ -16,7 +16,6 @@ public abstract class AbstractAreaSelector extends Popup{
 		frame.setSize(400, 400);
 		pane = frame.getContentPane();
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.setVisible(true);
 	}
 	/**
 	 * Reload the visibility of the form.  Useful for adding new components

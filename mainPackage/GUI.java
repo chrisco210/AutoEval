@@ -1,6 +1,7 @@
 package mainPackage;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,20 +10,22 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
-import responses.Survey;
 
 public final class GUI extends JFrame implements ActionListener, KeyListener {
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
-	public File source;
-	public int[] questionAns;	//Store the responses to the questions.  
+	/**
+	 * The Arraylist to store multiple files
+	 */
+	public ArrayList<File> source = new ArrayList<File>(10);
+	public static int[] questionAns;	//Store the responses to the questions.  
 	public static int questionCount;
 	//fucking terrible variable naming. I know.
 	public static Point pq1;		//Option bound 1
@@ -31,6 +34,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	public static Point po2;		//Option bound 2
 	ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	NumberChooser num = new NumberChooser();
+	
 	/*		--------GUI ITEMS--------		*/
 	JPanel imgDisplayPane;
 	JPanel consoleDisplayPane;
@@ -56,6 +60,8 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	JTabbedPane centerPane;
 	JTextArea consoleTextBox;
 	JTextField consoleInput;
+	JMenuItem openFolder;
+	JMenuItem showResponses;
 	
 	public static void main(String[] args) throws IOException
 	{
@@ -67,6 +73,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	 */
 	public GUI() throws IOException
 	{
+		System.out.println("Started");
 		setTitle("AutoEval");
        	setSize(1000, 750);        
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -81,9 +88,13 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		topMenu = new JMenuBar();
 		open = new JMenuItem("Open");
 		open.addActionListener(this);
+		openFolder = new JMenuItem("Open Folder");
+		openFolder.addActionListener(this);
 		actions = new JMenu("Actions");
 		run = new JMenuItem("Parse Form (Pixel Count)");
 		run.addActionListener(this);
+		showResponses = new JMenuItem("Show Responses");
+		showResponses.addActionListener(this);
 		newRun = new JMenuItem("Parse Form(Visual)");
 		newRun.addActionListener(this);
 		chooseQHeight = new JMenuItem("Question Height");
@@ -96,9 +107,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		export.addActionListener(this);
 		actions.add(run);
 		actions.add(newRun);
+		actions.add(showResponses);
 		file = new JMenu("File");
 		file.add(open);
-		file.add(export);
+		file.add(openFolder);
+		file.add(export);		
 		view = new JMenu("View");
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);
@@ -111,6 +124,8 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		
 		//Console
 		consoleTextBox = new JTextArea();
+		consoleTextBox.setFont(new Font("Consolas", Font.PLAIN, 14));
+		consoleTextBox.setEditable(false);
 		consoleDisplayPane.setLayout(new BorderLayout());
 		consoleInput = new JTextField();
 		consoleInput.addKeyListener(this);
@@ -118,7 +133,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		consoleDisplayPane.add(consoleTextBox, BorderLayout.CENTER);
 		
 		//Tabbed pane stuff
-		centerPane.add("Image", imgDisplayPane);
+		//centerPane.add("Image", imgDisplayPane);
 		centerPane.add("Console", consoleDisplayPane);
 		pane.add(centerPane, BorderLayout.CENTER);
 		
@@ -137,6 +152,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		
 		
 		setVisible(true);		//Display the form
+		setStatus("Done.");
 	}
 	
 	//Handles 
@@ -144,16 +160,20 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e)
 	{	
 		//Read menu bar inputs
-		if(e.getSource() == open){
+		if(e.getSource() == open){		//Single File Open 
 			setStatus("Opening File");
+			source.clear();
+			centerPane.removeAll();
+			centerPane.add("Console", consoleDisplayPane);
+			
 			JFileChooser fc = new JFileChooser();
 			int i = fc.showOpenDialog(this);
 			if(i == JFileChooser.APPROVE_OPTION)
 			{
-				source = fc.getSelectedFile();
+				source.add(fc.getSelectedFile());
 				consoleLog(source.toString());
 				try {
-					a = new ImageAreaSelector(source);
+					a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
 				} catch (IOException e1) {
 					consoleLog(e1.getLocalizedMessage());
 				}
@@ -167,15 +187,69 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			BufferedImage img;
 			
 			//Attempt to display the image, catches IO exception
-			try{
-			img = ImageIO.read(source);
-			surveyImage = new ImageIcon(img);
-			imageLabel = new JLabel(surveyImage);
-			imageLabel.setSize(100, 100);
-			imgDisplayPane.add(imageLabel);
-			} catch (IOException ex) {		//Handle IOException
-				consoleLog(ex.getMessage());
-				setStatus("Error. See stack trace.");
+			for(File f : source)
+			{
+				try{
+				JPanel j = new JPanel();
+				img = ImageIO.read(f);
+				surveyImage = new ImageIcon(img);
+				imageLabel = new JLabel(surveyImage);
+				imageLabel.setSize(100, 100);
+				j.add(imageLabel);
+				centerPane.add(f.toString(), j);
+				} catch (IOException ex) {		//Handle IOException
+					consoleLog(ex.getMessage());
+					setStatus("Error. See stack trace.");
+				}
+			}
+			setVisible(false);
+			setVisible(true);
+			setStatus("Done.");
+		}
+		else if(e.getSource() == openFolder){		//Single File Open 
+			setStatus("Opening File");
+			source.clear();
+			centerPane.removeAll();
+			centerPane.add("Console", consoleDisplayPane);
+			
+			File path = null;
+			JFileChooser fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int i = fc.showOpenDialog(this);
+			if(i == JFileChooser.APPROVE_OPTION)
+			{
+				path = fc.getSelectedFile();
+				
+			}
+			source.addAll(Arrays.asList(path.listFiles()));
+			try {
+				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
+			} catch (IOException e1) {
+				consoleLog(e1.getLocalizedMessage());
+			}
+			try{	//Remove any existing images from the display
+				remove(imageLabel);
+			} catch(Exception ex) { }
+			
+			//Image display
+			BufferedImage img;
+			
+			//Attempt to display the image, catches IO exception
+			for(File f : path.listFiles())
+			{
+				
+				try{
+				JPanel j = new JPanel();
+				img = ImageIO.read(f);
+				surveyImage = new ImageIcon(img);
+				imageLabel = new JLabel(surveyImage);
+				imageLabel.setSize(100, 100);
+				j.add(imageLabel);
+				centerPane.add(f.toString(), j);
+				} catch (IOException ex) {		//Handle IOException
+					consoleLog(ex.getMessage());
+					setStatus("Error. See stack trace.");
+				}
 			}
 			setVisible(false);
 			setVisible(true);
@@ -184,23 +258,41 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		else if(e.getSource() == run)		//Start a pixel count read
 		{
 			setStatus("Parsing");
+			System.out.println("Parsing.");
 			
-			Survey s = new Survey(source, a.getBound1().x, 
-					a.getBound1().y, 
-					a.getBound2().y - a.getBound1().y, 
-					a.getBound2().x - a.getBound1().x,
-					num.getValue()
-			);
-			
-			a.destroy();
-			num.destroy();
-			try {
-				consoleLog(Integer.toString(s.getResponse(0)));
-			} catch (IOException e1) {
-				setStatus("Error.");
-				consoleLog(e1.getLocalizedMessage());
+			try {			//Wait so that the display can update
+				Thread.sleep(1000);
+			} catch (InterruptedException e2) {
+				e2.printStackTrace();
 			}
-			setStatus("Done.");
+			
+			Worker w = new Worker(a, source, num);
+			w.start();
+			questionAns = new int[w.getResponses().length];
+			questionAns = w.getResponses();
+			/*
+			int i = 1;
+			for(File f : source)
+			{
+				Survey s = new Survey(f, a.getBound1().x, 	//Construct a new survey
+						a.getBound1().y, 
+						a.getBound2().y - a.getBound1().y, 
+						a.getBound2().x - a.getBound1().x,
+						num.getValue()
+				);
+				
+				//Get the response to the question
+				try {
+					consoleLog("Finished. Survey " + i + " Returned Response: ");
+					consoleLog(Integer.toString(s.getResponse(0)));
+					System.out.println("-----------------" + "\n" + s.getResponse(0));
+				} catch (IOException e1) {
+					setStatus("Error.");
+					consoleLog(e1.getLocalizedMessage());
+				}
+				i++;
+			}
+			*/
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
@@ -210,12 +302,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		{
 			setStatus("Export.");
 		}
-		else if(e.getSource() == chooseQHeight)		//Choose question height
+		else if(e.getSource() == chooseQHeight)		//Choose question height 
 		{
 			setStatus("Choosing Option Height");
 			try {
-				a.displayForm();
-				a.displaySelector();
 				a.reloadVis();
 				setStatus("Done.");
 			} catch (Exception e1) {
@@ -226,13 +316,23 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		else if(e.getSource() == setQuestionCount)
 		{
 			setStatus("Getting Question Count");
-			num.displayForm();
-			num.createInputField();
 			num.reloadVis();
 			setStatus("Done.");
 		}
+		else if(e.getSource() == showResponses)
+		{
+			for(int i = 0; i < questionAns.length; i++)
+			{
+				consoleLog("Response for question " + i);
+				consoleLog(Integer.toString(questionAns[i]));
+			}
+		}
 	} 
 	
+	/**
+	 * Set the status bar, and logs it to the console
+	 * @param s the string to display
+	 */
 	public void setStatus(String s)		//update the status bar
 	{
 		consoleLog(s);
@@ -240,6 +340,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		statusLabel.setVisible(false);
 		statusLabel.setVisible(true);
 	}
+	
+	/**
+	 * Log a message to the console
+	 * @param s the string to display
+	 */
 	public void consoleLog(String s)
 	{
 		System.out.println(s);
@@ -247,7 +352,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
 			setStatus(Integer.toString(num.getValue()));
@@ -255,12 +359,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	

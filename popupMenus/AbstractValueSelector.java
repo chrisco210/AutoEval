@@ -2,18 +2,15 @@ package popupMenus;
 
 import javax.swing.JFrame;
 
-public abstract class AbstractValueSelector extends Popup{
-	enum ReturnTo{
-		questionCount,
-		self,
-	}
-	
-	public void displayForm()
+public abstract class AbstractValueSelector extends Popup {
+	/**
+	 * Display the form
+	 */
+	public void createForm()
 	{
 		frame.setSize(50, 100);
 		pane = frame.getContentPane();
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.setVisible(true);
 	}
 	
 	/**
