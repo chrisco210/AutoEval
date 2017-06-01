@@ -2,7 +2,6 @@ package mainPackage;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,14 +23,9 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	/**
 	 * The Arraylist to store multiple files
 	 */
-	public ArrayList<File> source = new ArrayList<File>(10);
+	public ArrayList<File> source;
 	public static int[] questionAns;	//Store the responses to the questions.  
 	public static int questionCount;
-	//fucking terrible variable naming. I know.
-	public static Point pq1;		//Option bound 1
-	public static Point pq2;		//Option bound 2
-	public static Point po1;		//Option bound 1
-	public static Point po2;		//Option bound 2
 	ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	NumberChooser num = new NumberChooser();
 	
@@ -47,7 +41,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	JMenuItem run;
 	JMenuItem newRun;
 	JMenuItem export;
-	JLabel statusLabel;
+	static JLabel statusLabel;
 	ImageIcon surveyImage;
 	JLabel imageLabel;
 	Container pane;
@@ -58,7 +52,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	DefaultMutableTreeNode question;
 	JMenuItem setQuestionCount;
 	JTabbedPane centerPane;
-	JTextArea consoleTextBox;
+	static JTextArea consoleTextBox;
 	JTextField consoleInput;
 	JMenuItem openFolder;
 	JMenuItem showResponses;
@@ -73,7 +67,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	 */
 	public GUI() throws IOException
 	{
-		System.out.println("Started");
 		setTitle("AutoEval");
        	setSize(1000, 750);        
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
@@ -162,7 +155,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		//Read menu bar inputs
 		if(e.getSource() == open){		//Single File Open 
 			setStatus("Opening File");
-			source.clear();
+			
+			try{
+				source.clear();
+			} catch(Exception e1) {		}
+			
 			centerPane.removeAll();
 			centerPane.add("Console", consoleDisplayPane);
 			
@@ -170,10 +167,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			int i = fc.showOpenDialog(this);
 			if(i == JFileChooser.APPROVE_OPTION)
 			{
+				source = new ArrayList<File>(1);
 				source.add(fc.getSelectedFile());
 				consoleLog(source.toString());
 				try {
-					a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
+					a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
 				} catch (IOException e1) {
 					consoleLog(e1.getLocalizedMessage());
 				}
@@ -208,7 +206,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		else if(e.getSource() == openFolder){		//Single File Open 
 			setStatus("Opening File");
+			try{
 			source.clear();
+			} catch (Exception e2) {
+				
+			}
 			centerPane.removeAll();
 			centerPane.add("Console", consoleDisplayPane);
 			
@@ -221,6 +223,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 				path = fc.getSelectedFile();
 				
 			}
+			source = new ArrayList<File>(path.listFiles().length);
 			source.addAll(Arrays.asList(path.listFiles()));
 			try {
 				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
@@ -259,40 +262,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		{
 			setStatus("Parsing");
 			System.out.println("Parsing.");
-			
-			try {			//Wait so that the display can update
-				Thread.sleep(1000);
-			} catch (InterruptedException e2) {
-				e2.printStackTrace();
-			}
-			
-			Worker w = new Worker(a, source, num);
+			Worker w = new Worker(a, source, num, 0);
 			w.start();
+			
 			questionAns = new int[w.getResponses().length];
 			questionAns = w.getResponses();
-			/*
-			int i = 1;
-			for(File f : source)
-			{
-				Survey s = new Survey(f, a.getBound1().x, 	//Construct a new survey
-						a.getBound1().y, 
-						a.getBound2().y - a.getBound1().y, 
-						a.getBound2().x - a.getBound1().x,
-						num.getValue()
-				);
-				
-				//Get the response to the question
-				try {
-					consoleLog("Finished. Survey " + i + " Returned Response: ");
-					consoleLog(Integer.toString(s.getResponse(0)));
-					System.out.println("-----------------" + "\n" + s.getResponse(0));
-				} catch (IOException e1) {
-					setStatus("Error.");
-					consoleLog(e1.getLocalizedMessage());
-				}
-				i++;
-			}
-			*/
 		}
 		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
 		{
@@ -301,6 +275,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		else if(e.getSource() == export)		//export the created data to a variety of formats
 		{
 			setStatus("Export.");
+			new Export();
 		}
 		else if(e.getSource() == chooseQHeight)		//Choose question height 
 		{
@@ -313,7 +288,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 				consoleLog(e1.getMessage());
 			}
 		}
-		else if(e.getSource() == setQuestionCount)
+		else if(e.getSource() == setQuestionCount)		//Set Question Count
 		{
 			setStatus("Getting Question Count");
 			num.reloadVis();
@@ -333,7 +308,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	 * Set the status bar, and logs it to the console
 	 * @param s the string to display
 	 */
-	public void setStatus(String s)		//update the status bar
+	public static void setStatus(String s)		//update the status bar
 	{
 		consoleLog(s);
 		statusLabel.setText(s);
@@ -345,17 +320,14 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	 * Log a message to the console
 	 * @param s the string to display
 	 */
-	public void consoleLog(String s)
+	public static void consoleLog(String s)
 	{
 		System.out.println(s);
 		consoleTextBox.append("\n" + s);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-		{
-			setStatus(Integer.toString(num.getValue()));
-		}
+		
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {

@@ -18,8 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import mainPackage.GUI;
-
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener{
 	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;
@@ -115,29 +113,28 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	
 	/**
-	 * Get the first point
-	 * @return	A point class of the selected location on the image
+	 * Gets the bounds of the area selected as a Point
+	 * @param b the bound number to get
+	 * @return the requested bound as a Point class
 	 */
-	public Point getBound1()
+	public Point getBound(int b)
 	{
-		return(bound1);
+		switch(b)
+		{
+		case 1:
+			return(bound1);
+		case 2:
+			return(bound2);
+		default:
+			return(null);
+		}
 	}
-	/**
-	 * Get the second point
-	 * @return A point class of the selected location on the image
-	 */
-	public Point getBound2()
-	{
-		return(bound2);
-	}
-	
 	/**
 	 * Set the Point class based on the data given
 	 */
 	private void setBound1()
 	{
 		bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
-		GUI.pq1 = bound1;
 	}
 	/**
 	 * Se the point class based on the data given
@@ -145,7 +142,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	private void setBound2()
 	{
 		bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
-		GUI.pq2 = bound2;
 	}
 	
 	//BIG PROBLEM: without pressing the visualize button, the values will not get set.
@@ -167,8 +163,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		{
 			System.out.println("OK Button Pressed");
 			try{
-				System.out.println(getBound1().toString());
-				System.out.println(getBound2().toString());
+				System.out.println(getBound(1).toString());
+				System.out.println(getBound(2).toString());
 				hide();
 			} catch(Exception ex) {
 				ex.printStackTrace();

@@ -8,7 +8,7 @@ import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.Survey;
 
-public class Worker extends Thread implements Runnable {
+public final class Worker extends Thread implements Runnable {
 	ImageAreaSelector a;
 	ArrayList<File> source;
 	NumberChooser num;
@@ -18,8 +18,9 @@ public class Worker extends Thread implements Runnable {
 	 * @param a the ImageAreaSelector class to use
 	 * @param source Source File ArrayList
 	 * @param num NumberChooser class to use
+	 * @param questionNum which question to use on the page
 	 */
-	public Worker(ImageAreaSelector a, ArrayList<File> source, NumberChooser num)
+	public Worker(ImageAreaSelector a, ArrayList<File> source, NumberChooser num, int questionNum)
 	{
 		this.a = a;
 		this.source = source;
@@ -30,14 +31,13 @@ public class Worker extends Thread implements Runnable {
 	public void run() 
 	{
 		responses = new int[source.size() + 1];
-		// TODO Auto-generated method stub
 		int i = 1;
 		for(File f : source)
 		{
-			Survey s = new Survey(f, a.getBound1().x, 	//Construct a new survey
-					a.getBound1().y, 
-					a.getBound2().y - a.getBound1().y, 
-					a.getBound2().x - a.getBound1().x,
+			Survey s = new Survey(f, a.getBound(1).x, 	//Construct a new survey
+					a.getBound(1).y, 
+					a.getBound(2).y - a.getBound(1).y, 
+					a.getBound(2).x - a.getBound(1).x,
 					num.getValue()
 			);
 			
@@ -45,13 +45,13 @@ public class Worker extends Thread implements Runnable {
 			try {
 				responses[i] = s.getResponse(0);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			i++;
 			GUI.questionAns = new int[responses.length];
 			GUI.questionAns = responses;
 		}
+		GUI.setStatus("Done.");
 	}
 	
 	public int[] getResponses()
