@@ -34,7 +34,7 @@ public final class Worker extends Thread implements Runnable {
 		int i = 1;
 		for(File f : source)
 		{
-			Survey s = new Survey(f, a.getBound(1).x, 	//Construct a new survey
+			Survey s = new Survey(f, a.getBound(1).x, 	//TODO: update this to use the ArrayList of points
 					a.getBound(1).y, 
 					a.getBound(2).y - a.getBound(1).y, 
 					a.getBound(2).x - a.getBound(1).x,

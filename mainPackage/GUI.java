@@ -152,8 +152,9 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{	
+		Object eventSrc = e.getSource();
 		//Read menu bar inputs
-		if(e.getSource() == open){		//Single File Open 
+		if(eventSrc == open){		//Single File Open 
 			setStatus("Opening File");
 			
 			try{
@@ -204,7 +205,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(e.getSource() == openFolder){		//Single File Open 
+		else if(eventSrc == openFolder){		//Single File Open 
 			setStatus("Opening File");
 			try{
 			source.clear();
@@ -258,7 +259,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(e.getSource() == run)		//Start a pixel count read
+		else if(eventSrc == run)		//Start a pixel count read
 		{
 			setStatus("Parsing");
 			System.out.println("Parsing.");
@@ -268,16 +269,16 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			questionAns = new int[w.getResponses().length];
 			questionAns = w.getResponses();
 		}
-		else if(e.getSource() == newRun)		//Start a visual comparison read, not finished
+		else if(eventSrc == newRun)		//Start a visual comparison read, not finished
 		{
 			System.out.println("Started visual parse");
 		}
-		else if(e.getSource() == export)		//export the created data to a variety of formats
+		else if(eventSrc == export)		//export the created data to a variety of formats
 		{
 			setStatus("Export.");
 			new Export();
 		}
-		else if(e.getSource() == chooseQHeight)		//Choose question height 
+		else if(eventSrc == chooseQHeight)		//Choose question height 
 		{
 			setStatus("Choosing Option Height");
 			try {
@@ -288,13 +289,13 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 				consoleLog(e1.getMessage());
 			}
 		}
-		else if(e.getSource() == setQuestionCount)		//Set Question Count
+		else if(eventSrc == setQuestionCount)		//Set Question Count
 		{
 			setStatus("Getting Question Count");
 			num.reloadVis();
 			setStatus("Done.");
 		}
-		else if(e.getSource() == showResponses)
+		else if(eventSrc == showResponses)
 		{
 			for(int i = 0; i < questionAns.length; i++)
 			{

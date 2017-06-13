@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +23,6 @@ import javax.swing.JTextField;
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener{
 	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;
-	private BufferedImage origImg;
 	
 	/*		--------GUI ELEMENTS--------		*/
 	JLabel displayImg;
@@ -45,11 +46,11 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	/**
 	 * The first point of the rectangle selection
 	 */
-	private Point bound1;
+	private ArrayList<Point> bound1 = new ArrayList<Point>(10);
 	/**
 	 * The second point of the rectangle selection
 	 */
-	private Point bound2;
+	private ArrayList<Point> bound2 = new ArrayList<Point>(10);;
 	
 	/**
 	 * Displays a form to select an area on an image
@@ -60,7 +61,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	{
 		imgBuff = ImageIO.read(f);
 		displayImg = new JLabel(new ImageIcon(imgBuff));
-		origImg = imgBuff;
 		displayForm();
 		displaySelector();
 	}
@@ -117,7 +117,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	 * @param b the bound number to get
 	 * @return the requested bound as a Point class
 	 */
-	public Point getBound(int b)
+	public ArrayList<Point> getBound(int b)
 	{
 		switch(b)
 		{
@@ -129,39 +129,41 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			return(null);
 		}
 	}
+	
 	/**
-	 * Set the Point class based on the data given
+	 * Add the selected point to the Point arraylists
 	 */
-	private void setBound1()
+	private void setBounds()
 	{
-		bound1 = new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText()));
-	}
-	/**
-	 * Se the point class based on the data given
-	 */
-	private void setBound2()
-	{
-		bound2 = new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()));
+		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
+		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
 	}
 	
-	//BIG PROBLEM: without pressing the visualize button, the values will not get set.
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
 			//Set the point bounds
-			setBound1();
-			setBound2();
+			setBounds();
+			
 			Graphics2D g2d = imgBuff.createGraphics();
-			g2d.setColor(Color.red);
-			g2d.drawRect(bound1.x, bound1.y, bound2.x - bound1.x, bound2.y - bound1.y);		//Draw the rectangle on the image
+			
+			//Array of colors 
+			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
+			
+			//Draw all the rectangles selected by the user
+			for(int i = 0; i < bound1.size(); i++)
+			{
+				g2d.setColor(colors[i]);
+				g2d.drawRect(bound1.get(i).x, bound1.get(i).y, bound2.get(i).x, bound2.get(i).y);
+			}
 			reloadVis();
 			g2d.dispose();
-			imgBuff = origImg;
 		}
 		else if(eventSource == okButton)
 		{
 			System.out.println("OK Button Pressed");
+			setBounds();
 			try{
 				System.out.println(getBound(1).toString());
 				System.out.println(getBound(2).toString());
