@@ -50,8 +50,12 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	/**
 	 * The second point of the rectangle selection
 	 */
-	private ArrayList<Point> bound2 = new ArrayList<Point>(10);;
+	private ArrayList<Point> bound2 = new ArrayList<Point>(10);
 	
+	/**
+	 * Types of response
+	 */
+	private ArrayList<AreaTypes> types = new ArrayList<AreaTypes>(10);
 	/**
 	 * Displays a form to select an area on an image
 	 * @param f The image to diplay in the selector
@@ -139,6 +143,15 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
 	}
 	
+	/**
+	 * Removes the 
+	 */
+	public void remove(int r)
+	{
+		bound1.remove(r);
+		bound2.remove(r);
+		types.remove(r);
+	}
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
