@@ -5,9 +5,10 @@ package popupMenus;
  * @author Christopher
  * 
  */
-enum AreaTypes {
+enum AreaType {
 	MultipleChoice,		//A automatic multiple choice response
 	TextResponse,		//A response involving text in some way, which will be parsed by a human
 	TrueFalse,		//A true or false question
-	QuestionDetail		//This should be used for information under a question.  Treat in parsing as a TextResponse
+	QuestionDetail,		//This should be used for information under a question.  Treat in parsing as a TextResponse
+	NONE_SELECTED
 }

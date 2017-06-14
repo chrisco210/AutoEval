@@ -55,7 +55,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	/**
 	 * Types of response
 	 */
-	private ArrayList<AreaTypes> types = new ArrayList<AreaTypes>(10);
+	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
 	/**
 	 * Displays a form to select an area on an image
 	 * @param f The image to diplay in the selector
@@ -156,6 +156,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
+			
 			//Set the point bounds
 			setBounds();
 			
