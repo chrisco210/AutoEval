@@ -18,14 +18,14 @@ import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 
 //TODO: Move this all to a new thread, and start the application from another class, probably in different package
-public final class GUI extends JFrame implements ActionListener, KeyListener {
+public final class GUI extends JFrame implements ActionListener, KeyListener {		//Only create one GUI.
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
 	/**
 	 * The Arraylist to store multiple files
 	 */
 	public ArrayList<File> source;
-	public static int[] questionAns;	//Store the responses to the questions.  
+	public static int[][] questionAns;	//Store the responses to the questions.  
 	public static int questionCount;
 	ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	NumberChooser num = new NumberChooser();
@@ -214,10 +214,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			} catch (Exception e2) {
 				
 			}
-			centerPane.removeAll();
-			centerPane.add("Console", consoleDisplayPane);
+			centerPane.removeAll();		//Clear all the tabs from the center pane
+			centerPane.add("Console", consoleDisplayPane);		//re add the console
 			
-			File path = null;
+			File path = null;		//Prevent java from being stupid
 			JFileChooser fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int i = fc.showOpenDialog(this);
@@ -235,7 +235,9 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			}
 			try{	//Remove any existing images from the display
 				remove(imageLabel);
-			} catch(Exception ex) { }
+			} catch(Exception ex) { 
+				
+			}
 			
 			//Image display
 			BufferedImage img;
@@ -261,29 +263,25 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(eventSrc == run)		//Start a pixel count read
+		else if(eventSrc == run)		//Start a pixel count read TODO this needs to be revamped
 		{
 			setStatus("Parsing");
 			System.out.println("Parsing.");
 			Worker w = new Worker(a, source, num, 0);
 			w.start();
-			
-			questionAns = new int[w.getResponses().length];
-			questionAns = w.getResponses();
 		}
-		else if(eventSrc == newRun)		//Start a visual comparison read, not finished
+		else if(eventSrc == newRun)		//Start a visual comparison read, not finished, may never be
 		{
-			System.out.println("Started visual parse");
 		}
-		else if(eventSrc == export)		//export the created data to a variety of formats
+		else if(eventSrc == export)		//export the created data to a variety of formats.  Not yet implemented
 		{
 			setStatus("Export.");
 		}
 		else if(eventSrc == chooseQHeight)		//Choose question height 
 		{
-			setStatus("Choosing Option Height");	//TODO: find out what this does
+			setStatus("Choosing Option Height");
 			try {
-				a.reloadVis();
+				a.reloadVis();		//This will cause the form to display, by default isVisible is false, and this will set it to true
 				setStatus("Done.");
 			} catch (Exception e1) {
 				setStatus("Error.  See stack trace.");
@@ -293,16 +291,14 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		else if(eventSrc == setQuestionCount)		//Set Question Count
 		{
 			setStatus("Getting Question Count");
-			num.reloadVis();
+			num.reloadVis();		//Causes the number chooser to display.  by default isVisible is false, this sets it to true
 			setStatus("Done.");
 		}
-		else if(eventSrc == showResponses)
+		else if(eventSrc == showResponses)		//Show the responses
 		{
-			for(int i = 0; i < questionAns.length; i++)			//TODO: Move to new thread
-			{
-				consoleLog("Response for question " + i);
-				consoleLog(Integer.toString(questionAns[i]));
-			}
+			for(int i = 0; i < 3; i++)
+				for(int j = 0; j < 2; j++)
+					System.out.println(questionAns[i][j]);
 		}
 	} 
 	

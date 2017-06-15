@@ -57,6 +57,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	 * Types of response
 	 */
 	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
+	
 	/**
 	 * Displays a form to select an area on an image
 	 * @param f The image to diplay in the selector
@@ -118,11 +119,11 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	
 	/**
-	 * Gets the bounds of the area selected as a Point
+	 * Gets the desired ArrayList of points
 	 * @param b the bound number to get
-	 * @return the requested bound as a Point class
+	 * @return the requested bounds as an ArrayList of points
 	 */
-	public ArrayList<Point> getBound(int b)
+	public ArrayList<Point> getBoundList(int b)
 	{
 		switch(b)		
 		{
@@ -133,6 +134,11 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		default:
 			return(null);
 		}
+	}
+	
+	public ArrayList<AreaType> getTypes()
+	{
+		return(t.getAreaTypes());
 	}
 	
 	/**
@@ -193,8 +199,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			/*--------------------------*/
 			//Debug stuff, remove in production
 			System.out.println("OK Button Pressed");
-			System.out.println(getBound(1).toString());
-			System.out.println(getBound(2).toString());
+			System.out.println(getBoundList(1).toString());
+			System.out.println(getBoundList(2).toString());
 			System.out.println(types.toString());				
 			/*--------------------------*/
 				

@@ -46,30 +46,23 @@ public class MultipleChoice extends AbstractResponse {
 				for(int j = 0; j < questionData.getWidth(); j++)		//Cycles through the rows of the image
 				{
 					Color c = new Color(questionData.getRGB(j, i));
-					System.out.println("Red: " + c.getRed() + "Blue: " + c.getBlue() + "Green: " + c.getGreen());
 					if((c.getRed() < threshhold) && (c.getBlue() < threshhold) && (c.getGreen() < threshhold))		//Gets the RGB value of the pixel of the image, will need to tinker with it.  
 						blackCount[q + 1]++;			//If the pixel is selected, the blackCount of the question is increased
-					System.out.println("(" + j + "," + i + ")" + blackCount[q]);		//debug, to be removed
 				}
 			}
 		}
 		
 		int chosenResponse = 0;		//The response that is decided 
 		int maxNum = blackCount[0];
-		System.out.println("----------------------------------------------------");
 		for(int i = 1; i < blackCount.length; i++)
 		{
-			System.out.println(i);
-			System.out.println(blackCount[i] + " Pixels \n -------------");
 			if(blackCount[i] > maxNum)
 			{
 				maxNum = blackCount[i];
 				chosenResponse = i;
 			}
 		}
-		//This needs to be fixed, it will not work
-		//if(1 == 2)		//For those who used a threshhold, check if it is valid or something
-		//	return(0);
+
 		return(chosenResponse);		//Return the response
 	}
 }

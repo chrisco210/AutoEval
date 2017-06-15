@@ -12,7 +12,8 @@ public final class Worker extends Thread implements Runnable {
 	ImageAreaSelector a;
 	ArrayList<File> source;
 	NumberChooser num;
-	int[] responses;
+	private int[][] responses;
+	
 	/**
 	 * Worker class for processing forms
 	 * @param a the ImageAreaSelector class to use
@@ -30,31 +31,24 @@ public final class Worker extends Thread implements Runnable {
 	@Override
 	public void run() 
 	{
-		responses = new int[source.size() + 1];
-		int i = 1;
-		for(File f : source)
+		responses = new int[source.size()][a.getTypes().size()];
+		for(int j = 0; j < source.size(); j++)
 		{
-			Survey s = new Survey(f, a.getBound(1).x, 	//TODO: update this to use the ArrayList of points
-					a.getBound(1).y, 
-					a.getBound(2).y - a.getBound(1).y, 
-					a.getBound(2).x - a.getBound(1).x,
-					num.getValue()
-			);
-			
-			//Get the response to the question
-			try {
-				responses[i] = s.getResponse(0);
-			} catch (IOException e) {
-				e.printStackTrace();
+			for(int i = 0; i < a.getTypes().size(); i++)
+			{
+				Survey s = new Survey(source.get(j), a.getBoundList(1).get(i), a.getBoundList(2).get(i), num.getValue());
+				try {
+					responses[j][i] = s.getResponse();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			i++;
-			GUI.questionAns = new int[responses.length];
-			GUI.questionAns = responses;
 		}
+		GUI.questionAns = responses;
 		GUI.setStatus("Done.");
 	}
 	
-	public int[] getResponses()
+	public int[][] getResponses()
 	{
 		return(responses);
 	}

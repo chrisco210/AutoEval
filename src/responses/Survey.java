@@ -1,5 +1,6 @@
 package responses;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,12 +32,23 @@ public class Survey {
 		questionWidth = qWidth;
 		questionHeight = qHeight;
 		questionCount = num;
-		System.out.println(surveySrc.toString());
-		System.out.println("QuestionXCorner: " + questionXCorner);
-		System.out.println("QuestionYCorner: " + questionYCorner);
-		System.out.println("Question Width: " + questionWidth);
-		System.out.println("Question height: " + questionHeight);
-		System.out.println("Question Count: " + questionCount);
+	}
+	
+	/**
+	 * Alternative constructor for survey using points instead of coordinates and heights
+	 * @param f The file to use
+	 * @param p1 The first point on the image
+	 * @param p2 The second point on the image
+	 * @param num The number of questions
+	 */
+	public Survey(File f, Point p1, Point p2, int num)
+	{
+		surveySrc = f;
+		questionXCorner = p1.x;
+		questionYCorner = p1.y;
+		questionWidth = p2.x - p1.x;
+		questionHeight = p2.y - p1.y;
+		questionCount = num;
 	}
 	
 	/**
@@ -45,7 +57,7 @@ public class Survey {
 	 * @return the most likely response, 
 	 * @throws IOException 
 	 */
-	public int getResponse(int qNum) throws IOException
+	public int getResponse() throws IOException
 	{
 		MultipleChoice q = new MultipleChoice(ImageIO.read(surveySrc).getSubimage(questionXCorner, questionYCorner, questionWidth, questionHeight), questionCount);
 		return(q.getResponse());
@@ -55,7 +67,7 @@ public class Survey {
 	 * Visual method of reading the survey.  Not yet implemented
 	 * @return The selected response, as an integer
 	 */
-	int getVisual()
+	public int getVisual()
 	{
 		return(0);
 	}
