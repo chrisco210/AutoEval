@@ -11,13 +11,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 
-//TODO: Move this all to a new thread, and start the application from another class, probably in different package
 public final class GUI extends JFrame implements ActionListener, KeyListener {		//Only create one GUI.
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
@@ -207,7 +219,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			setStatus("Done.");
 		}
 		else if(eventSrc == openFolder){		//Single File Open 
-			//TODO: Holy shit move this to a new thread, or clean it up or something
 			setStatus("Opening File");
 			try{
 			source.clear();
@@ -263,7 +274,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			setVisible(true);
 			setStatus("Done.");
 		}
-		else if(eventSrc == run)		//Start a pixel count read TODO this needs to be revamped
+		else if(eventSrc == run)
 		{
 			setStatus("Parsing");
 			System.out.println("Parsing.");
