@@ -3,6 +3,7 @@ package popupMenus;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,7 +17,8 @@ public class TypeSelector implements ActionListener {
 	private JRadioButton mc;
 	private JRadioButton text;
 	private JButton accept;
-	
+	private JFrame frame;
+	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
 	/**
 	 * Displays the form to choose what type of selection the user has made
 	 */
@@ -28,9 +30,9 @@ public class TypeSelector implements ActionListener {
 	/**
 	 * Creates and displays the form
 	 */
-	public void createWindow()
+	private void createWindow()
 	{
-		JFrame frame = new JFrame("Select a Question Type...");
+		frame = new JFrame("Select a Question Type...");
 		
 		JPanel panel = new JPanel();
 		JPanel radioPanel = new JPanel();
@@ -51,9 +53,14 @@ public class TypeSelector implements ActionListener {
 		panel.add(radioPanel);
 		panel.add(accept);
 		frame.add(panel);
-		
 		frame.setSize(300, 150);
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+	}
+	
+	public void showFrame()
+	{
+		createWindow();
+		frame.setVisible(true);
 	}
 	
 	/**
@@ -69,12 +76,22 @@ public class TypeSelector implements ActionListener {
 		return(AreaType.NONE_SELECTED);
 	}
 	
+	/**
+	 * Get area types
+	 * @return An arraylist of areatypes corresponding to the question number
+	 */
+	public ArrayList<AreaType> getAreaTypes()
+	{
+		return(types);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == accept)
+		if(arg0.getSource() == accept)		//Check to make sure the event was not triggered by a radiobutton
 		{
-			
+			types.add(getAreaTypeSelection());
+			frame.setVisible(false);
 		}
 	}
 	

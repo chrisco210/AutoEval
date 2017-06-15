@@ -40,6 +40,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	JButton okButton;
 	JLabel imageSizeLabel;
 	
+	private TypeSelector t = new TypeSelector();		//Instantiate to expand visibility
 	
 	
 	//Integers to 
@@ -123,7 +124,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	 */
 	public ArrayList<Point> getBound(int b)
 	{
-		switch(b)
+		switch(b)		
 		{
 		case 1:
 			return(bound1);
@@ -137,14 +138,16 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	/**
 	 * Add the selected point to the Point arraylists
 	 */
-	private void setBounds()
+	private void setBounds()		//This will be called on the visualise button press
 	{
 		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
 		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
+		types.clear();
+		types.addAll(t.getAreaTypes());
 	}
 	
 	/**
-	 * Removes the 
+	 * Removes the desired element from all 3 arrays
 	 */
 	public void remove(int r)
 	{
@@ -152,10 +155,12 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		bound2.remove(r);
 		types.remove(r);
 	}
+	
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
+			t.showFrame();		//Display the frame
 			
 			//Set the point bounds
 			setBounds();
