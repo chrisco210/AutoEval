@@ -138,10 +138,17 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	/**
 	 * Add the selected point to the Point arraylists
 	 */
-	private void setBounds()		//This will be called on the visualise button press
+	private void setBounds()
 	{
 		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
 		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
+	}
+	
+	/**
+	 * Add all values to the types arraylist
+	 */
+	private void setTypes()
+	{
 		types.clear();
 		types.addAll(t.getAreaTypes());
 	}
@@ -162,7 +169,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		{
 			t.showFrame();		//Display the frame
 			
-			//Set the point bounds
+			//Set the point bounds and types
 			setBounds();
 			
 			Graphics2D g2d = imgBuff.createGraphics();
@@ -181,15 +188,17 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		}
 		else if(eventSource == okButton)
 		{
+			setTypes();		//Set the types from the type selector
+			
+			/*--------------------------*/
+			//Debug stuff, remove in production
 			System.out.println("OK Button Pressed");
-			setBounds();
-			try{
-				System.out.println(getBound(1).toString());
-				System.out.println(getBound(2).toString());
-				hide();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
+			System.out.println(getBound(1).toString());
+			System.out.println(getBound(2).toString());
+			System.out.println(types.toString());				
+			/*--------------------------*/
+				
+			hide();
 		}
 	}
 }

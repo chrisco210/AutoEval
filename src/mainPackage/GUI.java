@@ -17,6 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 
+//TODO: Move this all to a new thread, and start the application from another class, probably in different package
 public final class GUI extends JFrame implements ActionListener, KeyListener {
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
@@ -206,6 +207,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 			setStatus("Done.");
 		}
 		else if(eventSrc == openFolder){		//Single File Open 
+			//TODO: Holy shit move this to a new thread, or clean it up or something
 			setStatus("Opening File");
 			try{
 			source.clear();
@@ -276,11 +278,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		else if(eventSrc == export)		//export the created data to a variety of formats
 		{
 			setStatus("Export.");
-			new Export();
 		}
 		else if(eventSrc == chooseQHeight)		//Choose question height 
 		{
-			setStatus("Choosing Option Height");
+			setStatus("Choosing Option Height");	//TODO: find out what this does
 			try {
 				a.reloadVis();
 				setStatus("Done.");
@@ -297,7 +298,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {
 		}
 		else if(eventSrc == showResponses)
 		{
-			for(int i = 0; i < questionAns.length; i++)
+			for(int i = 0; i < questionAns.length; i++)			//TODO: Move to new thread
 			{
 				consoleLog("Response for question " + i);
 				consoleLog(Integer.toString(questionAns[i]));
