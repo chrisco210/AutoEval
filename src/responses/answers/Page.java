@@ -1,6 +1,9 @@
 package responses.answers;
 
+import java.util.ArrayList;
+
 public class Page {
-	private int[] questionAnswers;
+	ArrayList<Question> questions = new ArrayList<Question>(10);
+	
 	
 }

@@ -307,9 +307,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		}
 		else if(eventSrc == showResponses)		//Show the responses
 		{
-			for(int i = 0; i < 3; i++)
-				for(int j = 0; j < 2; j++)
-					System.out.println(questionAns[i][j]);
+			
 		}
 	} 
 	
