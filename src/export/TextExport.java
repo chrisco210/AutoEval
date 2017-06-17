@@ -9,7 +9,6 @@ public class TextExport extends Export {
 
 	@Override
 	public void saveExport() {
-		// TODO Auto-generated method stub
 		
 	}
 

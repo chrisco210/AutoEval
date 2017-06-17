@@ -1,14 +1,20 @@
 package export;
 
-abstract class Export {
-	private int[][] responses;		//Int[][] to store responses from the [page][question]
+import java.util.ArrayList;
+
+import responses.answers.*;
+
+public abstract class Export {
+	ArrayList<Page> pages;
 	
-	public Export(int[][] r)
+	public Export(ArrayList<Page> p)
 	{
-		responses = r;
+		pages = p;
 	}
 	
-	
-	
-	public abstract void saveExport();
+	/**
+	 * This should be used to create the string to be written to the file.
+	 * @return The text to be writtent to the file as a string
+	 */
+	public abstract String saveExport();
 }

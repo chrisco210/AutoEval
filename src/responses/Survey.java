@@ -79,10 +79,6 @@ public class Survey {
 	@SuppressWarnings("unused")
 	private boolean checkValid()
 	{
-		if(!surveySrc.exists())
-			return(false);
-		else if(!surveySrc.canRead())
-			return(false);
-		return(true);
+		return(!(surveySrc.exists() || surveySrc.canRead()));
 	}
 }

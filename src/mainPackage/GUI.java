@@ -29,51 +29,45 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
+import responses.answers.Page;
+import responses.answers.Question;
+import export.*;
 
 public final class GUI extends JFrame implements ActionListener, KeyListener {		//Only create one GUI.
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
-	/**
-	 * The Arraylist to store multiple files
-	 */
 	public ArrayList<File> source;
-	public static int[][] questionAns;	//Store the responses to the questions.  
+	public static ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
 	public static int questionCount;
 	ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	NumberChooser num = new NumberChooser();
 	
 	/*		--------GUI ITEMS--------		*/
-	JPanel imgDisplayPane;
-	JPanel consoleDisplayPane;
-	JMenuBar topMenu;
-	JMenu file;
-	JMenu edit;
-	JMenu view;
-	JMenu actions;
-	JMenuItem open;
-	JMenuItem run;
-	JMenuItem newRun;
-	JMenuItem export;
-	static JLabel statusLabel;
-	ImageIcon surveyImage;
-	JLabel imageLabel;
-	Container pane;
-	JMenuItem chooseQHeight;
-	JMenuItem chooseAHeight;
-	JMenuItem displayBounds;
-	JTree survey;
-	DefaultMutableTreeNode question;
-	JMenuItem setQuestionCount;
-	JTabbedPane centerPane;
-	static JTextArea consoleTextBox;
-	JTextField consoleInput;
-	JMenuItem openFolder;
-	JMenuItem showResponses;
+	private static JPanel consoleDisplayPane;
+	private static JMenuBar topMenu;
+	private static JMenu file;
+	private static JMenu edit;
+	private static JMenu view;
+	private static JMenu actions;
+	private static JMenuItem open;
+	private static JMenuItem run;
+	private static JMenuItem newRun;
+	private static JMenuItem export;
+	private static JLabel statusLabel;
+	private static ImageIcon surveyImage;
+	private static JLabel imageLabel;
+	private static Container pane;
+	private static JMenuItem chooseQHeight;
+	private static JMenuItem displayBounds;
+	private static JTree survey;
+	private static DefaultMutableTreeNode question;
+	private static JMenuItem setQuestionCount;
+	private static JTabbedPane centerPane;
+	private static JTextArea consoleTextBox;
+	private static JTextField consoleInput;
+	private static JMenuItem openFolder;
+	private static JMenuItem showResponses;
 	
-	public static void main(String[] args) throws IOException
-	{
-		new GUI();     
-	}
 	/**
 	 * The main GUI of the program
 	 * @throws IOException
@@ -86,7 +80,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
        	pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		
-		imgDisplayPane = new JPanel();
 		consoleDisplayPane = new JPanel();
 		centerPane = new JTabbedPane();
 		
@@ -162,6 +155,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	}
 	
 	//Handles 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{	
@@ -286,7 +280,13 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		}
 		else if(eventSrc == export)		//export the created data to a variety of formats.  Not yet implemented
 		{
-			setStatus("Export.");
+			new Thread(new Runnable() 
+			{
+				public void run() 
+				{
+					new ExportGUI();		//Should not be CSVExport, that is temporary.
+				}
+			}).start();
 		}
 		else if(eventSrc == chooseQHeight)		//Choose question height 
 		{
@@ -307,7 +307,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		}
 		else if(eventSrc == showResponses)		//Show the responses
 		{
-			
+			for(Page p : questionAns)
+				for(Question q : p.getQuestionList())
+					System.out.println(q.getResponse());
+					
 		}
 	} 
 	

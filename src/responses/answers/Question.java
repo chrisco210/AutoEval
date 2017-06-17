@@ -1,14 +1,14 @@
 package responses.answers;
 
-final class Question<T> {
+public final class Question<T> {
 	private T response;			//This class is intentionaly simple, responses are immutable
 	
-	Question(T value)
+	public Question(T value)
 	{
 		response = value;
 	}
 	
-	T getResponse()
+	public T getResponse()
 	{
 		return(response);
 	}

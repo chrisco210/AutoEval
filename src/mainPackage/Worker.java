@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.Survey;
+import responses.answers.*;
 
 public final class Worker extends Thread implements Runnable {
 	ImageAreaSelector a;
@@ -31,20 +32,30 @@ public final class Worker extends Thread implements Runnable {
 	@Override
 	public void run() 
 	{
-		responses = new int[source.size()][a.getTypes().size()];
+		GUI.questionAns = new ArrayList<Page>(source.size());
+		
 		for(int j = 0; j < source.size(); j++)
 		{
+			Page p = new Page();
+			GUI.questionAns.add(p);
 			for(int i = 0; i < a.getTypes().size(); i++)
 			{
 				Survey s = new Survey(source.get(j), a.getBoundList(1).get(i), a.getBoundList(2).get(i), num.getValue());
 				try {
-					responses[j][i] = s.getResponse();
+					switch(a.getType(i))
+					{
+					case MultipleChoice:
+						p.addQuestion(new Question<Integer>(s.getResponse()));
+						break;
+					default:
+						break;
+					}
 				} catch (IOException e) {
+
 					e.printStackTrace();
 				}
 			}
 		}
-		GUI.questionAns = responses;
 		GUI.setStatus("Done.");
 	}
 	

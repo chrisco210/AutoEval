@@ -141,6 +141,11 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		return(t.getAreaTypes());
 	}
 	
+	public AreaType getType(int s)
+	{
+		return(t.getAreaTypes().get(s));
+	}
+	
 	/**
 	 * Add the selected point to the Point arraylists
 	 */
