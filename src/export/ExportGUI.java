@@ -1,8 +1,14 @@
 package export;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import mainPackage.GUI;
 
 public final class ExportGUI {
 	JFrame frame = new JFrame();
@@ -22,6 +28,23 @@ public final class ExportGUI {
 		fileChooser.addChoosableFileFilter(projectExport);
 		
 		int out = fileChooser.showSaveDialog(frame);
-			if(out == JFileChooser.APPROVE_OPTION);
+		if(out == JFileChooser.APPROVE_OPTION);
+		{
+			File toSave = fileChooser.getSelectedFile();
+			
+			System.out.println(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1));		//debug, to be removed
+			
+			switch(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1))		//Check what file extension the user saved as
+			{
+			case "csv":
+				CSVExport export = new CSVExport(GUI.questionAns);
+				try {
+					export.saveExport(toSave.getAbsolutePath());
+				} catch (FileNotFoundException | UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
 	}
 }

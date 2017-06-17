@@ -1,14 +1,19 @@
 package export;
 
+import java.util.ArrayList;
+
+import responses.answers.Page;
+
 public class ProjectExport extends Export{
 
-	public ProjectExport(int[][] r) 
+	public ProjectExport(ArrayList<Page> r) 
 	{
 		super(r);
 	}
 
 	@Override
-	public void saveExport() {
+	public void saveExport(String path)
+	{
 		
 	}
 

@@ -1,14 +1,19 @@
 package export;
 
+import java.util.ArrayList;
+
+import responses.answers.Page;
+
 public class XmlExport extends Export {
 
-	public XmlExport(int[][] r) 
+	public XmlExport(ArrayList<Page> r) 
 	{
 		super(r);
 	}
 
 	@Override
-	public void saveExport() {
+	public void saveExport(String path) 
+	{
 		
 	}
 	
