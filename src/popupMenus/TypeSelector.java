@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -17,7 +18,7 @@ public class TypeSelector implements ActionListener {
 	private JRadioButton mc;
 	private JRadioButton text;
 	private JButton accept;
-	private JFrame frame;
+	private JDialog frame;
 	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
 	/**
 	 * Displays the form to choose what type of selection the user has made
@@ -32,7 +33,7 @@ public class TypeSelector implements ActionListener {
 	 */
 	private void createWindow()
 	{
-		frame = new JFrame("Select a Question Type...");
+		frame = new JDialog();
 		
 		JPanel panel = new JPanel();
 		JPanel radioPanel = new JPanel();

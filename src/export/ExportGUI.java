@@ -32,8 +32,6 @@ public final class ExportGUI {
 		{
 			File toSave = fileChooser.getSelectedFile();
 			
-			System.out.println(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1));		//debug, to be removed
-			
 			switch(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1))		//Check what file extension the user saved as
 			{
 			case "csv":

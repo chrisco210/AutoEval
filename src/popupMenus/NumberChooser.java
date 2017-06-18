@@ -75,14 +75,12 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
 		setValue();
-		System.out.println(getValue());
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		setValue();
 		hide();
-		System.out.println(getValue());
 	}
 
 	@Override

@@ -278,15 +278,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		else if(eventSrc == newRun)		//Start a visual comparison read, not finished, may never be
 		{
 		}
-		else if(eventSrc == export)		//export the created data to a variety of formats.  Not yet implemented
+		else if(eventSrc == export)		//export the created data to a variety of formats.
 		{
-			new Thread(new Runnable() 
-			{
-				public void run() 
-				{
-					new ExportGUI();		//Should not be CSVExport, that is temporary.
-				}
-			}).start();
+			Runnable export = () -> {new ExportGUI();};
+			new Thread(export).start();
 		}
 		else if(eventSrc == chooseQHeight)		//Choose question height 
 		{
@@ -307,10 +302,12 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		}
 		else if(eventSrc == showResponses)		//Show the responses
 		{
-			for(Page p : questionAns)
-				for(Question q : p.getQuestionList())
-					System.out.println(q.getResponse());
-					
+			Runnable showResponses = () -> {
+				for(Page p : questionAns)
+					for(Question q : p.getQuestionList())
+						GUI.consoleLog(q.getResponse().toString());
+			};
+			new Thread(showResponses).start();
 		}
 	} 
 	
