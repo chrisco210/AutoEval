@@ -67,6 +67,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	private static JTextField consoleInput;
 	private static JMenuItem openFolder;
 	private static JMenuItem showResponses;
+	private static JMenuItem importProject;
 	
 	/**
 	 * The main GUI of the program
@@ -83,12 +84,14 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		consoleDisplayPane = new JPanel();
 		centerPane = new JTabbedPane();
 		
-		//Menu Bar stuff.  Holy shit.
-		topMenu = new JMenuBar();
+		//Menu Bar stuff
+		topMenu = new JMenuBar();		//Main menu bar
+		//Open menu
 		open = new JMenuItem("Open");
 		open.addActionListener(this);
 		openFolder = new JMenuItem("Open Folder");
 		openFolder.addActionListener(this);
+		//Actions menu
 		actions = new JMenu("Actions");
 		run = new JMenuItem("Parse Form (Pixel Count)");
 		run.addActionListener(this);
@@ -104,13 +107,17 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		setQuestionCount.addActionListener(this);
 		export = new JMenuItem("Export...");
 		export.addActionListener(this);
+		importProject = new JMenuItem("Import");
+		importProject.addActionListener(this);
 		actions.add(run);
 		actions.add(newRun);
 		actions.add(showResponses);
+		//File menu
 		file = new JMenu("File");
 		file.add(open);
 		file.add(openFolder);
-		file.add(export);		
+		file.add(export);
+		file.add(importProject);
 		view = new JMenu("View");
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);
@@ -120,6 +127,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		topMenu.add(actions);
 		topMenu.add(view);
 		pane.add(topMenu, BorderLayout.NORTH);
+		
 		
 		//Console
 		consoleTextBox = new JTextArea();
@@ -132,7 +140,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		consoleDisplayPane.add(consoleTextBox, BorderLayout.CENTER);
 		
 		//Tabbed pane stuff
-		//centerPane.add("Image", imgDisplayPane);
 		centerPane.add("Console", consoleDisplayPane);
 		pane.add(centerPane, BorderLayout.CENTER);
 		
