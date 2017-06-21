@@ -21,9 +21,11 @@ public final class ExportGUI {
 		FileNameExtensionFilter csvExport = new FileNameExtensionFilter("Comma Seperated Values (*.csv)", "csv"),
 				xmlExport = new FileNameExtensionFilter("eXtensible Markup Language (*.xml)", "xml"),
 				textExport = new FileNameExtensionFilter("Text File (*.txt)", "txt"),
+				jsonExport = new FileNameExtensionFilter("JSON File (*.json)", "json"),
 				projectExport = new FileNameExtensionFilter("AutoEval Project (*.aep)", "aep");
 		fileChooser.addChoosableFileFilter(csvExport);
 		fileChooser.addChoosableFileFilter(xmlExport);
+		fileChooser.addChoosableFileFilter(jsonExport);
 		fileChooser.addChoosableFileFilter(textExport);
 		fileChooser.addChoosableFileFilter(projectExport);
 		
@@ -35,9 +37,17 @@ public final class ExportGUI {
 			switch(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1))		//Check what file extension the user saved as
 			{
 			case "csv":
-				CSVExport export = new CSVExport(GUI.questionAns);
+				CSVExport csvExportClass = new CSVExport(GUI.questionAns);
 				try {
-					export.saveExport(toSave.getAbsolutePath());
+					csvExportClass.saveExport(toSave.getAbsolutePath());
+				} catch (FileNotFoundException | UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "json":
+				JSONExport jsonExportClass = new JSONExport(GUI.questionAns);
+				try {
+					jsonExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (FileNotFoundException | UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
