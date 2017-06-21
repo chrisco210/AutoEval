@@ -11,7 +11,5 @@ final class GUIEntryPoint implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-
 }

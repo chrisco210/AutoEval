@@ -1,13 +1,21 @@
 package responses.answers;
 
 public final class Question<T> {
-	private T response;			//This class is intentionaly simple, responses are immutable
+	private T response;
 	
+	/**
+	 * Question constructor
+	 * @param value
+	 */
 	public Question(T value)
 	{
 		response = value;
 	}
 	
+	/**
+	 * Get the resposne to the question
+	 * @return The response to the question
+	 */
 	public T getResponse()
 	{
 		return(response);

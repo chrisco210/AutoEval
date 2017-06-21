@@ -31,8 +31,13 @@ import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.answers.Page;
 import responses.answers.Question;
-import export.*;
+import export.ExportGUI;
 
+/**
+ * The main GUI
+ * @author Christopher
+ *
+ */
 public final class GUI extends JFrame implements ActionListener, KeyListener {		//Only create one GUI.
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
