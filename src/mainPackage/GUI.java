@@ -41,11 +41,11 @@ import export.ExportGUI;
 public final class GUI extends JFrame implements ActionListener, KeyListener {		//Only create one GUI.
 	/*		--------VARIABLES--------		*/
 	private static final long serialVersionUID = 1L;
-	public ArrayList<File> source;
+	public static ArrayList<File> source;
 	public static ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
 	public static int questionCount;
-	ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
-	NumberChooser num = new NumberChooser();
+	public static ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
+	public static NumberChooser num = new NumberChooser();
 	
 	/*		--------GUI ITEMS--------		*/
 	private static JPanel consoleDisplayPane;
@@ -166,10 +166,9 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		setStatus("Done.");
 	}
 	
-	//Handles 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
 	{	
 		Object eventSrc = e.getSource();
 		//Read menu bar inputs

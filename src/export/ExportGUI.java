@@ -2,6 +2,7 @@ package export;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFileChooser;
@@ -37,18 +38,26 @@ public final class ExportGUI {
 			switch(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1))		//Check what file extension the user saved as
 			{
 			case "csv":
-				CSVExport csvExportClass = new CSVExport(GUI.questionAns);
+				Export csvExportClass = new CSVExport(GUI.questionAns);
 				try {
 					csvExportClass.saveExport(toSave.getAbsolutePath());
-				} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;
 			case "json":
-				JSONExport jsonExportClass = new JSONExport(GUI.questionAns);
+				Export jsonExportClass = new JSONExport(GUI.questionAns);
 				try {
 					jsonExportClass.saveExport(toSave.getAbsolutePath());
-				} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+			case "aep":
+				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, GUI.a, GUI.num);
+				try {
+					projectExportClass.saveExport(toSave.getAbsolutePath());
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				break;

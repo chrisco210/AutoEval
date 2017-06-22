@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.Survey;
-import responses.answers.*;
+import responses.answers.Page;
+import responses.answers.Question;
 
 public final class Worker extends Thread implements Runnable {
 	ImageAreaSelector a;
