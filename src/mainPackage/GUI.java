@@ -173,111 +173,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		Object eventSrc = e.getSource();
 		//Read menu bar inputs
 		if(eventSrc == open){		//Single File Open 
-			setStatus("Opening File");
-			
-			try{
-				source.clear();
-			} catch(Exception e1) {		}
-			
-			centerPane.removeAll();
-			centerPane.add("Console", consoleDisplayPane);
-			
-			JFileChooser fc = new JFileChooser();
-			int i = fc.showOpenDialog(this);
-			if(i == JFileChooser.APPROVE_OPTION)
-			{
-				source = new ArrayList<File>(1);
-				source.add(fc.getSelectedFile());
-				consoleLog(source.toString());
-				try {
-					a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
-				} catch (IOException e1) {
-					consoleLog(e1.getLocalizedMessage());
-				}
-			}
-			
-			try{	//Remove any existing images from the display
-				remove(imageLabel);
-			} catch(Exception ex) { }
-			
-			//Image display
-			BufferedImage img;
-			
-			//Attempt to display the image, catches IO exception
-			for(File f : source)
-			{
-				try{
-				JPanel j = new JPanel();
-				img = ImageIO.read(f);
-				surveyImage = new ImageIcon(img);
-				imageLabel = new JLabel(surveyImage);
-				imageLabel.setSize(100, 100);
-				j.add(imageLabel);
-				centerPane.add(f.toString(), j);
-				} catch (IOException ex) {		//Handle IOException
-					consoleLog(ex.getMessage());
-					setStatus("Error. See stack trace.");
-				}
-			}
-			setVisible(false);
-			setVisible(true);
-			setStatus("Done.");
+			new Thread(() -> loadFile()).start();
 		}
 		else if(eventSrc == openFolder){		//Single File Open 
-			setStatus("Opening File");
-			try{
-			source.clear();
-			} catch (Exception e2) {
-				
-			}
-			centerPane.removeAll();		//Clear all the tabs from the center pane
-			centerPane.add("Console", consoleDisplayPane);		//re add the console
-			
-			File path = null;		//Prevent java from being stupid
-			JFileChooser fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int i = fc.showOpenDialog(this);
-			if(i == JFileChooser.APPROVE_OPTION)
-			{
-				path = fc.getSelectedFile();
-				
-			}
-			source = new ArrayList<File>(path.listFiles().length);
-			source.addAll(Arrays.asList(path.listFiles()));
-			try {
-				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
-			} catch (IOException e1) {
-				consoleLog(e1.getLocalizedMessage());
-			}
-			try{	//Remove any existing images from the display
-				remove(imageLabel);
-			} catch(Exception ex) { 
-				
-			}
-			
-			//Image display
-			BufferedImage img;
-			
-			//Attempt to display the image, catches IO exception
-			for(File f : path.listFiles())
-			{
-				
-				try{
-				JPanel j = new JPanel();
-				img = ImageIO.read(f);
-				surveyImage = new ImageIcon(img);
-				imageLabel = new JLabel(surveyImage);
-				imageLabel.setSize(100, 100);
-				j.add(imageLabel);
-				centerPane.add(f.toString(), j);
-				} catch (IOException ex) {		//Handle IOException
-					consoleLog(ex.getMessage());
-					setStatus("Error. See stack trace.");
-				}
-			}
-			setVisible(false);
-			setVisible(true);
-			setStatus("Done.");
+			new Thread(() -> loadFolder()).start();
 		}
 		else if(eventSrc == run)
 		{
@@ -332,6 +231,118 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		statusLabel.setText(s);
 		statusLabel.setVisible(false);
 		statusLabel.setVisible(true);
+	}
+
+	
+	private void loadFile()
+	{
+		setStatus("Opening File");
+		
+		try{
+			source.clear();
+		} catch(Exception e1) {		}
+		
+		centerPane.removeAll();
+		centerPane.add("Console", consoleDisplayPane);
+		
+		JFileChooser fc = new JFileChooser();
+		int i = fc.showOpenDialog(this);
+		if(i == JFileChooser.APPROVE_OPTION)
+		{
+			source = new ArrayList<File>(1);
+			source.add(fc.getSelectedFile());
+			consoleLog(source.toString());
+			try {
+				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
+			} catch (IOException e1) {
+				//TODO handle this exception
+			}
+		}
+		
+		try{	//Remove any existing images from the display
+			remove(imageLabel);
+		} catch(Exception ex) { 
+			//TODO Handle exception
+		}
+		
+		//Image display
+		BufferedImage img;
+		
+		//Attempt to display the image, catches IO exception
+		for(File f : source)
+		{
+			try{
+			JPanel j = new JPanel();
+			img = ImageIO.read(f);
+			surveyImage = new ImageIcon(img);
+			imageLabel = new JLabel(surveyImage);
+			imageLabel.setSize(100, 100);
+			j.add(imageLabel);
+			centerPane.add(f.toString(), j);
+			} catch (IOException ex) {		//Handle IOException
+				//TODO Handle exception
+			}
+		}
+		setVisible(false);
+		setVisible(true);
+		setStatus("Done.");
+	}
+	
+	private void loadFolder()
+	{
+		setStatus("Opening File");
+		try{
+		source.clear();
+		} catch (Exception e2) {
+			
+		}
+		centerPane.removeAll();		//Clear all the tabs from the center pane
+		centerPane.add("Console", consoleDisplayPane);		//re add the console
+		
+		File path = null;		//Prevent java from being stupid
+		JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int i = fc.showOpenDialog(this);
+		if(i == JFileChooser.APPROVE_OPTION)
+		{
+			path = fc.getSelectedFile();
+			
+		}
+		source = new ArrayList<File>(path.listFiles().length);
+		source.addAll(Arrays.asList(path.listFiles()));
+		try {
+			a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
+		} catch (IOException e1) {
+			//TODO Handle this exception
+		}
+		try{	//Remove any existing images from the display
+			remove(imageLabel);
+		} catch(Exception ex) { 
+			
+		}
+		
+		//Image display
+		BufferedImage img;
+		
+		//Attempt to display the image, catches IO exception
+		for(File f : path.listFiles())
+		{
+			
+			try{
+			JPanel j = new JPanel();
+			img = ImageIO.read(f);
+			surveyImage = new ImageIcon(img);
+			imageLabel = new JLabel(surveyImage);
+			imageLabel.setSize(100, 100);
+			j.add(imageLabel);
+			centerPane.add(f.toString(), j);
+			} catch (IOException ex) {		//Handle IOException
+				//TODO Handle exception
+			}
+		}
+		setVisible(false);
+		setVisible(true);
+		setStatus("Done.");
 	}
 	
 	/**
