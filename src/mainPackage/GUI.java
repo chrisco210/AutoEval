@@ -255,17 +255,17 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			try {
 				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
 			} catch (IOException e1) {
-				//TODO handle this exception
+				GUI.consoleLog("Failed to create Image Area Selector.");
 			}
 		}
 		
 		try{	//Remove any existing images from the display
 			remove(imageLabel);
 		} catch(Exception ex) { 
-			//TODO Handle exception
+			//This does not need to be handled
 		}
 		
-		//Image display
+		//Image to display
 		BufferedImage img;
 		
 		//Attempt to display the image, catches IO exception
@@ -280,7 +280,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				//TODO Handle exception
+				GUI.consoleLog("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
 		setVisible(false);
@@ -313,7 +313,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		try {
 			a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
 		} catch (IOException e1) {
-			//TODO Handle this exception
+			GUI.consoleLog("Failed to create Image Area Selector.");
 		}
 		try{	//Remove any existing images from the display
 			remove(imageLabel);
@@ -337,7 +337,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				//TODO Handle exception
+				GUI.consoleLog("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
 		setVisible(false);

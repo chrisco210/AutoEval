@@ -1,5 +1,6 @@
 package popupMenus;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,10 @@ public class TypeSelector implements ActionListener {
 	private void createWindow()
 	{
 		frame = new JDialog();
+		
+		frame.setModal(true);
+		frame.setAlwaysOnTop(true);
+		frame.setModalityType(ModalityType.APPLICATION_MODAL);
 		
 		JPanel panel = new JPanel();
 		JPanel radioPanel = new JPanel();

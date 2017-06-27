@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import mainPackage.GUI;
+
 import org.json.simple.JsonArray;
 import org.json.simple.JsonObject;
 
@@ -73,11 +75,21 @@ public class ProjectExport extends Export{
 		jsonFileWriter.close();
 		fileSource.add(jsonFile);
 		
+		//DEBUG:
+		System.out.println(path.lastIndexOf(".") - 1);
+		System.out.println(path.lastIndexOf("\\") + 1);
+		System.out.println(path.lastIndexOf(".") - 1);
+		
+		System.out.println("--------------------");
+		System.out.println(path);
+		System.out.println(path.substring(0, path.lastIndexOf("."))
+				+ path.substring(path.lastIndexOf("\\"), path.lastIndexOf(".") )
+				+ ".aep");
 		//Zip files into project file TODO fix file naming
-		File zipOut = new File(			//A file class for the path of the output zip file
-				path.substring(0, path.lastIndexOf(".") - 1)
-				+ path.substring(path.lastIndexOf("\\") + 1, path.lastIndexOf(".") - 1)
-				+ ".aep"
+		File zipOut = new File(path			//A file class for the path of the output zip file
+				//path.substring(0, path.lastIndexOf("."))
+				//+ path.substring(path.lastIndexOf("\\"), path.lastIndexOf("."))
+				//+ ".aep"
 				);
 
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipOut));
