@@ -15,7 +15,6 @@ public class JSONExport extends Export {
 
 	public JSONExport(ArrayList<Page> p) {
 		super(p);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

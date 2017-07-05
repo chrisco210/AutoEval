@@ -53,8 +53,7 @@ public class Survey {
 	
 	/**
 	 * Gets the response to the specified question number
-	 * @param q is the question number to get the response to.  Not yet implemented
-	 * @return the most likely response, 
+	 * @return the most likely response
 	 * @throws IOException 
 	 */
 	public int getResponse() throws IOException

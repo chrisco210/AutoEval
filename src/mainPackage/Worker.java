@@ -42,11 +42,10 @@ public final class Worker extends Thread implements Runnable {
 		GUI.setStatus("Done.");
 	}
 	
-	//TODO Ensure that this actually works... not sure because of the page class
 	private void parseResponse(int pageNumber)
 	{
 		Page p = new Page();
-		GUI.questionAns.add(p);
+		GUI.questionAns.add(p);			//Add to an arraylist of Page classes in the GUI class
 			for(int i = 0; i < a.getTypes().size(); i++)
 			{
 				Survey s = new Survey(source.get(pageNumber), a.getBoundList(1).get(i), a.getBoundList(2).get(i), num.getValue());

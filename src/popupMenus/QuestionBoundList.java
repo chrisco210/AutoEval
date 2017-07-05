@@ -9,20 +9,18 @@ import java.util.ArrayList;
  *
  */
 public class QuestionBoundList {
-	/**
-	 * The first point of the rectangle selection
-	 */
-	private ArrayList<Point> bound1 = new ArrayList<Point>(10);
+	private int size; //Size of the variables
+	private ArrayList<Point> bound1 = new ArrayList<Point>(size);
+	private ArrayList<Point> bound2 = new ArrayList<Point>(size);
+	private ArrayList<AreaType> types = new ArrayList<AreaType>(size);
 	
 	/**
-	 * The second point of the rectangle selection
+	 * @param size The size of the arrayLists
 	 */
-	private ArrayList<Point> bound2 = new ArrayList<Point>(10);
-	
-	/**
-	 * Types of response
-	 */
-	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
+	public QuestionBoundList(int size)
+	{
+		this.size = size;
+	}
 	
 	/**
 	 * Gets the desired ArrayList of points
@@ -55,7 +53,7 @@ public class QuestionBoundList {
 	}
 	
 	/**
-	 * 
+	 * Add a question area to the bound list
 	 * @param xPos1 The x value of the first point
 	 * @param yPos1 The y value of the first point
 	 * @param xPos2 The x value of the second point
@@ -66,6 +64,19 @@ public class QuestionBoundList {
 	{
 		bound1.add(new Point(xPos1, yPos1));
 		bound2.add(new Point(xPos2, yPos2));
+		types.add(type);
+	}
+	
+	/**
+	 * Add a question area to the bound list
+	 * @param point1 The first bound of the rectangle
+	 * @param point2 The second bound of the rectangle
+	 * @param type The type of the area that is being added
+	 */
+	public void add(Point point1, Point point2, AreaType type)
+	{
+		bound1.add(point1);
+		bound2.add(point2);
 		types.add(type);
 	}
 	

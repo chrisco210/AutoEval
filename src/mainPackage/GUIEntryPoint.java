@@ -9,7 +9,7 @@ final class GUIEntryPoint implements Runnable {
 		try {
 			new GUI();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace();		//TODO useless catch block
 		}
 	}
 }

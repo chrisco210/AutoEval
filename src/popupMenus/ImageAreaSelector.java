@@ -30,6 +30,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	private BufferedImage imgBuff;
 	private Point tempBound1;
 	private Point tempBound2;
+	private QuestionBoundList boundList= new QuestionBoundList(10);
+	private boolean isSelecting = false;
 	
 	/*		--------GUI ELEMENTS--------		*/
 	JLabel displayImg;
@@ -149,7 +151,9 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		
 		//Layout setup
 		bottomPanel = new JPanel();
-		imgPane = new JScrollPane(displayImg);
+		imgPane = new JScrollPane(displayImg);		//scrollpane for the image
+		imgPane.setAlignmentX(0);		//Allign to top left of screen
+		imgPane.setAlignmentY(0);
 		fullPane = new BorderLayout();
 		pane.setLayout(fullPane);
 		pane.add(imgPane, BorderLayout.CENTER);		//Create a jscrollpane for the image
@@ -205,7 +209,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		}
 	}
 	
-	//TODO Remove this
 	private void visualize()
 	{
 		t.showFrame();		//Display the frame
@@ -233,53 +236,59 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	@Override
 	public void mousePressed(MouseEvent arg0) 
 	{
-		tempBound1 = new Point(arg0.getX(), arg0.getY());		//Store the mouse press in the temp bound
 		
-		
-		GUI.consoleLog(tempBound1.toString());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) 
 	{
-		Graphics2D g2d = imgBuff.createGraphics();
 		
-		tempBound2 = new Point(arg0.getX(), arg0.getY());
-		GUI.consoleLog(tempBound2.toString());
-		
-		Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
-		
-		g2d.setColor(colors[1]);
-		g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
-		
-		 
-		
-		tempBound1 = null;
-		tempBound2 = null;
-		
-		imgPane.setVisible(false);
-		imgPane.setVisible(true);
-		
-		t.showFrame();
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) 
 	{
-		tempBound2 = arg0.getPoint();
 		
-		Graphics2D g2d = imgBuff.createGraphics();
-		g2d.setColor(Color.blue);
-		g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
-		
-		imgPane.setVisible(false);
-		imgPane.setVisible(true);
 	}
 
 	
-	//These functions are just here from interfaces
-	public void mouseMoved(MouseEvent arg0) {	}
-	public void mouseClicked(MouseEvent arg0) { }
+	public void mouseMoved(MouseEvent arg0) 
+	{	
+	}
+	public void mouseClicked(MouseEvent arg0) 
+	{ 
+		if(isSelecting)
+		{
+			Graphics2D g2d = imgBuff.createGraphics();
+			
+			tempBound2 = new Point(arg0.getX(), arg0.getY());
+			GUI.consoleLog(tempBound2.toString());
+			
+			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
+			
+			GUI.consoleLog("DRAWING RECTANGLE");
+			g2d.setColor(colors[1]);
+			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
+			
+			bound1.add(tempBound1);
+			bound2.add(tempBound2);
+			
+			tempBound1 = null;
+			tempBound2 = null;
+			
+			imgPane.setVisible(false);
+			imgPane.setVisible(true);
+			
+			t.showFrame();
+			isSelecting = false;
+		}
+		else
+		{
+			tempBound1 = new Point(arg0.getX(), arg0.getY());		//Store the mouse press in the temp bound
+			GUI.consoleLog(tempBound1.toString());
+			isSelecting = true;
+		}
+	}
 	public void mouseEntered(MouseEvent arg0) { }
 	public void mouseExited(MouseEvent arg0) { }
 }

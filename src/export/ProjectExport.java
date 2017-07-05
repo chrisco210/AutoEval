@@ -81,7 +81,7 @@ public class ProjectExport extends Export{
 		System.out.println(path.substring(0, path.lastIndexOf("."))
 				+ path.substring(path.lastIndexOf("\\"), path.lastIndexOf(".") )
 				+ ".aep");
-		//Zip files into project file TODO fix file naming
+		//Zip files into project file 
 		File zipOut = new File(path			//A file class for the path of the output zip file
 				//path.substring(0, path.lastIndexOf("."))
 				//+ path.substring(path.lastIndexOf("\\"), path.lastIndexOf("."))

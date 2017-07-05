@@ -234,7 +234,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	}
 
 	
-	private void loadFile()
+	private void loadFile()			//TODO Clean this up. This is not ok
 	{
 		setStatus("Opening File");
 		
@@ -257,6 +257,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 			} catch (IOException e1) {
 				GUI.consoleLog("Failed to create Image Area Selector.");
 			}
+		}
+		else 
+		{
+			return;
 		}
 		
 		try{	//Remove any existing images from the display
@@ -288,7 +292,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		setStatus("Done.");
 	}
 	
-	private void loadFolder()
+	private void loadFolder()		//TODO Clean this up. This is not ok
 	{
 		setStatus("Opening File");
 		try{
@@ -306,7 +310,10 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		if(i == JFileChooser.APPROVE_OPTION)
 		{
 			path = fc.getSelectedFile();
-			
+		} 
+		else 
+		{
+			return;
 		}
 		source = new ArrayList<File>(path.listFiles().length);
 		source.addAll(Arrays.asList(path.listFiles()));
