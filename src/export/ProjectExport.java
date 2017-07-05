@@ -1,17 +1,13 @@
 package export;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import mainPackage.GUI;
 
 import org.json.simple.JsonArray;
 import org.json.simple.JsonObject;

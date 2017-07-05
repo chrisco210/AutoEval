@@ -7,6 +7,9 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +23,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener{
+import mainPackage.GUI;
+
+public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener, MouseListener, MouseMotionListener{
 	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;
+	private Point tempBound1;
+	private Point tempBound2;
 	
 	/*		--------GUI ELEMENTS--------		*/
 	JLabel displayImg;
@@ -40,23 +47,83 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	JButton okButton;
 	JLabel imageSizeLabel;
 	
-	private TypeSelector t = new TypeSelector();		//Instantiate to expand visibility
+	private TypeSelector t = new TypeSelector();		//Instantiate early to expand visibility
 	
-	
-	//Integers to 
+	//------------------ ALL THIS IS DEPRECATED! TODO MIGRATE TO QUESTIONBOUNDLIST CLASS
 	/**
 	 * The first point of the rectangle selection
+	 * @deprecated
 	 */
 	private ArrayList<Point> bound1 = new ArrayList<Point>(10);
 	/**
 	 * The second point of the rectangle selection
+	 * @deprecated
 	 */
 	private ArrayList<Point> bound2 = new ArrayList<Point>(10);
 	
 	/**
 	 * Types of response
+	 * @deprecated
 	 */
 	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
+	
+	/**
+	 * Add the selected point to the Point arraylists
+	 * @deprecated
+	 */
+	private void setBounds()
+	{
+		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
+		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	private void setTypes()
+	{
+		types.clear();
+		types.addAll(t.getAreaTypes());
+	}
+	/**
+	 * Gets the desired ArrayList of points
+	 * @param b the bound number to get
+	 * @return the requested bounds as an ArrayList of points
+	 * @deprecated
+	 */
+	public ArrayList<Point> getBoundList(int b)
+	{
+		switch(b)		
+		{
+		case 1:
+			return(bound1);
+		case 2:
+			return(bound2);
+		default:
+			return(null);
+		}
+	}
+	/**
+	 * Get the type of a specific area
+	 * @param s The index of the type to get
+	 * @return An AreaType of the requested index
+	 * @deprecated
+	 */
+	public AreaType getType(int s)
+	{
+		return(types.get(s));
+	}
+	/**
+	 * Get the area types
+	 * @return An arraylist of AreaTypes corresponding to each point
+	 * @deprecated
+	 */
+	public ArrayList<AreaType> getTypes()
+	{
+		return(types);
+	}
+	//---------------------------------------------------------
+	
 	
 	/**
 	 * Displays a form to select an area on an image
@@ -65,17 +132,22 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	 */
 	public ImageAreaSelector(File f) throws IOException
 	{
-		imgBuff = ImageIO.read(f);
-		displayImg = new JLabel(new ImageIcon(imgBuff));
-		displayForm();
-		displaySelector();
+		imgBuff = ImageIO.read(f);		//Create buffered image from the given file
+		displayImg = new JLabel(new ImageIcon(imgBuff));		//Put the buffered image onto a jlabel with image icon
+		displayForm();		//Display the form
+		displaySelector();		//Add components
 	}
 	
-	/**
+	/** 
 	 * Displays the image and components to set points
 	 */
 	public void displaySelector() 
 	{
+		//Add mouse listener to displayImg
+		displayImg.addMouseListener(this); 
+		displayImg.addMouseMotionListener(this);
+		
+		//Layout setup
 		bottomPanel = new JPanel();
 		imgPane = new JScrollPane(displayImg);
 		fullPane = new BorderLayout();
@@ -118,98 +190,96 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		pane.add(bottomPanel, BorderLayout.SOUTH);
 	}
 	
-	/**
-	 * Gets the desired ArrayList of points
-	 * @param b the bound number to get
-	 * @return the requested bounds as an ArrayList of points
-	 */
-	public ArrayList<Point> getBoundList(int b)
-	{
-		switch(b)		
-		{
-		case 1:
-			return(bound1);
-		case 2:
-			return(bound2);
-		default:
-			return(null);
-		}
-	}
 	
-	public ArrayList<AreaType> getTypes()
-	{
-		return(t.getAreaTypes());
-	}
-	
-	public AreaType getType(int s)
-	{
-		return(t.getAreaTypes().get(s));
-	}
-	
-	/**
-	 * Add the selected point to the Point arraylists
-	 */
-	private void setBounds()
-	{
-		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
-		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
-	}
-	
-	/**
-	 * Add all values to the types arraylist
-	 */
-	private void setTypes()
-	{
-		types.clear();
-		types.addAll(t.getAreaTypes());
-	}
-	
-	/**
-	 * Removes the desired element from all 3 arrays
-	 */
-	public void remove(int r)
-	{
-		bound1.remove(r);
-		bound2.remove(r);
-		types.remove(r);
-	}
-	
+	//TODO: Migrate to the QuestionBoundList class
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
 		{
-			t.showFrame();		//Display the frame
-			
-			//Set the point bounds and types
-			setBounds();
-			
-			Graphics2D g2d = imgBuff.createGraphics();
-			
-			//Array of colors 
-			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
-			
-			//Draw all the rectangles selected by the user
-			for(int i = 0; i < bound1.size(); i++)
-			{
-				g2d.setColor(colors[i]);
-				g2d.drawRect(bound1.get(i).x, bound1.get(i).y, bound2.get(i).x, bound2.get(i).y);
-			}
-			reloadVis();
-			g2d.dispose();
+			visualize();
 		}
 		else if(eventSource == okButton)
 		{
 			setTypes();		//Set the types from the type selector
-			
-			/*--------------------------*/
-			//Debug stuff, remove in production
-			System.out.println("OK Button Pressed");
-			System.out.println(getBoundList(1).toString());
-			System.out.println(getBoundList(2).toString());
-			System.out.println(types.toString());				
-			/*--------------------------*/
-				
 			hide();
 		}
 	}
+	
+	//TODO Remove this
+	private void visualize()
+	{
+		t.showFrame();		//Display the frame
+		
+		//Set the point bounds and types
+		setBounds();
+		
+		Graphics2D g2d = imgBuff.createGraphics();
+		
+		//Array of colors 
+		Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
+		
+		//Draw all the rectangles selected by the user
+		for(int i = 0; i < bound1.size(); i++)
+		{
+			g2d.setColor(colors[i]);
+			g2d.drawRect(bound1.get(i).x, bound1.get(i).y, bound2.get(i).x, bound2.get(i).y);
+		}
+		reloadVis();
+		g2d.dispose();
+	}
+
+
+
+	@Override
+	public void mousePressed(MouseEvent arg0) 
+	{
+		tempBound1 = new Point(arg0.getX(), arg0.getY());		//Store the mouse press in the temp bound
+		
+		
+		GUI.consoleLog(tempBound1.toString());
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) 
+	{
+		Graphics2D g2d = imgBuff.createGraphics();
+		
+		tempBound2 = new Point(arg0.getX(), arg0.getY());
+		GUI.consoleLog(tempBound2.toString());
+		
+		Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
+		
+		g2d.setColor(colors[1]);
+		g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
+		
+		 
+		
+		tempBound1 = null;
+		tempBound2 = null;
+		
+		imgPane.setVisible(false);
+		imgPane.setVisible(true);
+		
+		t.showFrame();
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) 
+	{
+		tempBound2 = arg0.getPoint();
+		
+		Graphics2D g2d = imgBuff.createGraphics();
+		g2d.setColor(Color.blue);
+		g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
+		
+		imgPane.setVisible(false);
+		imgPane.setVisible(true);
+	}
+
+	
+	//These functions are just here from interfaces
+	public void mouseMoved(MouseEvent arg0) {	}
+	public void mouseClicked(MouseEvent arg0) { }
+	public void mouseEntered(MouseEvent arg0) { }
+	public void mouseExited(MouseEvent arg0) { }
 }
