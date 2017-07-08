@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import mainPackage.GUI;
+import autoEval.GUI;
 
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener, MouseListener, MouseMotionListener{
 	/*		--------Variables--------		*/

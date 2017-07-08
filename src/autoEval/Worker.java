@@ -1,4 +1,4 @@
-package mainPackage;
+package autoEval;
 
 import java.io.File;
 import java.io.IOException;

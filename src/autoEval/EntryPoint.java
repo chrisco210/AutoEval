@@ -1,4 +1,4 @@
-package mainPackage;
+package autoEval;
 
 public final class EntryPoint {
 

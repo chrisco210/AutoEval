@@ -1,4 +1,4 @@
-package mainPackage;
+package autoEval;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
@@ -234,7 +234,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	}
 
 	
-	private void loadFile()			//TODO Clean this up. This is not ok
+	private void loadFile()			//TODO This needs to be a real function
 	{
 		setStatus("Opening File");
 		
@@ -292,7 +292,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		setStatus("Done.");
 	}
 	
-	private void loadFolder()		//TODO Clean this up. This is not ok
+	private void loadFolder()		//TODO This needs to be a real function
 	{
 		setStatus("Opening File");
 		try{

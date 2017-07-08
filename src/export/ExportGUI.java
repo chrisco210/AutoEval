@@ -2,11 +2,12 @@ package export;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import mainPackage.GUI;
+import autoEval.GUI;
 
 public final class ExportGUI {
 	JFrame frame = new JFrame();
