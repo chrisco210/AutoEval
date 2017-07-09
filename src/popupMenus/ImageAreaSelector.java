@@ -2,9 +2,11 @@ package popupMenus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -48,6 +50,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	JButton visualizeButton;
 	JButton okButton;
 	JLabel imageSizeLabel;
+	JPanel imgSubPane;
+	ImageIcon imgIco;
 	
 	private TypeSelector t = new TypeSelector();		//Instantiate early to expand visibility
 	
@@ -135,7 +139,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	public ImageAreaSelector(File f) throws IOException
 	{
 		imgBuff = ImageIO.read(f);		//Create buffered image from the given file
-		displayImg = new JLabel(new ImageIcon(imgBuff));		//Put the buffered image onto a jlabel with image icon
+		imgIco = new ImageIcon(imgBuff);
+		displayImg = new JLabel(imgIco);		//Put the buffered image onto a jlabel with image icon
 		displayForm();		//Display the form
 		displaySelector();		//Add components
 	}
@@ -152,8 +157,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		//Layout setup
 		bottomPanel = new JPanel();
 		imgPane = new JScrollPane(displayImg);		//scrollpane for the image
-		imgPane.setAlignmentX(0);		//Allign to top left of screen
-		imgPane.setAlignmentY(0);
 		fullPane = new BorderLayout();
 		pane.setLayout(fullPane);
 		pane.add(imgPane, BorderLayout.CENTER);		//Create a jscrollpane for the image
@@ -219,7 +222,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		Graphics2D g2d = imgBuff.createGraphics();
 		
 		//Array of colors 
-		Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
+		final Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
 		
 		//Draw all the rectangles selected by the user
 		for(int i = 0; i < bound1.size(); i++)
@@ -261,7 +264,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		{
 			Graphics2D g2d = imgBuff.createGraphics();
 			
-			tempBound2 = new Point(arg0.getX(), arg0.getY());
+			tempBound2 = arg0.getPoint();
 			GUI.consoleLog(tempBound2.toString());
 			
 			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
@@ -284,8 +287,14 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		}
 		else
 		{
-			tempBound1 = new Point(arg0.getX(), arg0.getY());		//Store the mouse press in the temp bound
-			GUI.consoleLog(tempBound1.toString());
+			
+			tempBound1 = arg0.getPoint();
+			
+			Graphics2D g2d = imgBuff.createGraphics();
+			
+			g2d.setColor(Color.RED);
+			g2d.drawOval(arg0.getX(), arg0.getY(), 5, 5);
+			
 			isSelecting = true;
 		}
 	}
