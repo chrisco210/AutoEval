@@ -70,14 +70,4 @@ public class Survey {
 	{
 		return(0);
 	}
-	
-	/**
-	 * Checks if the survey to read is valid
-	 * @return If the survey is valid
-	 */
-	@SuppressWarnings("unused")
-	private boolean checkValid()
-	{
-		return(!(surveySrc.exists() || surveySrc.canRead()));
-	}
 }

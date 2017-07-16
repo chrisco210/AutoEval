@@ -11,10 +11,9 @@ import java.util.zip.ZipOutputStream;
 
 import org.json.simple.JsonArray;
 import org.json.simple.JsonObject;
-
-import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.answers.Page;
+import util.QuestionBoundList;
 
 /**
  * Used to export the data supplied as an AutoEval project
@@ -23,7 +22,7 @@ import responses.answers.Page;
  */
 public class ProjectExport extends Export{
 	private ArrayList<File> fileSource;
-	private ImageAreaSelector areaSelector;
+	private QuestionBoundList questionBoundList;
 	private int questionCount;
 	
 	/**
@@ -33,11 +32,11 @@ public class ProjectExport extends Export{
 	 * @param areaSelector		The ImageAreaSelector used in the project
 	 * @param numChooser		The number chooser that was used in the project
 	 */
-	public ProjectExport(ArrayList<Page> r, ArrayList<File> fileSource, ImageAreaSelector areaSelector, NumberChooser numChooser) 
+	public ProjectExport(ArrayList<Page> r, ArrayList<File> fileSource, QuestionBoundList questionBounds, NumberChooser numChooser) 
 	{
 		super(r);
 		this.fileSource = fileSource;
-		this.areaSelector = areaSelector;
+		this.questionBoundList = questionBounds;
 		questionCount = numChooser.getValue();
 	}
 
@@ -49,12 +48,12 @@ public class ProjectExport extends Export{
 		json.put("question_count", questionCount);		//Write the question count
 		
 		JsonArray areaSelectorPoints = new JsonArray();		//Create json array for the point pairs and question types
-		for(int i = 0; i < areaSelector.getTypes().size(); i++)			//Write a sub JsonArray to the point pair array, which will 
+		for(int i = 0; i < questionBoundList.getTypes().size(); i++)			//Write a sub JsonArray to the point pair array, which will 
 		{																//include each bound, and the question type for each question
 			JsonArray pointData = new JsonArray();
-			pointData.add(areaSelector.getBoundList(1).get(i));
-			pointData.add(areaSelector.getBoundList(2).get(i));
-			pointData.add(areaSelector.getType(i));
+			pointData.add(questionBoundList.getPointFromList(1, i));
+			pointData.add(questionBoundList.getPointFromList(2,i));
+			pointData.add(questionBoundList.getType(i));
 			areaSelectorPoints.add(pointData);
 		}
 		

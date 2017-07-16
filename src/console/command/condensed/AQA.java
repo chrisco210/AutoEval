@@ -10,10 +10,12 @@ import console.command.condensed.ExecutableCommand;
  */
 public class AQA extends ExecutableCommand {
 
+	
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

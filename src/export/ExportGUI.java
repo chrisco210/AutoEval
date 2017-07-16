@@ -52,7 +52,7 @@ public final class ExportGUI {
 				}
 				break;
 			case "aep":
-				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, GUI.a, GUI.num);
+				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, GUI.a.getQuestionBoundList(), GUI.num);
 				try {
 					projectExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (IOException e) {

@@ -4,14 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.Survey;
 import responses.answers.Page;
 import responses.answers.Question;
+import util.QuestionBoundList;
 
 public final class Worker extends Thread implements Runnable {
-	ImageAreaSelector a;
+	QuestionBoundList qBoundList;
 	ArrayList<File> source;
 	NumberChooser num;
 	private int[][] responses;
@@ -23,9 +23,9 @@ public final class Worker extends Thread implements Runnable {
 	 * @param num NumberChooser class to use
 	 * @param questionNum which question to use on the page
 	 */
-	public Worker(ImageAreaSelector a, ArrayList<File> source, NumberChooser num, int questionNum)
+	public Worker(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum)
 	{
-		this.a = a;
+		qBoundList = a;
 		this.source = source;
 		this.num = num;
 	}
@@ -46,20 +46,24 @@ public final class Worker extends Thread implements Runnable {
 	{
 		Page p = new Page();
 		GUI.questionAns.add(p);			//Add to an arraylist of Page classes in the GUI class
-			for(int i = 0; i < a.getTypes().size(); i++)
+			for(int i = 0; i < qBoundList.size(); i++)
 			{
-				Survey s = new Survey(source.get(pageNumber), a.getBoundList(1).get(i), a.getBoundList(2).get(i), num.getValue());
+				Survey s = new Survey(
+						source.get(pageNumber), 
+						/*qBoundList.getBoundList(1).get(i)*/ qBoundList.getPointFromList(1, i), 
+						/*qBoundList.getBoundList(2).get(i)*/ qBoundList.getPointFromList(2, i), 
+						num.getValue());
 				try {
-					switch(a.getType(i))
+					switch(qBoundList.getType(i))
 					{
 					case MultipleChoice:
-						p.addQuestion(new Question<Integer>(s.getResponse()));
+						p.addQuestion(new Question<Integer>(s.getResponse()));		//Add the response to the page
 						break;
 					default:
 						break;
 					}
 				} catch (IOException e) {
-
+					//TODO Auto Generated catch block
 					e.printStackTrace();
 				}
 			}

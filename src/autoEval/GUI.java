@@ -182,7 +182,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		{
 			setStatus("Parsing");
 			System.out.println("Parsing.");
-			Worker w = new Worker(a, source, num, 0);
+			Worker w = new Worker(a.getQuestionBoundList(), source, num, 0);
 			w.start();
 		}
 		else if(eventSrc == newRun)		//Start a visual comparison read, not finished, may never be

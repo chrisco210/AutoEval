@@ -2,11 +2,9 @@ package popupMenus;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import util.QuestionBoundList;
 import autoEval.GUI;
 
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener, MouseListener, MouseMotionListener{
@@ -32,7 +30,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	private BufferedImage imgBuff;
 	private Point tempBound1;
 	private Point tempBound2;
-	private QuestionBoundList boundList= new QuestionBoundList(10);
+	private QuestionBoundList boundList= new QuestionBoundList(10);			//TODO Determine the number of questions
 	private boolean isSelecting = false;
 	
 	/*		--------GUI ELEMENTS--------		*/
@@ -55,81 +53,10 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	
 	private TypeSelector t = new TypeSelector();		//Instantiate early to expand visibility
 	
-	//------------------ ALL THIS IS DEPRECATED! TODO MIGRATE TO QUESTIONBOUNDLIST CLASS
-	/**
-	 * The first point of the rectangle selection
-	 * @deprecated
-	 */
-	private ArrayList<Point> bound1 = new ArrayList<Point>(10);
-	/**
-	 * The second point of the rectangle selection
-	 * @deprecated
-	 */
-	private ArrayList<Point> bound2 = new ArrayList<Point>(10);
-	
-	/**
-	 * Types of response
-	 * @deprecated
-	 */
-	private ArrayList<AreaType> types = new ArrayList<AreaType>(10);
-	
-	/**
-	 * Add the selected point to the Point arraylists
-	 * @deprecated
-	 */
-	private void setBounds()
+	public QuestionBoundList getQuestionBoundList()
 	{
-		bound1.add(new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())));
-		bound2.add(new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText())));
+		return(boundList);
 	}
-	
-	/**
-	 * @deprecated
-	 */
-	private void setTypes()
-	{
-		types.clear();
-		types.addAll(t.getAreaTypes());
-	}
-	/**
-	 * Gets the desired ArrayList of points
-	 * @param b the bound number to get
-	 * @return the requested bounds as an ArrayList of points
-	 * @deprecated
-	 */
-	public ArrayList<Point> getBoundList(int b)
-	{
-		switch(b)		
-		{
-		case 1:
-			return(bound1);
-		case 2:
-			return(bound2);
-		default:
-			return(null);
-		}
-	}
-	/**
-	 * Get the type of a specific area
-	 * @param s The index of the type to get
-	 * @return An AreaType of the requested index
-	 * @deprecated
-	 */
-	public AreaType getType(int s)
-	{
-		return(types.get(s));
-	}
-	/**
-	 * Get the area types
-	 * @return An arraylist of AreaTypes corresponding to each point
-	 * @deprecated
-	 */
-	public ArrayList<AreaType> getTypes()
-	{
-		return(types);
-	}
-	//---------------------------------------------------------
-	
 	
 	/**
 	 * Displays a form to select an area on an image
@@ -198,7 +125,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	
 	
-	//TODO: Migrate to the QuestionBoundList class
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if(eventSource == visualizeButton)
@@ -207,7 +133,9 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		}
 		else if(eventSource == okButton)
 		{
-			setTypes();		//Set the types from the type selector
+			//setTypes();		//Set the types from the type selector
+			boundList.addAllTypes(t.getAreaTypes());
+			
 			hide();
 		}
 	}
@@ -216,8 +144,12 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	{
 		t.showFrame();		//Display the frame
 		
-		//Set the point bounds and types
-		setBounds();
+		//Set the point bounds 
+		
+		boundList.add(
+				new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())),
+				new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()))
+				);
 		
 		Graphics2D g2d = imgBuff.createGraphics();
 		
@@ -225,11 +157,12 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		final Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
 		
 		//Draw all the rectangles selected by the user
-		for(int i = 0; i < bound1.size(); i++)
+		for(int i = 0; i < boundList.size(); i++)
 		{
 			g2d.setColor(colors[i]);
-			g2d.drawRect(bound1.get(i).x, bound1.get(i).y, bound2.get(i).x, bound2.get(i).y);
+			g2d.drawRect(boundList.getPointFromList(1, i).x, boundList.getPointFromList(1, i).y, boundList.getPointFromList(2, i).x, boundList.getPointFromList(2, i).y);
 		}
+		
 		reloadVis();
 		g2d.dispose();
 	}
@@ -260,6 +193,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	public void mouseClicked(MouseEvent arg0) 
 	{ 
+		GUI.consoleLog("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
 		if(isSelecting)
 		{
 			Graphics2D g2d = imgBuff.createGraphics();
@@ -273,8 +207,10 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			g2d.setColor(colors[1]);
 			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
 			
+			/*
 			bound1.add(tempBound1);
 			bound2.add(tempBound2);
+			*/
 			
 			tempBound1 = null;
 			tempBound2 = null;
