@@ -33,6 +33,10 @@ To export your responses, click export under the file menu, and choose from the 
 ## Scripting
 Coming soon...
 
+"You know what this project needs?"
+"To be finished?"
+"No! A scripting language!"
+
 AutoEval contains its own custom scripting language.
 All commands must be on their own lines.  Some commands can have arguments, which are processed as string arrays in the scripting engine.
 Comments can be made using the Rem command
