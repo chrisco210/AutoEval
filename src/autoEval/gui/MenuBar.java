@@ -20,6 +20,9 @@ public class MenuBar extends JMenuBar {
 	protected  JMenuItem setQuestionCount;
 	protected  JMenuItem chooseQHeight;
 	protected  JMenuItem displayBounds;
+	protected JMenu help;
+	protected JMenuItem about;
+	protected JMenuItem github;
 	
 	public MenuBar()
 	{
@@ -58,11 +61,20 @@ public class MenuBar extends JMenuBar {
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);
 		edit.add(setQuestionCount);
+		//Help menu
+		help = new JMenu("Help");
+		about = new JMenuItem("About");
+		about.addActionListener(GUI.action);
+		github = new JMenuItem("Github");
+		github.addActionListener(GUI.action);
+		help.add(about);
+		help.add(github);
 		
 		//Add menu items
 		add(file);
 		add(edit);
 		add(actions);
 		add(view);
+		add(help);
 	}
 }

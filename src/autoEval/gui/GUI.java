@@ -170,6 +170,10 @@ public final class GUI extends JFrame {		//Only create one GUI.
 				};
 				new Thread(showResponses).start();
 			}
+			else if(eventSrc == topMenu.about)
+			{
+				new About();
+			}
 		} 
 	}
 	/**
