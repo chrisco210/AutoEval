@@ -6,6 +6,7 @@ AutoEval is a program for automatically parsing surveys and data that may not ha
 * JRE 8 or later
 * RachlinskiNET get (Coming soon)
 * JDK if you are manually building 
+* SimpleJSON if you plan on building manually
 ## Automatic Installation (Windows only currently)
 For the latest version, simply run
 ```
@@ -14,12 +15,15 @@ get AutoEval -v latest
 This will install AutoEval in the default program files directory.
 PLEASE NOTE: get for RachlinskiNET is currently in development, and will be available soon.
 ## Manual Installation 
-Clone the repository, and compile the class files using javac.
+Clone the repository, and compile the class files using javac.  You will also have to include the 
+simple-json library if you wish to export projects.
 Create MANIFEST.MF, it should look something like this
 ```
 Main-Class: EntryPoint
 ```
 Use jar.exe, specifying the manifest file you created, to create an executable jar file.
+
+You can also use maven, specifying pom.xml, to build.
 ## Compiled jar files
 Compiled jar files can be found at dl.rachlinski.cf/AutoEval
 # Usage
