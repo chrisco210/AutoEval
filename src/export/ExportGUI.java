@@ -7,7 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import autoEval.GUI;
+import autoEval.gui.GUI;
 
 public final class ExportGUI {
 	JFrame frame = new JFrame();

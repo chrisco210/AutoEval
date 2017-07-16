@@ -1,7 +1,6 @@
-package autoEval;
+package autoEval.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,11 +21,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import autoEval.Worker;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.answers.Page;
@@ -48,7 +46,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	public static NumberChooser num = new NumberChooser();
 	
 	/*		--------GUI ITEMS--------		*/
-	private static JPanel consoleDisplayPane;
 	private static JMenuBar topMenu;
 	private static JMenu file;
 	private static JMenu edit;
@@ -68,11 +65,11 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	private static DefaultMutableTreeNode question;
 	private static JMenuItem setQuestionCount;
 	private static JTabbedPane centerPane;
-	private static JTextArea consoleTextBox;
-	private static JTextField consoleInput;
 	private static JMenuItem openFolder;
 	private static JMenuItem showResponses;
 	private static JMenuItem importProject;
+	
+	private static ConsolePane consoleDisplayPane;
 	
 	/**
 	 * The main GUI of the program
@@ -86,7 +83,6 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
        	pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		
-		consoleDisplayPane = new JPanel();
 		centerPane = new JTabbedPane();
 		
 		//Menu Bar stuff
@@ -135,6 +131,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		
 		
 		//Console
+		/*
 		consoleTextBox = new JTextArea();
 		consoleTextBox.setFont(new Font("Consolas", Font.PLAIN, 14));
 		consoleTextBox.setEditable(false);
@@ -143,6 +140,9 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 		consoleInput.addKeyListener(this);
 		consoleDisplayPane.add(consoleInput, BorderLayout.SOUTH);
 		consoleDisplayPane.add(consoleTextBox, BorderLayout.CENTER);
+		*/
+		consoleDisplayPane = new ConsolePane();
+		
 		
 		//Tabbed pane stuff
 		centerPane.add("Console", consoleDisplayPane);
@@ -358,8 +358,7 @@ public final class GUI extends JFrame implements ActionListener, KeyListener {		
 	 */
 	public static void consoleLog(String s)
 	{
-		System.out.println(s);
-		consoleTextBox.append("\n" + s);
+		consoleDisplayPane.log(s);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {

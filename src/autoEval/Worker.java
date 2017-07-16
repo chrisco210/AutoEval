@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import autoEval.gui.GUI;
 import popupMenus.NumberChooser;
 import responses.Survey;
 import responses.answers.Page;
