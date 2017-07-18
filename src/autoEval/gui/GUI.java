@@ -33,7 +33,7 @@ import export.ExportGUI;
  */
 //TODO Convert this class into several different classes for the components
 public final class GUI extends JFrame {		//Only create one GUI.
-	/*		--------VARIABLES--------		*/
+	/*		--------VARIABLES--------		TODO move to new GUI/event Controller class*/
 	private static final long serialVersionUID = 1L;
 	public static ArrayList<File> source;
 	public static ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
@@ -44,13 +44,16 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	/*		--------GUI ITEMS--------		*/
 	private static MenuBar topMenu;
 	private static StatusBar statusLabel;
+	private static CenterTabPane centerPane;
 	
 	private static ImageIcon surveyImage;
 	private static JLabel imageLabel;
-	private static Container pane;
+	
+	private static Container pane;		//Main content pane
+	
 	private static JTree survey;
 	private static DefaultMutableTreeNode question;
-	private static JTabbedPane centerPane;
+	
 
 	public static ActionListener action;
 	private static ConsolePane consoleDisplayPane;
@@ -61,31 +64,25 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 */
 	public GUI() throws IOException
 	{
-		action = new actionListener();
-		
+		//Setup frame properties
 		setTitle("AutoEval");
        	setSize(1000, 750);        
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
+        action = new actionListener();
+        
+        //Create borderLayout
        	pane = getContentPane();
 		pane.setLayout(new BorderLayout());
 		
-		//Menu bar
-		centerPane = new JTabbedPane();
+		//Create center tab pane
+		centerPane = new CenterTabPane();
+		
+		//Create menu bar and add it to top of screen
 		topMenu = new MenuBar();
 		pane.add(topMenu, BorderLayout.NORTH);
 		
 		
-		//Console
-		/*
-		consoleTextBox = new JTextArea();
-		consoleTextBox.setFont(new Font("Consolas", Font.PLAIN, 14));
-		consoleTextBox.setEditable(false);
-		consoleDisplayPane.setLayout(new BorderLayout());
-		consoleInput = new JTextField();
-		consoleInput.addKeyListener(this);
-		consoleDisplayPane.add(consoleInput, BorderLayout.SOUTH);
-		consoleDisplayPane.add(consoleTextBox, BorderLayout.CENTER);
-		*/
+		//Create console pane 
 		consoleDisplayPane = new ConsolePane();
 		
 		
@@ -111,71 +108,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		setStatus("Done.");
 	}
 	
-	/**
-	 * Subclass to handle Action Events from the menu bar
-	 * @author Christopher
-	 *
-	 */
-	@SuppressWarnings("rawtypes")
-	class actionListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
-		{	
-			Object eventSrc = e.getSource();
-			//Read menu bar inputs
-			if(eventSrc == topMenu.open){		//Single File Open 
-				new Thread(() -> loadFile()).start();
-			}
-			else if(eventSrc == topMenu.openFolder){		//Single File Open 
-				new Thread(() -> loadFolder()).start();
-			}
-			else if(eventSrc == topMenu.run)
-			{
-				setStatus("Parsing");
-				System.out.println("Parsing.");
-				Worker w = new Worker(a.getQuestionBoundList(), source, num, 0);
-				w.start();
-			}
-			else if(eventSrc == topMenu.newRun)		//Start a visual comparison read, not finished, may never be
-			{
-			}
-			else if(eventSrc == topMenu.export)		//export the created data to a variety of formats.
-			{
-				Runnable export = () -> {new ExportGUI();};
-				new Thread(export).start();
-			}
-			else if(eventSrc == topMenu.chooseQHeight)		//Choose question height 
-			{
-				setStatus("Choosing Option Height");
-				try {
-					a.reloadVis();		//This will cause the form to display, by default isVisible is false, and this will set it to true
-					setStatus("Done.");
-				} catch (Exception e1) {
-					setStatus("Error.  See stack trace.");
-					consoleLog(e1.getMessage());
-				}
-			}
-			else if(eventSrc == topMenu.setQuestionCount)		//Set Question Count
-			{
-				setStatus("Getting Question Count");
-				num.reloadVis();		//Causes the number chooser to display.  by default isVisible is false, this sets it to true
-				setStatus("Done.");
-			}
-			else if(eventSrc == topMenu.showResponses)		//Show the responses
-			{
-				Runnable showResponses = () -> {
-					for(Page p : questionAns)
-						for(Question q : p.getQuestionList())
-							GUI.consoleLog(q.getResponse().toString());
-				};
-				new Thread(showResponses).start();
-			}
-			else if(eventSrc == topMenu.about)
-			{
-				new About();
-			}
-		} 
-	}
+	
 	/**
 	 * Set the status bar, and logs it to the console
 	 * @param s the string to display
@@ -310,9 +243,76 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	/**
 	 * Log a message to the console
 	 * @param s the string to display
+	 * @deprecated
 	 */
 	public static void consoleLog(String s)
 	{
 		consoleDisplayPane.log(s);
+	}
+	
+	/**
+	 * Subclass to handle Action Events from the menu bar
+	 * @author Christopher
+	 *
+	 */
+	@SuppressWarnings("rawtypes")
+	class actionListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
+		{	
+			Object eventSrc = e.getSource();
+			//Read menu bar inputs
+			if(eventSrc == topMenu.open){		//Single File Open 
+				new Thread(() -> loadFile()).start();
+			}
+			else if(eventSrc == topMenu.openFolder){		//Single File Open 
+				new Thread(() -> loadFolder()).start();
+			}
+			else if(eventSrc == topMenu.run)
+			{
+				setStatus("Parsing");
+				System.out.println("Parsing.");
+				Worker w = new Worker(a.getQuestionBoundList(), source, num, 0);
+				w.start();
+			}
+			else if(eventSrc == topMenu.newRun)		//Start a visual comparison read, not finished, may never be
+			{
+			}
+			else if(eventSrc == topMenu.export)		//export the created data to a variety of formats.
+			{
+				Runnable export = () -> {new ExportGUI();};
+				new Thread(export).start();
+			}
+			else if(eventSrc == topMenu.chooseQHeight)		//Choose question height 
+			{
+				setStatus("Choosing Option Height");
+				try {
+					a.reloadVis();		//This will cause the form to display, by default isVisible is false, and this will set it to true
+					setStatus("Done.");
+				} catch (Exception e1) {
+					setStatus("Error.  See stack trace.");
+					consoleLog(e1.getMessage());
+				}
+			}
+			else if(eventSrc == topMenu.setQuestionCount)		//Set Question Count
+			{
+				setStatus("Getting Question Count");
+				num.reloadVis();		//Causes the number chooser to display.  by default isVisible is false, this sets it to true
+				setStatus("Done.");
+			}
+			else if(eventSrc == topMenu.showResponses)		//Show the responses
+			{
+				Runnable showResponses = () -> {
+					for(Page p : questionAns)
+						for(Question q : p.getQuestionList())
+							GUI.consoleLog(q.getResponse().toString());
+				};
+				new Thread(showResponses).start();
+			}
+			else if(eventSrc == topMenu.about)
+			{
+				new About();
+			}
+		} 
 	}
 }

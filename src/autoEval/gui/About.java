@@ -1,13 +1,8 @@
 package autoEval.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.GridLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class About extends JFrame {
