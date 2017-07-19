@@ -6,10 +6,10 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class SQC extends ExecutableCommand {
+public class SQC implements ExecutableCommand {
 
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

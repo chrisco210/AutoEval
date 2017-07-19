@@ -6,19 +6,12 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class REM extends ExecutableCommand {
-	public String[] args;
-	
-	public static String desc = "Allows for the user to make remarks on a line without it being processed";
-	
-	public REM()
-	{
-		
-	}
-	
-	protected int execute(String[] args) 
-	{
-		return 1;		//This command does nothing
+public class REM implements ExecutableCommand {
+
+	@Override
+	public int execute() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

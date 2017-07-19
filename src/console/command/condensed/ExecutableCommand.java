@@ -1,6 +1,6 @@
 package console.command.condensed;
 
-public abstract class ExecutableCommand {
+public interface ExecutableCommand {
 	/**
 	 * Function to execute the command specified
 	 * @return the success value of the operation

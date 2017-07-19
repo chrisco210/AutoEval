@@ -6,12 +6,14 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class REG extends ExecutableCommand {
+public class REG implements ExecutableCommand {
 
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 }

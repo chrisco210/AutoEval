@@ -2,9 +2,10 @@ package console;
 
 import console.command.Variable;
 
+//TODO this shouldnt have static stuff
 public class VariableStack {
 	private static Variable<?>[] variableStack = new Variable<?>[0];
-	private static int size = 0;
+	private static int esp = 0;
 	
 	/**
 	 * Updates the size of the variable stack.  If decreasing the stack size, variables that exceed the new 
@@ -14,9 +15,9 @@ public class VariableStack {
 	public static void setStackSize(int s)
 	{
 		Variable<?>[] temp = variableStack;		//Store the variable stack temporarily so they are the same when done.
-		VariableStack.size = s;		//Update the stack size
+		VariableStack.esp = s;		//Update the stack size
 		
-		variableStack = new Variable<?>[size];		//This is where the stack size is increased
+		variableStack = new Variable<?>[esp];		//This is where the stack size is increased
 		
 		for(int i = 0; i < variableStack.length; i++)		//Update all elements, deleting ones that exceed the new size of the stack, in the case of a decrement
 			variableStack[i] = temp[i];
@@ -27,7 +28,7 @@ public class VariableStack {
 	 */
 	public static void flushStack()
 	{
-		VariableStack.size = 0;
+		VariableStack.esp = 0;
 		
 		VariableStack.variableStack = null;
 	}
@@ -41,7 +42,7 @@ public class VariableStack {
 	 */
 	public static void set(Variable<?> v, int pointer)
 	{
-		if(pointer > size)
+		if(pointer > esp)
 			throw new StackOverflowError();			//Write this exception in AutoEvalScript
 		
 		variableStack[pointer] = v;
@@ -54,7 +55,7 @@ public class VariableStack {
 	 */
 	public static Variable<?> get(int pointer)
 	{
-		if(pointer > size)
+		if(pointer > esp)
 			return(null);
 		return(variableStack[pointer]);
 	}
@@ -79,7 +80,7 @@ public class VariableStack {
 	 */
 	public static void MEMSWAP(int pointer1, int pointer2)
 	{
-		if(pointer1 > size || pointer2 > size)
+		if(pointer1 > esp || pointer2 > esp)
 			return;		//Write an exception in AutoEvalScript
 		
 		Variable<?> var1Temp = get(pointer1);
@@ -96,7 +97,7 @@ public class VariableStack {
 	 */
 	public static void MOV(int pointer1, int pointer2)
 	{
-		if(pointer1 > size || pointer2 > size)
+		if(pointer1 > esp || pointer2 > esp)
 			return;		//Write an exception in AutoEvalScript
 		set(get(pointer1), pointer2);
 		set(null, pointer1);

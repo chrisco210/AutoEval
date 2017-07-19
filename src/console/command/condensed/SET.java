@@ -5,10 +5,10 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class SET extends ExecutableCommand {
+public class SET implements ExecutableCommand {
 
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

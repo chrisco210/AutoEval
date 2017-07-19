@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import util.QuestionBoundList;
 import autoEval.gui.GUI;
 
+//TODO Fix mouse area selection
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener, MouseListener, MouseMotionListener{
 	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;

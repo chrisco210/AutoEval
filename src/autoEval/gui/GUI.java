@@ -31,7 +31,6 @@ import export.ExportGUI;
  * @author Christopher
  *
  */
-//TODO Convert this class into several different classes for the components
 public final class GUI extends JFrame {		//Only create one GUI.
 	/*		--------VARIABLES--------		TODO move to new GUI/event Controller class*/
 	private static final long serialVersionUID = 1L;

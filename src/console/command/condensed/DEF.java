@@ -6,10 +6,9 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class DEF extends ExecutableCommand {
+public class DEF implements ExecutableCommand {
 
-	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

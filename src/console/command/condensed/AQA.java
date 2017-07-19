@@ -8,9 +8,8 @@ import console.command.condensed.ExecutableCommand;
  * @author Christopher
  *
  */
-public class AQA extends ExecutableCommand {
+public class AQA implements ExecutableCommand {
 
-	
 	@Override
 	public int execute() {
 		// TODO Auto-generated method stub

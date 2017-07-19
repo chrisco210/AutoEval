@@ -6,11 +6,12 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class FEED extends ExecutableCommand {
+public class FEED implements ExecutableCommand {
 
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

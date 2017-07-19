@@ -6,12 +6,13 @@ package console.command.condensed;
  * @author Christopher
  *
  */
-public class OUT extends ExecutableCommand {
+public class OUT implements ExecutableCommand {
 
 	@Override
-	protected int execute(String[] args) {
+	public int execute() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 
 }

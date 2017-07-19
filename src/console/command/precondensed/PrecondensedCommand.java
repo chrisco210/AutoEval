@@ -2,8 +2,7 @@ package console.command.precondensed;
 
 import console.command.condensed.ExecutableCommand;
 
-public abstract class PrecondensedCommand {
-	protected String commandText;
+public interface PrecondensedCommand {
 	
-	protected abstract ExecutableCommand compile();
+	public abstract ExecutableCommand compile();
 }
