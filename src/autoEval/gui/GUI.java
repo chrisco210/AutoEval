@@ -38,24 +38,26 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	public static ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
 	public static int questionCount;
 	public static ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
-	public static NumberChooser num = new NumberChooser();
+	public static final NumberChooser num = new NumberChooser();
 	
 	/*		--------GUI ITEMS--------		*/
-	private static MenuBar topMenu;
-	private static StatusBar statusLabel;
-	private static CenterTabPane centerPane;
+	private static MenuBar topMenu;		//Menu bar displayed on top of screen
+	private static StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
+	private static CenterTabPane centerPane;		//Central tab pane
 	
-	private static ImageIcon surveyImage;
-	private static JLabel imageLabel;
+	//Image display
+	public static ImageIcon surveyImage;
+	public static JLabel imageLabel;
 	
-	private static Container pane;		//Main content pane
+	public static Container pane;		//Main content pane
+
+	public static ActionListener action;		//Action listener class
 	
+	public static ConsolePane consoleDisplayPane;		//Console
+	
+	//TODO Remove this or make it do something
 	private static JTree survey;
 	private static DefaultMutableTreeNode question;
-	
-
-	public static ActionListener action;
-	private static ConsolePane consoleDisplayPane;
 	
 	/**
 	 * The main GUI of the program
@@ -108,19 +110,11 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	}
 	
 	
-	/**
-	 * Set the status bar, and logs it to the console
-	 * @param s the string to display
-	 */
-	public static void setStatus(String s)		//update the status bar
-	{
-		consoleLog(s);
-		statusLabel.setText(s);
-		statusLabel.setVisible(false);
-		statusLabel.setVisible(true);
-	}
-
 	
+
+	/**
+	 * @deprecated
+	 */
 	protected void loadFile()			//TODO Move to file controller
 	{
 		setStatus("Opening File");
@@ -248,6 +242,18 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	{
 		consoleDisplayPane.log(s);
 	}
+	/**
+	 * Set the status bar, and logs it to the console
+	 * @param s the string to display
+	 * @deprecated
+	 */
+	public static void setStatus(String s)		//update the status bar
+	{
+		consoleLog(s);
+		statusLabel.setText(s);
+		statusLabel.setVisible(false);
+		statusLabel.setVisible(true);
+	}
 	
 	/**
 	 * Subclass to handle Action Events from the menu bar
@@ -270,7 +276,6 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			else if(eventSrc == topMenu.run)
 			{
 				setStatus("Parsing");
-				System.out.println("Parsing.");
 				Worker w = new Worker(a.getQuestionBoundList(), source, num, 0);
 				w.start();
 			}

@@ -11,6 +11,7 @@ import responses.answers.Page;
 import responses.answers.Question;
 import util.QuestionBoundList;
 
+//TODO Rename this class to something more descriptive
 public final class Worker extends Thread implements Runnable {
 	QuestionBoundList qBoundList;
 	ArrayList<File> source;
