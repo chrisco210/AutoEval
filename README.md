@@ -4,28 +4,11 @@ AutoEval is a program for automatically parsing surveys and data that may not ha
 # Installation
 ## Dependencies
 * JRE 8 or later
-* RachlinskiNET get (Coming soon)
-* JDK if you are manually building 
-* SimpleJSON if you plan on building manually
-## Automatic Installation (Windows only currently)
-For the latest version, simply run
-```
-get AutoEval -v latest
-```
-This will install AutoEval in the default program files directory.
-PLEASE NOTE: get for RachlinskiNET is currently in development, and will be available soon.
-## Manual Installation 
-Clone the repository, and compile the class files using javac.  You will also have to include the 
-simple-json library if you wish to export projects.
-Create MANIFEST.MF, it should look something like this
-```
-Main-Class: EntryPoint
-```
-Use jar.exe, specifying the manifest file you created, to create an executable jar file.
-
-You can also use maven, specifying pom.xml, to build.
-## Compiled jar files
+* Apache Maven if you want to build from source
+## Downloads
 Compiled jar files can be found at dl.rachlinski.cf/AutoEval
+## Build from source
+Use apache maven and the included pom.xml to build.  Note: You must have jdk 1.8
 # Usage
 ## GUI
 ### Basic
@@ -34,6 +17,10 @@ Then, under the image menu, select all areas containing questions you want to pa
 Under the actions menu, click Parse Responses (Pixel Count) and wait until the status bar says Done.  For text responses, under the actions menu, click Identify Text
 You can view the responses in the console by clicking show responses under the actions meun. 
 To export your responses, click export under the file menu, and choose from the given options.  Note: the file extension must match the requested export format for it to export properly.
+SQL Integration is coming soon.
+### GUI Console
+The command line can use scripting commands.  See the "scripting" section.
+
 ## Scripting
 Coming soon...
 
@@ -129,25 +116,3 @@ The output of this program will be
 This will be displayed first
 bar
 ```
-If statements are also supported
-```
-REM Example of an if statement
-REG false
-OUT this is false
-END
-ENDREG
-
-DEF -int foo
-DEF -int bar
-SET foo 4
-SET bar 5 
-
-IF foo > bar DO USE false
-OUT this will not be displayed
-```
-The output of this program will be
-```
-this is false
-```
-## Command Line
-The command line can use scripting commands.  See above section
