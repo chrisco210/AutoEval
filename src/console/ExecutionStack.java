@@ -53,7 +53,7 @@ public class ExecutionStack {
 	 */
 	public void pushAll(ExecutableCommand[] commandList)
 	{
-		executionStack = null;
+		executionStack = null;		//TODO use the flush method instead of this
 		executionStack = commandList;
 	}
 	
