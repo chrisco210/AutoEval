@@ -15,11 +15,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import autoEval.Worker;
+import autoEval.ImageParser;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
 import responses.answers.Page;
@@ -261,7 +260,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 *
 	 */
 	@SuppressWarnings("rawtypes")
-	class actionListener implements ActionListener
+	class actionListener implements ActionListener		//TODO should this be a subclass?
 	{
 		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
 		{	
@@ -276,7 +275,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			else if(eventSrc == topMenu.run)
 			{
 				setStatus("Parsing");
-				Worker w = new Worker(a.getQuestionBoundList(), source, num, 0);
+				ImageParser w = new ImageParser(a.getQuestionBoundList(), source, num, 0);
 				w.start();
 			}
 			else if(eventSrc == topMenu.newRun)		//Start a visual comparison read, not finished, may never be

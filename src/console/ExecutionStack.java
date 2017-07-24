@@ -53,8 +53,8 @@ public class ExecutionStack {
 	 */
 	public void pushAll(ExecutableCommand[] commandList)
 	{
-		executionStack = null;		//TODO use the flush method instead of this
-		executionStack = commandList;
+		FLUSH();		//Clear the stack
+		executionStack = commandList;		//Update executions tack tomatch the command list
 	}
 	
 	private void FLUSH()
@@ -79,11 +79,12 @@ public class ExecutionStack {
 		executionStack[executionStack.length - 1] = null;
 		
 	}
+	
 	/*--------- Instruction pointer methods ---------*/
 	
 	/**
 	 * Jump to an instruction
-	 * @param pointer
+	 * @param pointer the location in the execution stack to jump to
 	 */
 	protected void JMP(int pointer)
 	{

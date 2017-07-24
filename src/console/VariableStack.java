@@ -2,20 +2,19 @@ package console;
 
 import console.command.Variable;
 
-//TODO this shouldnt have static stuff
 public class VariableStack {
-	private static Variable<?>[] variableStack = new Variable<?>[0];
-	private static int esp = 0;
+	private Variable<?>[] variableStack = new Variable<?>[0];
+	private int esp = 0;
 	
 	/**
 	 * Updates the size of the variable stack.  If decreasing the stack size, variables that exceed the new 
 	 * size of the stack will be removed
 	 * @param s The new size of the stack
 	 */
-	public static void setStackSize(int s)
+	public void setStackSize(int s)
 	{
 		Variable<?>[] temp = variableStack;		//Store the variable stack temporarily so they are the same when done.
-		VariableStack.esp = s;		//Update the stack size
+		esp = s;		//Update the stack size
 		
 		variableStack = new Variable<?>[esp];		//This is where the stack size is increased
 		
@@ -26,11 +25,11 @@ public class VariableStack {
 	/**
 	 * Removes all elements from the variable stack, and sets it to null
 	 */
-	public static void flushStack()
+	public void flushStack()
 	{
-		VariableStack.esp = 0;
+		esp = 0;
 		
-		VariableStack.variableStack = null;
+		variableStack = null;
 	}
 	
 	
@@ -40,7 +39,7 @@ public class VariableStack {
 	 * @param pointer The stack location to add the variable to
 	 * @throws StackOverflowException if the pointer is not in bounds
 	 */
-	public static void set(Variable<?> v, int pointer)
+	public void set(Variable<?> v, int pointer)
 	{
 		if(pointer > esp)
 			throw new StackOverflowError();			//Write this exception in AutoEvalScript
@@ -53,7 +52,7 @@ public class VariableStack {
 	 * @param pointer The stack location of the requested variable
 	 * @return The variable class at the specified pointer
 	 */
-	public static Variable<?> get(int pointer)
+	public Variable<?> get(int pointer)
 	{
 		if(pointer > esp)
 			return(null);
@@ -65,7 +64,7 @@ public class VariableStack {
 	 * @param v The variable to find
 	 * @return The memory location of the first occurence of the element.  Returns -1 if none are found
 	 */
-	public static int GETLOC(Variable<?> v)
+	public int GETLOC(Variable<?> v)
 	{
 		for(int i = 0; i < variableStack.length; i++)
 			if(variableStack[i].value == v.value)
@@ -78,7 +77,7 @@ public class VariableStack {
 	 * @param pointer1 A pointer to one location to swap
 	 * @param pointer2 A pointer to the second location to swap
 	 */
-	public static void MEMSWAP(int pointer1, int pointer2)
+	public void MEMSWAP(int pointer1, int pointer2)
 	{
 		if(pointer1 > esp || pointer2 > esp)
 			return;		//Write an exception in AutoEvalScript
@@ -95,7 +94,7 @@ public class VariableStack {
 	 * @param pointer1 A pointer to the variable to move
 	 * @param pointer2 A pointer to the new memory location
 	 */
-	public static void MOV(int pointer1, int pointer2)
+	public void MOV(int pointer1, int pointer2)
 	{
 		if(pointer1 > esp || pointer2 > esp)
 			return;		//Write an exception in AutoEvalScript

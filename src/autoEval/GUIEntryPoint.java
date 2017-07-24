@@ -8,10 +8,11 @@ final class GUIEntryPoint implements Runnable {
 	@Override
 	public void run() 
 	{
+		//Start the GUI in a new thread
 		try {
 			new GUI();
 		} catch (IOException e) {
-			System.out.println("Error construction GUI.");
+			System.err.println("Error construction GUI.");
 		}
 	}
 }

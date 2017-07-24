@@ -11,8 +11,8 @@ import responses.answers.Page;
 import responses.answers.Question;
 import util.QuestionBoundList;
 
-//TODO Rename this class to something more descriptive
-public final class Worker extends Thread implements Runnable {
+//TODO Move this class to different package
+public final class ImageParser extends Thread implements Runnable {
 	QuestionBoundList qBoundList;
 	ArrayList<File> source;
 	NumberChooser num;
@@ -25,7 +25,7 @@ public final class Worker extends Thread implements Runnable {
 	 * @param num NumberChooser class to use
 	 * @param questionNum which question to use on the page
 	 */
-	public Worker(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum)
+	public ImageParser(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum)
 	{
 		qBoundList = a;
 		this.source = source;
