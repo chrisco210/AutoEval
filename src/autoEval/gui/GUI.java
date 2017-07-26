@@ -41,7 +41,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	
 	/*		--------GUI ITEMS--------		*/
 	private static MenuBar topMenu;		//Menu bar displayed on top of screen
-	private static StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
+	public static StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
 	private static CenterTabPane centerPane;		//Central tab pane
 	
 	//Image display
@@ -52,7 +52,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 
 	public static ActionListener action;		//Action listener class
 	
-	public static ConsolePane consoleDisplayPane;		//Console
+	public static ConsolePane console;		//Console
 	
 	//TODO Remove this or make it do something
 	private static JTree survey;
@@ -83,11 +83,11 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		
 		
 		//Create console pane 
-		consoleDisplayPane = new ConsolePane();
+		console = new ConsolePane();
 		
 		
 		//Tabbed pane stuff
-		centerPane.add("Console", consoleDisplayPane);
+		centerPane.add("Console", console);
 		pane.add(centerPane, BorderLayout.CENTER);
 		
 		
@@ -123,7 +123,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		} catch(Exception e1) {		}
 		
 		centerPane.removeAll();
-		centerPane.add("Console", consoleDisplayPane);
+		centerPane.add("Console", console);
 		
 		JFileChooser fc = new JFileChooser();
 		int i = fc.showOpenDialog(this);
@@ -181,7 +181,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			
 		}
 		centerPane.removeAll();		//Clear all the tabs from the center pane
-		centerPane.add("Console", consoleDisplayPane);		//re add the console
+		centerPane.add("Console", console);		//re add the console
 		
 		File path = null;		//Prevent java from being stupid
 		JFileChooser fc = new JFileChooser();
@@ -239,7 +239,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 */
 	public static void consoleLog(String s)
 	{
-		consoleDisplayPane.log(s);
+		console.log(s);
 	}
 	/**
 	 * Set the status bar, and logs it to the console

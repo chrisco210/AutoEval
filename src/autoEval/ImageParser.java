@@ -41,7 +41,7 @@ public final class ImageParser extends Thread implements Runnable {
 		{
 			parseResponse(j);
 		}
-		GUI.setStatus("Done.");
+		GUI.statusLabel.setStatus("Done.");
 	}
 	
 	private void parseResponse(int pageNumber)
@@ -54,7 +54,8 @@ public final class ImageParser extends Thread implements Runnable {
 						source.get(pageNumber), 
 						/*qBoundList.getBoundList(1).get(i)*/ qBoundList.getPointFromList(1, i), 
 						/*qBoundList.getBoundList(2).get(i)*/ qBoundList.getPointFromList(2, i), 
-						num.getValue());
+						num.getValue()
+						);
 				try {
 					switch(qBoundList.getType(i))
 					{

@@ -20,4 +20,12 @@ public final class Question<T> {
 	{
 		return(response);
 	}
+
+	/** 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Question [response=" + response + "]";
+	}
 }

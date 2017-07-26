@@ -39,7 +39,7 @@ public class CenterTabPane extends JTabbedPane {
 			//Add the created pane to a tab with the name as the file name
 			this.add(image.getName(), panelToAdd);				
 			} catch (IOException e) {
-			GUI.consoleDisplayPane.log("Unable to display file.  Could it not be an image?");
+			GUI.console.log("Unable to display file.  Could it not be an image?");
 		}
 	}
 }

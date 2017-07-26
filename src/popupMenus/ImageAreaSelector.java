@@ -194,17 +194,17 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	public void mouseClicked(MouseEvent arg0) 
 	{ 
-		GUI.consoleLog("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
+		GUI.console.log("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
 		if(isSelecting)
 		{
 			Graphics2D g2d = imgBuff.createGraphics();
 			
 			tempBound2 = arg0.getPoint();
-			GUI.consoleLog(tempBound2.toString());
+			GUI.console.log(tempBound2.toString());
 			
 			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
 			
-			GUI.consoleLog("DRAWING RECTANGLE");
+			GUI.console.log("DRAWING RECTANGLE");
 			g2d.setColor(colors[1]);
 			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
 			

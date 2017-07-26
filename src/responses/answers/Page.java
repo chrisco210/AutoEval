@@ -3,15 +3,13 @@ package responses.answers;
 import java.util.ArrayList;
 
 public class Page {
-	@SuppressWarnings("rawtypes")
-	ArrayList<Question> questions = new ArrayList<Question>(10);
+	ArrayList<Question<?>> questions = new ArrayList<Question<?>>(10);
 	
 	/**
 	 * Get the full list of question classes
 	 * @return An arraylist of question classes
 	 */
-	@SuppressWarnings("rawtypes")
-	public ArrayList<Question> getQuestionList()
+	public ArrayList<Question<?>> getQuestionList()
 	{
 		return(questions);
 	}
@@ -34,4 +32,14 @@ public class Page {
 	{
 		return questions.get(q);
 	}
+
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Page [questions=" + questions + "]";
+	}
+	
+	
 }
