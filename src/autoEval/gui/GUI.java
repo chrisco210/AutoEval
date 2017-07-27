@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -71,14 +72,6 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 */
 	public GUI() 
 	{
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		//Setup frame properties
 		setTitle("AutoEval");
        	setSize(1000, 750);        
@@ -120,9 +113,8 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		
 		
 		setVisible(true);		//Display the form
-		setStatus("Done.");
+		GUI.statusLabel.setStatus("Done.");
 	}
-	
 	
 	
 
@@ -131,7 +123,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 */
 	protected void loadFile()			//TODO Move to file controller
 	{
-		setStatus("Opening File");
+		GUI.statusLabel.setStatus("Opening File");
 		
 		try{
 			source.clear();
@@ -146,11 +138,11 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		{
 			source = new ArrayList<File>(1);
 			source.add(fc.getSelectedFile());
-			consoleLog(source.toString());
+			GUI.console.log(source.toString());
 			try {
 				a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
 			} catch (IOException e1) {
-				GUI.consoleLog("Failed to create Image Area Selector.");
+				GUI.console.log("Failed to create Image Area Selector.");
 			}
 		}
 		else 
@@ -179,17 +171,17 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				GUI.consoleLog("File " + f.toString() + " Failed to display.  Could it not be an image?");
+				GUI.console.log("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
 		setVisible(false);
 		setVisible(true);
-		setStatus("Done.");
+		GUI.console.log("Done.");
 	}
 	
 	protected void loadFolder()		//TODO Move to file controller
 	{
-		setStatus("Opening File");
+		GUI.statusLabel.setStatus("Opening File");
 		try{
 		source.clear();
 		} catch (Exception e2) {
@@ -215,7 +207,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		try {
 			a = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
 		} catch (IOException e1) {
-			GUI.consoleLog("Failed to create Image Area Selector.");
+			GUI.console.log("Failed to create Image Area Selector.");
 		}
 		try{	//Remove any existing images from the display
 			remove(imageLabel);
@@ -239,12 +231,12 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				GUI.consoleLog("File " + f.toString() + " Failed to display.  Could it not be an image?");
+				GUI.console.log("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
 		setVisible(false);
 		setVisible(true);
-		setStatus("Done.");
+		GUI.statusLabel.setStatus("Done.");
 	}
 	
 	/**
@@ -274,7 +266,6 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 * @author Christopher
 	 *
 	 */
-	@SuppressWarnings("rawtypes")
 	class actionListener implements ActionListener		//TODO should this be a subclass?
 	{
 		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
@@ -289,7 +280,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			}
 			else if(eventSrc == topMenu.run)
 			{
-				setStatus("Parsing");
+				GUI.statusLabel.setStatus("Parsing");
 				ImageParser w = new ImageParser(a.getQuestionBoundList(), source, num, 0);
 				w.start();
 			}
@@ -303,46 +294,67 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			}
 			else if(eventSrc == topMenu.chooseQHeight)		//Choose question height 
 			{
-				setStatus("Choosing Option Height");
+				GUI.statusLabel.setStatus("Choosing Option Height");
 				try {
 					a.reloadVis();		//This will cause the form to display, by default isVisible is false, and this will set it to true
-					setStatus("Done.");
+					GUI.statusLabel.setStatus("Done.");
 				} catch (Exception e1) {
-					setStatus("Error.  See stack trace.");
-					consoleLog(e1.getMessage());
+					GUI.statusLabel.setStatus("Error.  See stack trace.");
+					GUI.console.log(e1.getMessage());
 				}
 			}
 			else if(eventSrc == topMenu.setQuestionCount)		//Set Question Count
 			{
-				setStatus("Getting Question Count");
+				GUI.statusLabel.setStatus("Getting Question Count");
 				num.reloadVis();		//Causes the number chooser to display.  by default isVisible is false, this sets it to true
-				setStatus("Done.");
+				GUI.statusLabel.setStatus("Done.");
 			}
 			else if(eventSrc == topMenu.showResponses)		//Show the responses
 			{
 				Runnable showResponses = () -> {
 					for(Page p : questionAns)
-						for(Question q : p.getQuestionList())
-							GUI.consoleLog(q.getResponse().toString());
+						for(Question<?> q : p.getQuestionList())
+							GUI.console.log(q.getResponse().toString());
 				};
 				new Thread(showResponses).start();
 			}
-			else if(eventSrc == topMenu.about)
+			else if(eventSrc == topMenu.about)		//Display about menu
 			{
 				new About();
 			}
-			else if(eventSrc == topMenu.stats)
+			else if(eventSrc == topMenu.stats)		//Display statistics setup menu
 			{
 				StatSetup.main(null);
 			}
-			else if(eventSrc == topMenu.github)
+			else if(eventSrc == topMenu.github)		//Open github page in browser
 			{
 					try {
 						Desktop.getDesktop().browse(new URI("https://github.com/chrisco210/AutoEval"));
 					} catch (IOException | URISyntaxException e1) {
 						GUI.console.log("Failed to open github.");
 					}
-
+			}
+			else if(eventSrc == topMenu.osVisStyle)		//Change visual style to os style
+			{
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					SwingUtilities.updateComponentTreeUI(GUI.pane);
+					GUI.console.log("Updated look and feel.");
+				} catch (ClassNotFoundException | InstantiationException
+						| IllegalAccessException | UnsupportedLookAndFeelException ex) {
+					GUI.console.log("Failed to change visual style.");
+				}
+			}
+			else if(eventSrc == topMenu.javaVisStyle)		//Change visual style to java default
+			{
+				try {
+					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+					SwingUtilities.updateComponentTreeUI(GUI.pane);
+					GUI.console.log("Updated look and feel.");
+				} catch (ClassNotFoundException | InstantiationException
+						| IllegalAccessException | UnsupportedLookAndFeelException ex) {
+					GUI.console.log("Failed to change visual style.");
+				}
 			}
 		} 
 	}

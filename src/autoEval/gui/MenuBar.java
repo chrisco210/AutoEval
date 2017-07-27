@@ -20,6 +20,9 @@ public class MenuBar extends JMenuBar {
 	protected  JMenuItem setQuestionCount;
 	protected  JMenuItem chooseQHeight;
 	protected  JMenuItem displayBounds;
+	protected JMenu visStyle;
+	protected JMenuItem osVisStyle;
+	protected JMenuItem javaVisStyle;
 	protected JMenu help;
 	protected JMenuItem about;
 	protected JMenuItem github;
@@ -61,7 +64,17 @@ public class MenuBar extends JMenuBar {
 		file.add(openFolder);
 		file.add(export);
 		file.add(importProject);
+		//View menu
 		view = new JMenu("View");
+		visStyle = new JMenu("Visual Style");
+		osVisStyle = new JMenuItem("OS Components");
+		osVisStyle.addActionListener(GUI.action);
+		javaVisStyle = new JMenuItem("Java Components");
+		javaVisStyle.addActionListener(GUI.action);
+		visStyle.add(osVisStyle);
+		visStyle.add(javaVisStyle);
+		view.add(visStyle);
+		//Edit menu
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);
 		edit.add(setQuestionCount);
