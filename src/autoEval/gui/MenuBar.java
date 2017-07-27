@@ -23,6 +23,7 @@ public class MenuBar extends JMenuBar {
 	protected JMenu help;
 	protected JMenuItem about;
 	protected JMenuItem github;
+	protected JMenuItem stats;
 	
 	public MenuBar()
 	{
@@ -48,9 +49,12 @@ public class MenuBar extends JMenuBar {
 		export.addActionListener(GUI.action);
 		importProject = new JMenuItem("Import");
 		importProject.addActionListener(GUI.action);
+		stats = new JMenuItem("Statistics");
+		stats.addActionListener(GUI.action);
 		actions.add(run);
 		actions.add(newRun);
 		actions.add(showResponses);
+		actions.add(stats);
 		//File menu
 		file = new JMenu("File");
 		file.add(open);

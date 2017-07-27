@@ -1,11 +1,14 @@
 package autoEval.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,11 +19,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import autoEval.ImageParser;
+import popupMenus.About;
 import popupMenus.ImageAreaSelector;
 import popupMenus.NumberChooser;
+import popupMenus.StatSetup;
 import responses.answers.Page;
 import responses.answers.Question;
 import export.ExportGUI;
@@ -62,8 +69,16 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	 * The main GUI of the program
 	 * @throws IOException
 	 */
-	public GUI() throws IOException
+	public GUI() 
 	{
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//Setup frame properties
 		setTitle("AutoEval");
        	setSize(1000, 750);        
@@ -315,6 +330,19 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			else if(eventSrc == topMenu.about)
 			{
 				new About();
+			}
+			else if(eventSrc == topMenu.stats)
+			{
+				StatSetup.main(null);
+			}
+			else if(eventSrc == topMenu.github)
+			{
+					try {
+						Desktop.getDesktop().browse(new URI("https://github.com/chrisco210/AutoEval"));
+					} catch (IOException | URISyntaxException e1) {
+						GUI.console.log("Failed to open github.");
+					}
+
 			}
 		} 
 	}

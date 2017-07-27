@@ -1,4 +1,4 @@
-package autoEval.gui;
+package popupMenus;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
