@@ -47,6 +47,8 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	public static ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	public static final NumberChooser num = new NumberChooser();
 	
+	public static boolean debug = false;
+	
 	/*		--------GUI ITEMS--------		*/
 	private static MenuBar topMenu;		//Menu bar displayed on top of screen
 	public static StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
@@ -355,6 +357,15 @@ public final class GUI extends JFrame {		//Only create one GUI.
 						| IllegalAccessException | UnsupportedLookAndFeelException ex) {
 					GUI.console.log("Failed to change visual style.");
 				}
+			}
+			else if(eventSrc == topMenu.debug)
+			{
+				debug = !debug;
+				GUI.console.log("Debug strings: " + Boolean.toString(debug));
+				if(debug)
+					GUI.topMenu.debug.setText("Disable Debug Strings");
+				else
+					GUI.topMenu.debug.setText("Enable Debug Strings");
 			}
 		} 
 	}

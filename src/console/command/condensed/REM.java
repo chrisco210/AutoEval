@@ -8,10 +8,14 @@ package console.command.condensed;
  */
 public class REM implements ExecutableCommand {
 
+	public REM()
+	{
+		
+	}
+	
 	@Override
 	public int execute() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 }

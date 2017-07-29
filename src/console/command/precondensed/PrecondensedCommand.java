@@ -2,7 +2,8 @@ package console.command.precondensed;
 
 import console.command.condensed.ExecutableCommand;
 
-public interface PrecondensedCommand {
+public abstract class PrecondensedCommand {
+	public String[] args;
 	
 	public abstract ExecutableCommand lex();
 }

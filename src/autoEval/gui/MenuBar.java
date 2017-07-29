@@ -27,6 +27,7 @@ public class MenuBar extends JMenuBar {
 	protected JMenuItem about;
 	protected JMenuItem github;
 	protected JMenuItem stats;
+	protected JMenuItem debug;
 	
 	public MenuBar()
 	{
@@ -71,9 +72,12 @@ public class MenuBar extends JMenuBar {
 		osVisStyle.addActionListener(GUI.action);
 		javaVisStyle = new JMenuItem("Java Components");
 		javaVisStyle.addActionListener(GUI.action);
+		debug = new JMenuItem("Enable Debug Strings");
+		debug.addActionListener(GUI.action);
 		visStyle.add(osVisStyle);
 		visStyle.add(javaVisStyle);
 		view.add(visStyle);
+		view.add(debug);
 		//Edit menu
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);

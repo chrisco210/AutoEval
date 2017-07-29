@@ -6,6 +6,7 @@ public class VariableStack {
 	private Variable<?>[] variableStack = new Variable<?>[0];
 	private int esp = 0;
 	
+	
 	/**
 	 * Updates the size of the variable stack.  If decreasing the stack size, variables that exceed the new 
 	 * size of the stack will be removed
@@ -18,8 +19,19 @@ public class VariableStack {
 		
 		variableStack = new Variable<?>[esp];		//This is where the stack size is increased
 		
+		/*
 		for(int i = 0; i < variableStack.length; i++)		//Update all elements, deleting ones that exceed the new size of the stack, in the case of a decrement
 			variableStack[i] = temp[i];
+		*/
+	}
+	
+	/**
+	 * Set the variable stack array to the one provided
+	 * @param vS the array of variables to use
+	 */
+	public void set(Variable<?>[] vS)
+	{
+		variableStack = vS;
 	}
 	
 	/**
