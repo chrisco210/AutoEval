@@ -18,7 +18,9 @@ public class CommandFactory {
 			return new OUT(text);
 		else if(text.contains("REM"))
 			return new REM();
-		
+		else if(text.contains("ALLOC"))
+			return new ALLOC(text);
+			
 		GUI.console.err("Unrecognized Command");
 		return new REM();
 	}

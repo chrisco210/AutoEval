@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import console.Controller;
+import console.command.Variable;
 
 public class ConsolePane extends JPanel{
 
@@ -46,7 +47,10 @@ public class ConsolePane extends JPanel{
 		add(textBoxContainer, BorderLayout.CENTER);
 		
 		//Setup teh controller
-		controller = new Controller(1, null, 1);
+		Variable<?>[] envVar = new Variable<?>[1];
+		envVar[0] = new Variable<Integer>(1);
+		
+		controller = new Controller(1, envVar, 1);
 	}
 	
 	/**

@@ -25,11 +25,33 @@ public class Controller {
 		execStack = new ExecutionStack(initExecStackSize);
 	}
 	
+	/**
+	 * Execute a command based on a string
+	 * @param exec
+	 */
 	public void stringExec(String exec)
 	{
 		GUI.console.dbg("Controller.stringExec called");
 		execStack.quickExec(
 				CommandFactory.createCommand(exec).lex()
 				);
+	}
+	
+	/**
+	 * Get the user variable stack
+	 * @return the user variable stack
+	 */
+	public VariableStack getUserVars()
+	{
+		return userVar;
+	}
+	
+	/**
+	 * Get the environmental variables
+	 * @return the environmental variable stack
+	 */
+	public VariableStack getEnvironmentVars()
+	{
+		return envVar;
 	}
 }
