@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public abstract class AbstractAreaSelector extends Popup{
 	public Container pane;
-	private JFrame frame = new JFrame();
+	protected JFrame frame = new JFrame();
 	
 	/**
 	 * Display the base form

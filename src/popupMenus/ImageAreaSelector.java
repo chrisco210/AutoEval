@@ -194,17 +194,23 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	public void mouseClicked(MouseEvent arg0) 
 	{ 
-		GUI.console.log("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
-		if(isSelecting)
+		GUI.console.err("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
+		if(isSelecting)		//Finalize second point and selection and draw rectangle when the selection is finished
 		{
-			Graphics2D g2d = imgBuff.createGraphics();
+			Graphics2D g2d = imgBuff.createGraphics();	//Create graphics object
 			
-			tempBound2 = arg0.getPoint();
-			GUI.console.log(tempBound2.toString());
+			//Get the second temp bound location
+			tempBound2 = new Point(
+					arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2),
+					arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2)
+					);
+			GUI.console.dbg(tempBound2);
 			
+			//array of colors to create mutli color boxes
 			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
 			
-			GUI.console.log("DRAWING RECTANGLE");
+			//Draw rectangle
+			GUI.console.dbg("DRAWING RECTANGLE");
 			g2d.setColor(colors[1]);
 			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
 			
@@ -213,24 +219,33 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			bound2.add(tempBound2);
 			*/
 			
+			//Add bounds to the bound list.  
+			boundList.add(tempBound1, tempBound2);
+			
+			//Clear the temp bounds
 			tempBound1 = null;
 			tempBound2 = null;
 			
+			//Reload visibility of the image pane
 			imgPane.setVisible(false);
 			imgPane.setVisible(true);
 			
+			//Prompt the user to choose a question type
 			t.showFrame();
+			
 			isSelecting = false;
 		}
-		else
+		else		//Start selection, get the first temp bound
 		{
+			GUI.console.dbg("Selecting first point.");
 			
-			tempBound1 = arg0.getPoint();
+			//Get real value of tempBound1, assuming that the frame is bigger than the image
+			tempBound1 = new Point(
+					arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2),
+					arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2)
+					);		//Get temp bound from the selection point
 			
-			Graphics2D g2d = imgBuff.createGraphics();
-			
-			g2d.setColor(Color.RED);
-			g2d.drawOval(arg0.getX(), arg0.getY(), 5, 5);
+			GUI.console.dbg(tempBound1);		//Print point on debug
 			
 			isSelecting = true;
 		}

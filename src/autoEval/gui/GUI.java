@@ -47,7 +47,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	public static ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	public static final NumberChooser num = new NumberChooser();
 	
-	public static boolean debug = false;
+	public static boolean debug = true;
 	
 	/*		--------GUI ITEMS--------		*/
 	private static MenuBar topMenu;		//Menu bar displayed on top of screen
