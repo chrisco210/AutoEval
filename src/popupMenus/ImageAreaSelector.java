@@ -199,11 +199,27 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		{
 			Graphics2D g2d = imgBuff.createGraphics();	//Create graphics object
 			
-			//Get the second temp bound location
-			tempBound2 = new Point(
-					arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2),
-					arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2)
-					);
+			//Get the real value of the click event, assuming that the frame is larger than the image
+			int selectXValue = arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2);
+			int selectYValue = arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2);
+			
+			//Make sure the selection is not less than 0
+			if(selectXValue < 0)
+				selectXValue = 0;
+			if(selectYValue < 0)
+				selectYValue = 0;
+			
+			//Make sure selection does not exceed bounds of the image
+			if(selectXValue > imgBuff.getWidth())
+				selectXValue = imgBuff.getWidth() - 1;
+			if(selectYValue > imgBuff.getHeight())
+				selectYValue = imgBuff.getHeight() - 1;
+			
+			//Get real value of tempBound1, assuming that the frame is bigger than the image
+			tempBound1 = new Point(
+					selectXValue,
+					selectYValue
+					);		//Get temp bound from the selection point
 			GUI.console.dbg(tempBound2);
 			
 			//array of colors to create mutli color boxes
@@ -238,11 +254,26 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		else		//Start selection, get the first temp bound
 		{
 			GUI.console.dbg("Selecting first point.");
+
+			//Get the real value of the click event, assuming that the frame is larger than the image
+			int selectXValue = arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2);
+			int selectYValue = arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2);
+			
+			if(selectXValue < 0)
+				selectXValue = 0;
+			if(selectYValue < 0)
+				selectYValue = 0;
+			
+			//Make sure selection does not exceed bounds of the image
+			if(selectXValue > imgBuff.getWidth())
+				selectXValue = imgBuff.getWidth() - 1;
+			if(selectYValue > imgBuff.getHeight())
+				selectYValue = imgBuff.getHeight() - 1;
 			
 			//Get real value of tempBound1, assuming that the frame is bigger than the image
 			tempBound1 = new Point(
-					arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2),
-					arg0.getY() - ((imgPane.getHeight() - imgBuff.getHeight()) / 2)
+					selectXValue,
+					selectYValue
 					);		//Get temp bound from the selection point
 			
 			GUI.console.dbg(tempBound1);		//Print point on debug
