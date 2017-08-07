@@ -10,6 +10,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import autoEval.gui.GUI;
+
 public class NumberChooser extends AbstractValueSelector implements ChangeListener, ActionListener  {
 	/**
 	 * The current value of the spinner
@@ -47,6 +49,7 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	void setValue() 
 	{
 		value = (int)numberChooser.getValue();
+		GUI.userHasSetQuestionCount = true;
 	}
 	
 	/**

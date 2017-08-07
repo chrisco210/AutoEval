@@ -137,6 +137,8 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			//setTypes();		//Set the types from the type selector
 			boundList.addAllTypes(t.getAreaTypes());
 			
+			GUI.userHasSetImageArea = true;
+			
 			hide();
 		}
 	}
@@ -194,7 +196,6 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	public void mouseClicked(MouseEvent arg0) 
 	{ 
-		GUI.console.err("WARNING! MOUSE DRAG SELECTION IS CURRENTLY NOT WORKING!");
 		if(isSelecting)		//Finalize second point and selection and draw rectangle when the selection is finished
 		{
 			Graphics2D g2d = imgBuff.createGraphics();	//Create graphics object
@@ -216,7 +217,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 				selectYValue = imgBuff.getHeight() - 1;
 			
 			//Get real value of tempBound1, assuming that the frame is bigger than the image
-			tempBound1 = new Point(
+			tempBound2 = new Point(
 					selectXValue,
 					selectYValue
 					);		//Get temp bound from the selection point

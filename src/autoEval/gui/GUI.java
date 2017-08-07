@@ -2,6 +2,7 @@ package autoEval.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Desktop;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +29,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import autoEval.ImageParser;
 import popupMenus.About;
 import popupMenus.ImageAreaSelector;
+import popupMenus.InformMissingInfo;
 import popupMenus.NumberChooser;
 import popupMenus.StatSetup;
 import responses.answers.Page;
@@ -46,6 +49,10 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	public static int questionCount;
 	public static ImageAreaSelector a = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	public static final NumberChooser num = new NumberChooser();
+	
+	//Setup progress checks
+	public static boolean userHasSetImageArea = false;
+	public static boolean userHasSetQuestionCount = false;
 	
 	public static boolean debug = true;
 	
@@ -242,33 +249,11 @@ public final class GUI extends JFrame {		//Only create one GUI.
 	}
 	
 	/**
-	 * Log a message to the console
-	 * @param s the string to display
-	 * @deprecated
-	 */
-	public static void consoleLog(String s)
-	{
-		console.log(s);
-	}
-	/**
-	 * Set the status bar, and logs it to the console
-	 * @param s the string to display
-	 * @deprecated
-	 */
-	public static void setStatus(String s)		//update the status bar
-	{
-		consoleLog(s);
-		statusLabel.setText(s);
-		statusLabel.setVisible(false);
-		statusLabel.setVisible(true);
-	}
-	
-	/**
 	 * Subclass to handle Action Events from the menu bar
 	 * @author Christopher
 	 *
 	 */
-	class actionListener implements ActionListener		//TODO should this be a subclass?
+	class actionListener implements ActionListener		//TODO better action listener than this thing
 	{
 		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
 		{	
@@ -282,6 +267,13 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			}
 			else if(eventSrc == topMenu.run)
 			{
+				//Check if user has set an image area
+				if(!GUI.userHasSetImageArea || !GUI.userHasSetQuestionCount)
+				{
+					InformMissingInfo.main(null);
+					return;
+				}
+				
 				GUI.statusLabel.setStatus("Parsing");
 				ImageParser w = new ImageParser(a.getQuestionBoundList(), source, num, 0);
 				w.start();
