@@ -39,7 +39,28 @@ public class MultipleChoice extends AbstractResponse {
 	 * @return the chosen response, from 1 - optionCount.  Returns 0 if no response can be chosen
 	 */
 	public int getResponse() {
-		for(int q = 0; q < optionCount; q++)		//Cycle through each response
+		/* Diagram
+		 * Where each of the options is is determined by the height.
+		 * Which question we are scanning is determined by the outer for loop, using integer q
+		 * Because it is determined by height, and we are assuming that each of the options is of equal size (Subject to change), 
+		 * we can easily determine where the option area is.  See diagram for more detail
+		 * Width is scanned using integer j
+		 * +----------+
+		 * |..........| 
+		 * |..........| #Assume q = 1
+		 * +----------+ this height would be determined by (Question Height / Number of options) * q
+		 * |          | This area in between the heights would be scanned 
+		 * |          |  
+		 * +----------+ This height would be determined by (Question Height / Number of options) * (q + 1)
+		 * |          |  
+		 * |          |
+		 * +----------+
+		 * |          |
+		 * |          |
+		 * +----------+
+
+		 */
+		for(int q = 0; q < optionCount; q++)		//Cycle through each possible response area
 		{
 			for(int i = (questionData.getHeight() / optionCount) * q; i < (questionData.getHeight() / optionCount) * (q + 1); i++)		//Cycles through each of the question zones
 			{
