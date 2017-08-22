@@ -8,9 +8,11 @@ AutoEval is a program for automatically parsing surveys and data that may not ha
 ## Downloads
 Compiled jar files can be found at dl.rachlinski.cf/AutoEval
 ## Build from source
-Use apache maven and the included pom.xml to build.  Note: You must have jdk 1.8
+You can build easily with apache maven.
 
-I'll be honest.  I do not really know how to build this without my IDE, so don't ask me for help.
+Using the included pom.xml, specify the "package" goal, and build using jdk 8 or higher.
+
+
 # Usage
 ## GUI
 ### Basic
@@ -27,11 +29,15 @@ The command line can use scripting commands.  See the "scripting" section.
 Coming soon...
 
 "You know what this project needs?"
+
 "To be finished?"
+
 "No! A scripting language!"
 
 AutoEval contains its own custom scripting language.
+
 All commands must be on their own lines.  Some commands can have arguments, which are processed as string arrays in the scripting engine.
+
 Comments can be made using the Rem command
 ### Commands
 Comment
