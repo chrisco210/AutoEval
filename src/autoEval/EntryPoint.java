@@ -1,14 +1,20 @@
 package autoEval;	
 
+import autoEval.gui.GUI;
+
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 import com.sanityinc.jargs.CmdLineParser.OptionException;
+
+import console.scripting.EnvironmentConstants;
 
 public final class EntryPoint {
 	private static boolean gui = true; 
 	
 	public static void main(String[] args) 
 	{
+		//Setup EnvironmentConstants
+		EnvironmentConstants.SETUP_CONSTANTS();
 		
 		//Parse the command line options
 		CmdLineParser parser = new CmdLineParser();

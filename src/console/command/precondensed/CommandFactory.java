@@ -1,5 +1,6 @@
 package console.command.precondensed;
 
+import console.scripting.DefaultScripts;
 import autoEval.gui.GUI;
 
 
@@ -14,14 +15,16 @@ public class CommandFactory {
 	{
 		GUI.console.dbg("CommandFactory.createCommand called");	//Debug
 		
+		//TODO make this better
 		if(text.contains("OUT"))
 			return new OUT(text);
 		else if(text.contains("REM"))
 			return new REM();
 		else if(text.contains("ALLOC"))
 			return new ALLOC(text);
-			
-		GUI.console.err("Unrecognized Command");
+		else if(text.contains("EXE"))
+			return new EXE(text);
+		GUI.console.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
 		return new REM();
 	}
 	

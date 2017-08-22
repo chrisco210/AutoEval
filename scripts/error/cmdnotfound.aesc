@@ -1,0 +1,2 @@
+REM This command is run when a requested command is not found.
+OUT Error. Command Not Found.

@@ -72,7 +72,10 @@ public class MenuBar extends JMenuBar {
 		osVisStyle.addActionListener(GUI.action);
 		javaVisStyle = new JMenuItem("Java Components");
 		javaVisStyle.addActionListener(GUI.action);
-		debug = new JMenuItem("Enable Debug Strings");
+		if(!GUI.debug)
+			debug = new JMenuItem("Enable Debug Strings");
+		else
+			debug = new JMenuItem("Disable Debug Strings");
 		debug.addActionListener(GUI.action);
 		visStyle.add(osVisStyle);
 		visStyle.add(javaVisStyle);

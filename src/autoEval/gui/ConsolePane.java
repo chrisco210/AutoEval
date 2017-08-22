@@ -13,6 +13,7 @@ import javax.swing.text.JTextComponent;
 
 import console.Controller;
 import console.command.Variable;
+import console.scripting.EnvironmentConstants;
 
 public class ConsolePane extends JPanel{
 
@@ -36,9 +37,9 @@ public class ConsolePane extends JPanel{
 
 		consoleInput = new JTextField();
 		
-		if(GUI.debug)
-			consoleInput.addKeyListener(new DebugConsoleInputHandler());
-		else
+		//if(GUI.debug)
+		//	consoleInput.addKeyListener(new DebugConsoleInputHandler());
+		//else
 			consoleInput.addKeyListener(new ConsoleInputHandler());
 		
 		consoleInput.setFont(new Font("Consolas", Font.PLAIN, 14));
@@ -47,8 +48,9 @@ public class ConsolePane extends JPanel{
 		add(textBoxContainer, BorderLayout.CENTER);
 		
 		//Setup teh controller
-		Variable<?>[] envVar = new Variable<?>[1];
+		Variable<?>[] envVar = new Variable<?>[2];
 		envVar[0] = new Variable<Integer>(1);
+		envVar[1] = new Variable<String>(EnvironmentConstants.PROGRAM_ROOT);
 		
 		controller = new Controller(1, envVar, 1);
 	}
@@ -90,18 +92,23 @@ public class ConsolePane extends JPanel{
 	
 	private class ConsoleInputHandler implements KeyListener
 	{
+		
 		@Override
 		public void keyPressed(KeyEvent arg0) {
-			
-			if(arg0.getKeyCode() == 10)
-			{
-				JTextComponent eventSrc = (JTextComponent) arg0.getComponent();		//Get the JTextComponent that sent the event
-				String text = eventSrc.getText();		//Get the text that was in the text box and store it in string for later use
-				
-				eventSrc.setText(null);		//Clear the text box
-				
-				controller.stringExec(text);
-			}
+			new Runnable(){
+				public void run()
+				{
+					if(arg0.getKeyCode() == 10)
+					{
+						JTextComponent eventSrc = (JTextComponent) arg0.getComponent();		//Get the JTextComponent that sent the event
+						String text = eventSrc.getText();		//Get the text that was in the text box and store it in string for later use
+						
+						eventSrc.setText(null);		//Clear the text box
+						
+						controller.exec(text);
+					}
+				}
+			}.run();
 		}
 
 		@Override
@@ -116,7 +123,7 @@ public class ConsolePane extends JPanel{
 	{
 		@Override
 		public void keyPressed(KeyEvent arg0) {
-			GUI.console.log("keyPress event recieved with keycode " + arg0.getKeyCode());		//Debug
+			//GUI.console.log("keyPress event recieved with keycode " + arg0.getKeyCode());		//Debug
 			
 			if(arg0.getKeyCode() == 10)
 			{
@@ -126,7 +133,7 @@ public class ConsolePane extends JPanel{
 				
 				eventSrc.setText(null);		//Clear the text box
 				
-				controller.stringExec(text);
+				controller.exec(text);
 			}
 		}
 

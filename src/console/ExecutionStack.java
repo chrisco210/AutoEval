@@ -16,9 +16,15 @@ public class ExecutionStack {
 		executionStack = new ExecutableCommand[size];
 	}
 	
+	public ExecutableCommand[] getExecutionStack()
+	{
+		return executionStack;
+	}
 	
-	
-	
+	public int getIP()
+	{
+		return ip;
+	}
 	
 	/*------------- Execution --------------*/
 	
@@ -37,12 +43,12 @@ public class ExecutionStack {
 		JMP(0);		//Jump to location 0
 		PUSH(c);		//Push the command c onto location 0
 		RUN();		//Run location 0
-		POP();		//Pop location 0 off the stack
 		
 	}
 	
 	protected void RUN()
 	{
+		GUI.console.dbg("Running instruction at " + ip);
 		executionStack[ip].execute();
 	}
 	
@@ -59,7 +65,7 @@ public class ExecutionStack {
 		executionStack = commandList;		//Update executions tack tomatch the command list
 	}
 	
-	private void FLUSH()
+	protected void FLUSH()
 	{
 		executionStack = new ExecutableCommand[1];
 	}
@@ -78,6 +84,8 @@ public class ExecutionStack {
 	 */
 	private void POP()
 	{
+		if(executionStack.length == 1)
+			executionStack[0] = null;
 		executionStack[executionStack.length - 1] = null;
 		
 	}
