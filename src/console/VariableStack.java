@@ -92,7 +92,7 @@ public class VariableStack {
 	public void MEMSWAP(int pointer1, int pointer2)
 	{
 		if(pointer1 > esp || pointer2 > esp)
-			return;		//Write an exception in AutoEvalScript
+			return;		//TODO Write an exception in AutoEvalScript
 		
 		Variable<?> var1Temp = get(pointer1);
 		Variable<?> var2Temp = get(pointer2);
