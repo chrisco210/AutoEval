@@ -1,5 +1,24 @@
 package console.command.precondensed;
 
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+
+
+
+
+
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import console.command.condensed.ExecutableCommand;
 import console.scripting.DefaultScripts;
 import autoEval.gui.GUI;
 
@@ -20,12 +39,41 @@ public class CommandFactory {
 			return new OUT(text);
 		else if(text.contains("REM"))
 			return new REM();
-		else if(text.contains("ALLOC"))
-			return new ALLOC(text);
 		else if(text.contains("EXE"))
 			return new EXE(text);
+		
+		Document doc = null;
+		
+		try {
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(DBGXML.XML);
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		NodeList n = doc.getElementsByTagName("command");
+		
+		for(int i = 0; i < n.getLength(); i++)
+		{
+			//if( ((Element) n.item(i).getChildNodes()). )
+		}
+		
 		GUI.console.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
 		return new REM();
 	}
-	
+	static class DBGXML {
+		public static String XML = ""
+				+ "<commands>"
+				+ "<command>"
+				+ "<name>out</name>"
+				+ "<class>console.command.precondensed.OUT</class>"
+				+ "</command>"
+				+ "</commands>";
+	}
 }

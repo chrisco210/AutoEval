@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_8" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="jgoodies-forms-1.8.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/jgoodies-forms-1.8.0.jar!/"/>
+	</lib>
+	<lib name="miglayout15-swing.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/miglayout15-swing.jar!/"/>
+	</lib>
+	<levels>
+		<level name="Maven: com.github.cliftonlabs:json-simple:2.1.2" value="project"/>
+		<level name="Maven: com.sanityinc:jargs:2.0-SNAPSHOT" value="project"/>
+		<level name="Maven: commons-io:commons-io:2.5" value="project"/>
+	</levels>
+</component>

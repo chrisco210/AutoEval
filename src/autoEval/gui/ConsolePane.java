@@ -47,12 +47,7 @@ public class ConsolePane extends JPanel{
 		add(consoleInput, BorderLayout.SOUTH);
 		add(textBoxContainer, BorderLayout.CENTER);
 		
-		//Setup teh controller
-		Variable<?>[] envVar = new Variable<?>[2];
-		envVar[0] = new Variable<Integer>(1);
-		envVar[1] = new Variable<String>(EnvironmentConstants.PROGRAM_ROOT);
-		
-		controller = new Controller(1, envVar, 1);
+		controller = new Controller(new Variable<?>[] {new Variable<Integer>(1)}, new String[] {"stackSize"}, 1);
 	}
 	
 	/**

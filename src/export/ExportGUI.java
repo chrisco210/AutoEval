@@ -59,6 +59,14 @@ public final class ExportGUI {
 					e.printStackTrace();
 				}
 				break;
+			case "txt":
+				Export textExportClass = new TextExport(GUI.questionAns);
+				try {
+					textExportClass.saveExport(toSave.getAbsolutePath());
+				} catch(IOException e) {
+					//TODO handle exceptions in export, or at least make an error message
+					e.printStackTrace();
+				}
 			}
 		}
 	}

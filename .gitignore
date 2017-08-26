@@ -2,3 +2,4 @@ bin/
 .settings/
 node_modules/
 target/
+.idea/

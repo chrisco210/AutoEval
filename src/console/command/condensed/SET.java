@@ -6,7 +6,9 @@ package console.command.condensed;
  *
  */
 public class SET implements ExecutableCommand {
-
+	private int pointer;
+	
+	
 	@Override
 	public int execute() {
 		// TODO Auto-generated method stub

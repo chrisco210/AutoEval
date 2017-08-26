@@ -31,8 +31,8 @@ public final class EntryPoint {
 		
 		
 		//Check if the user doesnt want to disply the GUI
-		if(!parser.getOptionValue(doGui))
-			gui = false;
+		//if(!parser.getOptionValue(doGui))
+		//	gui = false;
 		
 		//Start the GUI
 		

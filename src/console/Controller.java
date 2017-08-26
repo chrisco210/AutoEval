@@ -1,5 +1,7 @@
 package console;
 
+import java.util.HashMap;
+
 import autoEval.gui.GUI;
 import console.command.Variable;
 import console.command.condensed.ExecutableCommand;
@@ -7,24 +9,32 @@ import console.command.precondensed.CommandFactory;
 import console.command.precondensed.PrecondensedCommand;
 
 public class Controller {
-	private VariableStack userVar = new VariableStack();
-	private VariableStack envVar = new VariableStack();
+	private VariableStack userVar;
+	private VariableStack envVar;
 	private ExecutionStack execStack;
 	
 	/**
 	 * Create a new command controller
-	 * @param initUVarSize the intial size of the user variable stack
-	 * @param envVars Environment variables to use
+	 * @param envVars an array of environment variables to add
+	 * @param envVarNames the names of the environment variables to add.  Each index of envVars should have an entry in envVarNames
 	 * @param initExecStackSize the intial size of the execution stack
+	 *
+	 * @throws IllegalArgumentException if each environmental variable does not have a corresponding name
 	 */
-	public Controller(int initUVarSize, Variable<?>[] envVars, int initExecStackSize)
+	public Controller(Variable<?>[] envVars, String[] envVarNames, int initExecStackSize)
 	{
+		if(envVars.length != envVarNames.length)
+			throw new IllegalArgumentException();
+
 		execStack = new ExecutionStack(initExecStackSize);
 		
-		userVar.setStackSize(initUVarSize);
-		envVar.set(envVars);
+		userVar = new VariableStack();
 		
-		execStack = new ExecutionStack(initExecStackSize);
+		HashMap<String, Variable<?>> environmentHashMap = new HashMap<String, Variable<?>>();
+		for(int i = 0; i < envVars.length; i++)
+		{
+			environmentHashMap.put(envVarNames[i], envVars[i]);
+		}
 	}
 	
 	/**
