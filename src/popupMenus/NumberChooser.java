@@ -16,11 +16,11 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	/**
 	 * The current value of the spinner
 	 */
-	private int value;
+	private byte value;
 	GridLayout lay;
 	JButton accept;
 	JSpinner numberChooser;
-	final SpinnerNumberModel numModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
+	final SpinnerNumberModel numModel = new SpinnerNumberModel(0, 0, Byte.MAX_VALUE, 1);
 	
 	public NumberChooser()
 	{
@@ -48,7 +48,7 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	 */
 	void setValue() 
 	{
-		value = (int)numberChooser.getValue();
+		value = ((Integer) numberChooser.getValue()).byteValue();
 		GUI.userHasSetQuestionCount = true;
 	}
 	
@@ -56,12 +56,13 @@ public class NumberChooser extends AbstractValueSelector implements ChangeListen
 	 * Gets the value of the spinner
 	 * @return Integer value of the spinner
 	 */
-	public int getValue()
+	public byte getValue()
 	{
 		return(value);
 	}
 	
 	/*
+
 	public void actionPerformed(ActionEvent e) 
 	{
 		if(e.getSource() == numberChooser)

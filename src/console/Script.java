@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -16,7 +18,7 @@ import console.command.precondensed.CommandFactory;
  * There are a ton of different constructors to suit every need, so make sure you are using the right one.
  * @author Christopher
  */
-public class Script {
+public class Script implements Iterable<ExecutableCommand>{
 	private ExecutableCommand[] commandList;
 	
 	/**
@@ -93,12 +95,12 @@ public class Script {
 	/**
 	 * Method so I dont have to copy paste code
 	 * @param toGet
-	 * @return
-	 * @throws IOException
+	 * @return an array containing the lines of a text file
+	 * @throws IOException when
 	 */
 	private static String[] getFileLines(File toGet) throws IOException
 	{
-		//Make sure file is accessable before reading
+		//Make sure file is accessible before reading
 		if(!toGet.exists() || !toGet.canRead() || toGet.isDirectory())
 		{
 			GUI.console.err("File not found.");
@@ -126,4 +128,8 @@ public class Script {
 		return fileLines.toArray(new String[fileLines.size()]);
 	}
 
+	@Override
+	public Iterator<ExecutableCommand> iterator() {
+		return Arrays.asList(commandList).iterator();
+	}
 }

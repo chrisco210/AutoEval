@@ -20,7 +20,7 @@ To begin, open an image containing the survey you want to parse, or open a folde
 Then, under the image menu, select all areas containing questions you want to parse.  You can then select the number of options on the questions.
 Under the actions menu, click Parse Responses (Pixel Count) and wait until the status bar says Done.  For text responses, under the actions menu, click Identify Text
 You can view the responses in the console by clicking show responses under the actions meun. 
-To export your responses, click export under the file menu, and choose from the given options.  Note: the file extension must match the requested export format for it to export properly.
+To storage.export your responses, click storage.export under the file menu, and choose from the given options.  Note: the file extension must match the requested storage.export format for it to storage.export properly.
 SQL Integration is coming soon.
 ### GUI Console
 The command line can use scripting commands.  See the "scripting" section.

@@ -2,7 +2,6 @@ package autoEval.gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Desktop;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,7 +14,6 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +32,7 @@ import popupMenus.NumberChooser;
 import popupMenus.StatSetup;
 import responses.answers.Page;
 import responses.answers.Question;
-import export.ExportGUI;
+import storage.export.ExportGUI;
 
 /**
  * The main GUI
@@ -281,7 +279,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			else if(eventSrc == topMenu.newRun)		//Start a visual comparison read, not finished, may never be
 			{
 			}
-			else if(eventSrc == topMenu.export)		//export the created data to a variety of formats.
+			else if(eventSrc == topMenu.export)		//storage.export the created data to a variety of formats.
 			{
 				Runnable export = () -> {new ExportGUI();};
 				new Thread(export).start();

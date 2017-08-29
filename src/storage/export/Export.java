@@ -1,4 +1,4 @@
-package export;
+package storage.export;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import responses.answers.Page;
 
 /**
- * Superclass for all export operations
+ * Superclass for all storage.export operations
  */
 public abstract class Export {
 	ArrayList<Page> pages;

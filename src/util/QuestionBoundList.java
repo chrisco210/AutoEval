@@ -27,7 +27,7 @@ public class QuestionBoundList {
 		this.types = new ArrayList<AreaType>(size);
 	}
 	
-	/*------------------ Managment Methods ------------- */
+	/*------------------ Management Methods ------------- */
 	
 	/**
 	 * Add a question area to the bound list
