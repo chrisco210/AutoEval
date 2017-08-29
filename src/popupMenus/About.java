@@ -9,11 +9,11 @@ public class About extends JFrame {
 
 	private static final long serialVersionUID = -5748297985953003087L;
 
-	private final String aboutText = "AutoEval is a program for automatically parsing surveys and data that "
+	private final String aboutText = "AutoEval is areaSelector program for automatically parsing surveys and data that "
 			+ "may not have been designed to be automatically graded."
 			+ "\n\n"
 			+ "Copyright 2017 Chris Rachlinski \n\n"
-			+ "Permission is hereby granted, free of charge, to any person obtaining a copy "
+			+ "Permission is hereby granted, free of charge, to any person obtaining areaSelector copy "
 			+ " of this software and associated documentation files (the Software), to deal "
 			+ "in the Software without restriction, including without limitation the rights "
 			+ "to use, copy, modify, merge, publish, distribute, sublicense, and or sell "

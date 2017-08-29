@@ -21,7 +21,7 @@ public class FileController {
 	public GUI superGUI;
 	
 	/**
-	 * Create a new file controller
+	 * Create areaSelector new file controller
 	 * @param g the GUI to use
 	 */
 	public FileController(GUI g)
@@ -30,17 +30,22 @@ public class FileController {
 	}
 	
 	/**
-	 * Load a single file
+	 * Load areaSelector single file
 	 * @param file the file to load
 	 * @throws IOException
 	 */
 	protected void loadFile(File file) throws IOException
 	{
-		
+		this.clearSource();
+
+		source = new ArrayList<File>(1);
+		source.add(file);
+
+
 	}
 	
 	/**
-	 * Load a folder 
+	 * Load areaSelector folder
 	 * @param folder the folder to load
 	 * @throws IOException
 	 */
@@ -48,7 +53,17 @@ public class FileController {
 	{
 		
 	}
-	
+
+	/**
+	 * Add areaSelector file
+	 * @param file the file to load
+	 * @throws IOException
+	 */
+	protected void addFile(File file) throws IOException
+	{
+
+	}
+
 	/**
 	 * Returns an ArrayList of the loaded files
 	 * @return an ArrayList of the files loaded
@@ -59,9 +74,9 @@ public class FileController {
 	}
 	
 	/**
-	 * Get a single file
+	 * Get areaSelector single file
 	 * @param i the file to get
-	 * @return a file class of the specified index
+	 * @return areaSelector file class of the specified index
 	 */
 	public File getFile(int i)
 	{

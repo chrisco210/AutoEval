@@ -9,6 +9,7 @@ import popupMenus.NumberChooser;
 import responses.Survey;
 import responses.answers.Page;
 import responses.answers.Question;
+import util.OnComplete;
 import util.QuestionBoundList;
 
 //TODO Move this class to different package
@@ -17,7 +18,9 @@ public final class ImageParser extends Thread implements Runnable {
 	ArrayList<File> source;
 	NumberChooser num;
 	private int[][] responses;
-	
+
+	OnComplete onComplete;
+
 	/**
 	 * Worker class for processing forms
 	 * @param a the ImageAreaSelector class to use
@@ -25,11 +28,13 @@ public final class ImageParser extends Thread implements Runnable {
 	 * @param num NumberChooser class to use
 	 * @param questionNum which question to use on the page
 	 */
-	public ImageParser(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum)
+	public ImageParser(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum, OnComplete onFinish)
 	{
 		qBoundList = a;
 		this.source = source;
 		this.num = num;
+
+		this.onComplete = onFinish;
 	}
 
 	@Override
@@ -41,7 +46,6 @@ public final class ImageParser extends Thread implements Runnable {
 		{
 			parseResponse(j);
 		}
-		GUI.statusLabel.setStatus("Done.");
 	}
 	
 	private void parseResponse(int pageNumber)
@@ -70,14 +74,16 @@ public final class ImageParser extends Thread implements Runnable {
 					e.printStackTrace();
 				}
 			}
+		onComplete.onComplete();
 	}
 
 	/**
-	* Return a two dimensional array of the multiple choice responses
-	* @returns a two dimensional array of multiple choice responses
+	* Return areaSelector two dimensional array of the multiple choice responses
+	* @returns areaSelector two dimensional array of multiple choice responses
 	*/
 	public int[][] getResponses()
 	{
 		return(responses);
 	}
+
 }

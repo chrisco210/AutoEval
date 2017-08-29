@@ -34,7 +34,7 @@ public class AutoEvalProjectByteGenerator {
 	private int writehead = 0;
 
 	/**
-	 * Construct a new AutoEvalProjectByteGenerator.  This tallies up all of the bytes that
+	 * Construct areaSelector new AutoEvalProjectByteGenerator.  This tallies up all of the bytes that
 	 * will be needed to be written and allocates it in the file bytes array
 	 * @param fileSource An ArrayList of files to be stored
 	 * @param bounds A QuestionBoundList of the bounds to use
@@ -63,7 +63,7 @@ public class AutoEvalProjectByteGenerator {
 
 		//Start writing
 		writeArray(Headers.VERSION_HEADER.get());        //write the version header
-		writeByte(optionCount);     //set the option count, this only takes one byte, so it doesn't need a header
+		writeByte(optionCount);     //set the option count, this only takes one byte, so it doesn't need areaSelector header
 
 		//Write the file paths
 		for(File f : fileSource)
@@ -103,7 +103,7 @@ public class AutoEvalProjectByteGenerator {
 	}
 
 	/**
-	 * Write a byte at the writehead
+	 * Write areaSelector byte at the writehead
 	 * @param b the byte to write
 	 */
 	private void writeByte(byte b)
@@ -120,7 +120,7 @@ public class AutoEvalProjectByteGenerator {
 	}
 	/**
 	 * Returns an array of chars
-	 * @return each byte in fileBytes casted as a char and returned in an array
+	 * @return each byte in fileBytes casted as areaSelector char and returned in an array
 	 */
 	public char[] getChars()
 	{

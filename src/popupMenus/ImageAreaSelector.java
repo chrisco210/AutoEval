@@ -59,7 +59,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	}
 	
 	/**
-	 * Displays a form to select an area on an image
+	 * Displays areaSelector form to select an area on an image
 	 * @param f The image to diplay in the selector
 	 * @throws IOException 
 	 */
@@ -67,7 +67,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 	{
 		imgBuff = ImageIO.read(f);		//Create buffered image from the given file
 		imgIco = new ImageIcon(imgBuff);
-		displayImg = new JLabel(imgIco);		//Put the buffered image onto a jlabel with image icon
+		displayImg = new JLabel(imgIco);		//Put the buffered image onto areaSelector jlabel with image icon
 		displayForm();		//Display the form
 		displaySelector();		//Add components
 	}
@@ -86,7 +86,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		imgPane = new JScrollPane(displayImg);		//scrollpane for the image
 		fullPane = new BorderLayout();
 		pane.setLayout(fullPane);
-		pane.add(imgPane, BorderLayout.CENTER);		//Create a jscrollpane for the image
+		pane.add(imgPane, BorderLayout.CENTER);		//Create areaSelector jscrollpane for the image
 		
 		//Position labels, and text fields - point 1
 		Pos1Label = new JLabel("Point 1");
@@ -98,14 +98,14 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		xPos2 = new JTextField("X Position");
 		yPos2 = new JTextField("Y Position");
 		
-		//apply a grid layout to them, and put them on the bottom.  For point 1
+		//apply areaSelector grid layout to them, and put them on the bottom.  For point 1
 		gLay = new GridLayout(3,3);
 		bottomPanel.setLayout(gLay);
 		bottomPanel.add(Pos1Label);
 		bottomPanel.add(xPos1);
 		bottomPanel.add(yPos1);
 		
-		//apply a grid layout to them, and put them on the bottom.  For point 2
+		//apply areaSelector grid layout to them, and put them on the bottom.  For point 2
 		bottomPanel.add(Pos2Label);
 		bottomPanel.add(xPos2);
 		bottomPanel.add(yPos2);
@@ -246,7 +246,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			imgPane.setVisible(false);
 			imgPane.setVisible(true);
 			
-			//Prompt the user to choose a question type
+			//Prompt the user to choose areaSelector question type
 			t.showFrame();
 			
 			isSelecting = false;

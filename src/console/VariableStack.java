@@ -36,7 +36,7 @@ public class VariableStack {
 	/* Getters and Setters */
 	
 	/**
-	 * Get a variable from the hashmap by a string name
+	 * Get areaSelector variable from the hashmap by areaSelector string name
 	 * @param variableName
 	 * @return the variable class of the specified name
 	 */

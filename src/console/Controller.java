@@ -38,7 +38,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Execute a command based on a string
+	 * Execute areaSelector command based on areaSelector string
 	 * @param exec the command to execute as a string
 	 */
 	public void exec(String exec)

@@ -51,7 +51,7 @@ public class ConsolePane extends JPanel{
 	}
 	
 	/**
-	 * Log a message to the console
+	 * Log areaSelector message to the console
 	 * @param s The text to log
 	 */
 	public void log(Object s)
@@ -61,7 +61,7 @@ public class ConsolePane extends JPanel{
 	}
 	
 	/**
-	 * Log a message to err
+	 * Log areaSelector message to err
 	 * @author Christopher
 	 *
 	 */
@@ -73,7 +73,7 @@ public class ConsolePane extends JPanel{
 	}
 	
 	/**
-	 * Log a message to debug
+	 * Log areaSelector message to debug
 	 * @author Christopher
 	 *
 	 */

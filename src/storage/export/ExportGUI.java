@@ -13,11 +13,15 @@ public final class ExportGUI {
 	JFrame frame = new JFrame();
 	
 	private JFileChooser fileChooser = new JFileChooser();
-	
-	public ExportGUI()
+
+	private GUI callback;
+
+	public ExportGUI(GUI callback)
 	{
+		this.callback = callback;
+
 		//Create extension filters
-		FileNameExtensionFilter csvExport = new FileNameExtensionFilter("Comma Seperated Values (*.csv)", "csv"),
+		FileNameExtensionFilter csvExport = new FileNameExtensionFilter("Comma Separated Values (*.csv)", "csv"),
 				xmlExport = new FileNameExtensionFilter("eXtensible Markup Language (*.xml)", "xml"),
 				textExport = new FileNameExtensionFilter("Text File (*.txt)", "txt"),
 				jsonExport = new FileNameExtensionFilter("JSON File (*.json)", "json"),
@@ -52,7 +56,7 @@ public final class ExportGUI {
 				}
 				break;
 			case "aep":
-				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, GUI.a.getQuestionBoundList(), GUI.num);
+				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, callback.getQuestionBounds(), callback.getNumberChooser());
 				try {
 					projectExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (IOException e) {

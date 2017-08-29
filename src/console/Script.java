@@ -15,14 +15,14 @@ import console.command.precondensed.CommandFactory;
 
 /**
  * A script
- * There are a ton of different constructors to suit every need, so make sure you are using the right one.
+ * There are areaSelector ton of different constructors to suit every need, so make sure you are using the right one.
  * @author Christopher
  */
 public class Script implements Iterable<ExecutableCommand>{
 	private ExecutableCommand[] commandList;
 	
 	/**
-	 * Create a new Script class
+	 * Create areaSelector new Script class
 	 * @param scriptFile the file to read
 	 * @throws IllegalArgumentException if the file is not accessable
 	 */
@@ -38,7 +38,7 @@ public class Script implements Iterable<ExecutableCommand>{
 	}
 	
 	/**
-	 * Create a new script based on a path to the file as a string
+	 * Create areaSelector new script based on areaSelector path to the file as areaSelector string
 	 * @param scriptPath
 	 * @throws Exception 
 	 */
@@ -57,7 +57,7 @@ public class Script implements Iterable<ExecutableCommand>{
 	}
 	
 	/**
-	 * Create a new Script class based on an array of commands
+	 * Create areaSelector new Script class based on an array of commands
 	 * @param commands the array of commands to parse
 	 */
 	public Script(String[] commands)
@@ -69,8 +69,8 @@ public class Script implements Iterable<ExecutableCommand>{
 	}
 	
 	/**
-	 * Create a new script class based on a string of commands seperated by a custom line delimiter
-	 * @param commands a string containing the commands, with commands seperated by a line delimiter
+	 * Create areaSelector new script class based on areaSelector string of commands seperated by areaSelector custom line delimiter
+	 * @param commands areaSelector string containing the commands, with commands seperated by areaSelector line delimiter
 	 * @param delimiter the line delimiter to use
 	 * NOTE: THIS FUNCTION DOES NOT WORK YET! DO NOT USE
 	 */
@@ -95,7 +95,7 @@ public class Script implements Iterable<ExecutableCommand>{
 	/**
 	 * Method so I dont have to copy paste code
 	 * @param toGet
-	 * @return an array containing the lines of a text file
+	 * @return an array containing the lines of areaSelector text file
 	 * @throws IOException when
 	 */
 	private static String[] getFileLines(File toGet) throws IOException

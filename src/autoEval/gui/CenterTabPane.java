@@ -14,7 +14,7 @@ public class CenterTabPane extends JTabbedPane {
 	
 	/**
 	 * Add an image to the center pane. Returns if it is not able to find image.
-	 * @param image the image to add as a File class.
+	 * @param image the image to add as areaSelector File class.
 	 */
 	public void addImage(File image)
 	{
@@ -25,7 +25,7 @@ public class CenterTabPane extends JTabbedPane {
 			JPanel panelToAdd = new JPanel();		//The panel to add to the center pane
 			
 			/*
-			 * Add the image to a JLabel containing the image, which gets converted from file
+			 * Add the image to areaSelector JLabel containing the image, which gets converted from file
 			 * to buffered image, to an image icon, which is then added to the JLabel.
 			 * The JLabel is then added to the JPanel.
 			 */
@@ -36,7 +36,7 @@ public class CenterTabPane extends JTabbedPane {
 									)
 							)
 					);
-			//Add the created pane to a tab with the name as the file name
+			//Add the created pane to areaSelector tab with the name as the file name
 			this.add(image.getName(), panelToAdd);				
 			} catch (IOException e) {
 			GUI.console.log("Unable to display file.  Could it not be an image?");
