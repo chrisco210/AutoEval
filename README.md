@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/chrisco210/AutoEval.svg?branch=master)](https://travis-ci.org/chrisco210/AutoEval)
 # AutoEval
 AutoEval is a program for automatically parsing surveys and data that may not have been designed to be automatically graded.  
 
