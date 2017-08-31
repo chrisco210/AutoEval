@@ -12,16 +12,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.sun.istack.internal.NotNull;
 import popupMenus.ImageAreaSelector;
 import responses.answers.Page;
 
 public class FileController {
 	public ArrayList<File> source;
-	public ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
-	public GUI superGUI;
+	private GUI superGUI;
 	
 	/**
-	 * Create areaSelector new file controller
+	 * Create a new file controller
 	 * @param g the GUI to use
 	 */
 	public FileController(GUI g)
@@ -30,38 +30,88 @@ public class FileController {
 	}
 	
 	/**
-	 * Load areaSelector single file
+	 * Load a single file
 	 * @param file the file to load
 	 * @throws IOException
 	 */
-	protected void loadFile(File file) throws IOException
+	protected void loadSingleFile(File file)
 	{
-		this.clearSource();
+		//Clear all images from the list, and remove them from the tab pane
+		clearSource();
+		superGUI.getTabPane().clearAllImages();
 
-		source = new ArrayList<File>(1);
+		source = new ArrayList<>(1);
+
 		source.add(file);
 
+		//Attempt to instantiate an image area selector
+		try
+		{
+			superGUI.instantiateImageAreaSelector(source.get(0));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
+		for(File f : source)
+			superGUI.getTabPane().addImage(f);
 	}
-	
+
 	/**
-	 * Load areaSelector folder
+	 * Load a file.  This method is intended to be used with the load folder function, as it does
+	 * not clear the source and clear all images before loading
+	 * @param file
+	 */
+	private void loadFile(File file)
+	{
+		source.add(file);
+	}
+
+	/**
+	 * Load a folder
 	 * @param folder the folder to load
 	 * @throws IOException
 	 */
-	protected void loadFolder(File folder) throws IOException
+	protected void loadFolder(@NotNull File folder)
 	{
-		
+		//Clear all images from the list, and remove them from the tab pane
+		clearSource();
+		superGUI.getTabPane().clearAllImages();
+
+		source = new ArrayList<>(folder.listFiles().length);
+
+		source.addAll(Arrays.asList(folder.listFiles()));
+
+		//Attempt to instantiate an image area selector
+		try
+		{
+			superGUI.instantiateImageAreaSelector(source.get(0));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		for(File f : source)
+			superGUI.getTabPane().addImage(f);
 	}
 
 	/**
-	 * Add areaSelector file
+	 * Add a file
 	 * @param file the file to load
 	 * @throws IOException
 	 */
 	protected void addFile(File file) throws IOException
 	{
 
+	}
+
+	/**
+	 * Display a file on the center tab pane.
+	 * @param f
+	 */
+	private void addToCenterPane(File f)
+	{
+		superGUI.getTabPane().addImage(f);
 	}
 
 	/**
@@ -88,6 +138,10 @@ public class FileController {
 	 */
 	public void clearSource()
 	{
-		source.clear();
+		try{
+			source.clear();
+		} catch(Exception e) {
+			System.err.println("Failed to clear source.  Could it already be empty?");
+		}
 	}
 }

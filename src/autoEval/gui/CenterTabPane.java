@@ -11,7 +11,14 @@ import javax.swing.JTabbedPane;
 
 public class CenterTabPane extends JTabbedPane {
 	private static final long serialVersionUID = 9010398353835598252L;
-	
+
+	private GUI superGUI;
+
+	public CenterTabPane(GUI g)
+	{
+		this.superGUI = g;
+	}
+
 	/**
 	 * Add an image to the center pane. Returns if it is not able to find image.
 	 * @param image the image to add as areaSelector File class.
@@ -42,5 +49,11 @@ public class CenterTabPane extends JTabbedPane {
 			e.printStackTrace();
 			System.err.println("Unable to display file.  Could it not be an image?");
 		}
+	}
+
+	public void clearAllImages()
+	{
+		this.removeAll();
+		this.add("Console", superGUI.console);
 	}
 }
