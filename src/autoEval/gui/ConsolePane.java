@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.PrintStream;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,129 +15,113 @@ import javax.swing.text.JTextComponent;
 import console.Controller;
 import console.command.Variable;
 import console.scripting.EnvironmentConstants;
+import util.ConsoleOutputStream;
 
-public class ConsolePane extends JPanel{
+public class ConsolePane extends JPanel
+{
 
 	private static final long serialVersionUID = 5381690376796191552L;
-	
+
 	private JTextArea consoleTextBox;
 	private JTextField consoleInput;
 	private JScrollPane textBoxContainer;
-	
-	public Controller controller;
-	
+
+	public static Controller controller;
+
 	public ConsolePane()
 	{
+		//Setup text box and area
 		consoleTextBox = new JTextArea();
 		consoleTextBox.setFont(new Font("Consolas", Font.PLAIN, 14));
 		consoleTextBox.setEditable(false);
-		
+
+		//Set stderr and stdout
+		System.setErr(new PrintStream(new ConsoleOutputStream(this.consoleTextBox)));
+		System.setOut(new PrintStream(new ConsoleOutputStream(this.consoleTextBox)));
+
 		textBoxContainer = new JScrollPane(consoleTextBox);
-		
+
 		setLayout(new BorderLayout());
 
 		consoleInput = new JTextField();
-		
+
 		//if(GUI.debug)
 		//	consoleInput.addKeyListener(new DebugConsoleInputHandler());
 		//else
-			consoleInput.addKeyListener(new ConsoleInputHandler());
-		
+		consoleInput.addKeyListener(new ConsoleInputHandler());
+
 		consoleInput.setFont(new Font("Consolas", Font.PLAIN, 14));
-		
+
 		add(consoleInput, BorderLayout.SOUTH);
 		add(textBoxContainer, BorderLayout.CENTER);
-		
+
 		controller = new Controller(new Variable<?>[] {new Variable<Integer>(1)}, new String[] {"stackSize"}, 1);
 	}
-	
+
 	/**
-	 * Log areaSelector message to the console
+	 * Log a message to the console
+	 *
 	 * @param s The text to log
+	 * @deprecated use System.out.println instead
 	 */
-	public void log(Object s)
+	public static void log(Object s)
 	{
 		System.out.println(s.toString());
-		consoleTextBox.append("\n" + s.toString());
+		System.out.println("[Warning] ConsolePane.log(Object s) is deprecated.  Use System.err.println() instead.");
 	}
-	
+
 	/**
-	 * Log areaSelector message to err
-	 * @author Christopher
+	 * Log a message to err
 	 *
+	 * @author Christopher
+	 * @deprecated use System.err.println instead
 	 */
-	public void err(Object s)
+	public static void err(Object s)
 	{
 		System.err.println(s.toString());
-		consoleTextBox.append("\n[Error] " + s.toString());
-		
+		System.out.println("[Warning] ConsolePane.err(Object s) is deprecated.  Use System.err.println() instead.");
 	}
-	
+
 	/**
-	 * Log areaSelector message to debug
-	 * @author Christopher
+	 * Log a message to debug
 	 *
+	 * @author Christopher
 	 */
-	public void dbg(Object s)
+	public static void dbg(Object s)
 	{
 		if(!GUI.debug)
 			return;
-		System.out.println(s.toString());
-		consoleTextBox.append("\n[Debug] " + s.toString());
+		System.out.println("[Debug]" + s.toString());
 	}
-	
+
 	private class ConsoleInputHandler implements KeyListener
 	{
-		
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-			new Runnable(){
-				public void run()
-				{
-					if(arg0.getKeyCode() == 10)
-					{
-						JTextComponent eventSrc = (JTextComponent) arg0.getComponent();		//Get the JTextComponent that sent the event
-						String text = eventSrc.getText();		//Get the text that was in the text box and store it in string for later use
-						
-						eventSrc.setText(null);		//Clear the text box
-						
-						controller.exec(text);
-					}
-				}
-			}.run();
-		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {	}
-
-		@Override
-		public void keyTyped(KeyEvent arg0) {	}
-
-	}
-	
-	private class DebugConsoleInputHandler implements KeyListener
-	{
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-			//GUI.console.log("keyPress event recieved with keycode " + arg0.getKeyCode());		//Debug
-			
-			if(arg0.getKeyCode() == 10)
+		public void keyPressed(KeyEvent arg0)
+		{
+			((Runnable) () ->
 			{
-				JTextComponent eventSrc = (JTextComponent) arg0.getComponent();		//Get the JTextComponent that sent the event
-				String text = eventSrc.getText();		//Get the text that was in the text box and store it in string for later use
-				GUI.console.log("Text Entered: " + text);		//debug
-				
-				eventSrc.setText(null);		//Clear the text box
-				
-				controller.exec(text);
-			}
+				if(arg0.getKeyCode() == 10)
+				{
+					JTextComponent eventSrc = (JTextComponent) arg0.getComponent();        //Get the JTextComponent that sent the event
+					String text = eventSrc.getText();        //Get the text that was in the text box and store it in string for later use
+
+					eventSrc.setText(null);        //Clear the text box
+
+					controller.exec(text);
+				}
+			}).run();
 		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {	}
+		public void keyReleased(KeyEvent arg0)
+		{
+		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {	}
-
+		public void keyTyped(KeyEvent arg0)
+		{
+		}
 	}
 }

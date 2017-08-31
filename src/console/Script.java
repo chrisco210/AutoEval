@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import autoEval.gui.ConsolePane;
 import autoEval.gui.GUI;
 import console.command.condensed.ExecutableCommand;
 import console.command.precondensed.CommandFactory;
@@ -103,8 +104,7 @@ public class Script implements Iterable<ExecutableCommand>{
 		//Make sure file is accessible before reading
 		if(!toGet.exists() || !toGet.canRead() || toGet.isDirectory())
 		{
-			GUI.console.err("File not found.");
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("File not found or is not readable.");
 		}		
 		
 
@@ -120,10 +120,10 @@ public class Script implements Iterable<ExecutableCommand>{
 		inputStream.forEach(r);
 		inputStream.close();
 		
-		GUI.console.dbg("File lines:");
-		GUI.console.dbg(fileLines);
+		ConsolePane.dbg("File lines:");
+		ConsolePane.dbg(fileLines);
 		
-		GUI.console.dbg("-------");
+		ConsolePane.dbg("-------");
 		//return fileLines;
 		return fileLines.toArray(new String[fileLines.size()]);
 	}

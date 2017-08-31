@@ -40,44 +40,61 @@ import util.QuestionBoundList;
  * @author Christopher
  *
  */
-public final class GUI extends JFrame {		//Only create one GUI.
-	/*		--------VARIABLES--------		TODO move to new GUI/event Controller class*/
+public final class GUI extends JFrame {
+	/**
+	 * Not sure what this is
+	 */
 	private static final long serialVersionUID = 1L;
-	public static ArrayList<File> source;
-	public static ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
 
-	private ImageAreaSelector areaSelector = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
-	private final NumberChooser num = new NumberChooser();
-	
-	//Setup progress checks
+	/**
+	 * The ArrayList of source files
+	 */
+	public ArrayList<File> source;
+	/**
+	 * The ArrayList of responses
+	 */
+	public ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
+
+	/*			Flags		*/
+
+	/**
+	 * Is true when user has set an image area
+	 * @flag
+	 */
 	public static boolean userHasSetImageArea = false;
-	public static boolean userHasSetQuestionCount  =false;
-
-	//Debug strings and other stuff
+	/**
+	 * Is true when user has set the option count in the number chooser
+	 * @flag
+	 */
+	public static boolean userHasSetQuestionCount  = false;
+	/**
+	 * Is true when user has run a parse
+	 * @flag
+	 */
+	public static boolean userHasRunParse = false;
+	/**
+	 * Is true when debug mode is enabled.  This enables all debug strings from ConsolePane.dbg(Object s) as well as
+	 * any special methods that are used when debug is enabled
+	 * @flag
+	 */
 	public static boolean debug = true;
 	
-	/*		--------GUI ITEMS--------		*/
+	/*		GUI Elements 		*/
 	private MenuBar topMenu;		//Menu bar displayed on top of screen
 	private StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
 	private CenterTabPane centerPane;		//Central tab pane
-	
-	//Image display
-	private ImageIcon surveyImage;
-	private JLabel imageLabel;
-	
-	public Container pane;		//Main content pane
-
-	public static ActionListener action;		//Action listener class
-	
-	public static ConsolePane console;		//Console
-	
-	//TODO Remove this or make it do something
-	private static JTree survey;
-	private static DefaultMutableTreeNode question;
+	private final Container pane = getContentPane();		//Main content pane
+	private ActionListener action;		//Action listener class
+	public ConsolePane console;		//Console
+	private ImageIcon surveyImage;      //Image display
+	private JLabel imageLabel;		//More image display
+	private ImageAreaSelector areaSelector = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
+	private final NumberChooser num = new NumberChooser();
+	private JTree survey;			//TODO
+	private DefaultMutableTreeNode question;
 	
 	/**
 	 * The main GUI of the program
-	 * @throws IOException
 	 */
 	public GUI() 
 	{
@@ -87,15 +104,14 @@ public final class GUI extends JFrame {		//Only create one GUI.
         setDefaultCloseOperation(EXIT_ON_CLOSE);    
         action = new actionListener(this);
         
-        //Create borderLayout
-       	pane = getContentPane();
+		//Pane stuff
 		pane.setLayout(new BorderLayout());
 		
 		//Create center tab pane
 		centerPane = new CenterTabPane();
 		
 		//Create menu bar and add it to top of screen
-		topMenu = new MenuBar();
+		topMenu = new MenuBar(action);
 		pane.add(topMenu, BorderLayout.NORTH);
 		
 		
@@ -124,6 +140,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		setVisible(true);		//Display the form
 		getStatusBar().setStatus("Done.");
 	}
+
 
 	/**
 	 * Get the number chooser
@@ -179,10 +196,15 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		return areaSelector.getQuestionBoundList();
 	}
 
+	/**
+	 * Get the number of options as selected by the image area selector
+	 * @return
+	 */
 	public byte getOptionCount()
 	{
 		return num.getValue();
 	}
+
 
 	/**
 	 * @deprecated
@@ -204,11 +226,12 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		{
 			source = new ArrayList<File>(1);
 			source.add(fc.getSelectedFile());
-			GUI.console.log(source.toString());
+			System.out.println(source.toString());
 			try {
 				areaSelector = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file. Instantiated here to allow it to display the image in the imageAreaSelector
 			} catch (IOException e1) {
-				GUI.console.err("Failed to create Image Area Selector.");
+				System.err.println("Failed to create an ImageAreaSelector");
+				e1.printStackTrace();
 			}
 		}
 		else 
@@ -237,12 +260,12 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				GUI.console.log("File " + f.toString() + " Failed to display.  Could it not be an image?");
+				System.out.println("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
 		setVisible(false);
 		setVisible(true);
-		GUI.console.log("Done.");
+		System.out.println("Done.");
 	}
 	
 	protected void loadFolder()		//TODO Move to file controller
@@ -273,7 +296,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 		try {
 			areaSelector = new ImageAreaSelector(source.get(0));		//A is the ImageAreaSelector class, sets the selected file
 		} catch (IOException e1) {
-			GUI.console.log("Failed to create Image Area Selector.");
+			System.out.println("Failed to create Image Area Selector.");
 		}
 		try{	//Remove any existing images from the display
 			remove(imageLabel);
@@ -297,11 +320,13 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			j.add(imageLabel);
 			centerPane.add(f.toString(), j);
 			} catch (IOException ex) {		//Handle IOException
-				GUI.console.log("File " + f.toString() + " Failed to display.  Could it not be an image?");
+				System.out.println("File " + f.toString() + " Failed to display.  Could it not be an image?");
 			}
 		}
-		setVisible(false);
-		setVisible(true);
+
+		pane.setVisible(false);
+		pane.setVisible(true);
+
 		getStatusBar().setStatus("Done.");
 	}
 	
@@ -331,14 +356,14 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			else if(eventSrc == topMenu.run)
 			{
 				//Check if user has set an image area
-				if(!GUI.userHasSetImageArea || !GUI.userHasSetQuestionCount)
+				if(!userHasSetImageArea || !userHasSetQuestionCount)
 				{
 					InformMissingInfo.main(null);
 					return;
 				}
 				
 				getStatusBar().setStatus("Parsing");
-				OnComplete onFinish = () -> getStatusBar().setStatus("Done.");
+				OnComplete onFinish = toWrite -> {questionAns = toWrite; getStatusBar().setStatus("Done.");};
 				ImageParser w = new ImageParser(areaSelector.getQuestionBoundList(), source, num, 0, onFinish);
 				w.start();
 
@@ -359,7 +384,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 					getStatusBar().setStatus("Done.");
 				} catch (Exception e1) {
 					getStatusBar().setStatus("Error.  See stack trace.");
-					GUI.console.log(e1.getMessage());
+					System.out.println(e1.getMessage());
 				}
 			}
 			else if(eventSrc == topMenu.setQuestionCount)		//Set Question Count
@@ -373,7 +398,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 				Runnable showResponses = () -> {
 					for(Page p : questionAns)
 						for(Question<?> q : p.getQuestionList())
-							GUI.console.log(q.getResponse().toString());
+							System.out.println(q.getResponse().toString());
 				};
 				new Thread(showResponses).start();
 			}
@@ -383,14 +408,14 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			}
 			else if(eventSrc == topMenu.stats)		//Display statistics setup menu
 			{
-				getConsolePane().log("Statistics is not yet implemented.");
+				System.out.println("Statistics is not implemented yet.");
 			}
 			else if(eventSrc == topMenu.github)		//Open github page in browser
 			{
 					try {
 						Desktop.getDesktop().browse(new URI("https://github.com/chrisco210/AutoEval"));
 					} catch (IOException | URISyntaxException e1) {
-						GUI.console.log("Failed to open github.");
+						System.out.println("Failed to open github.");
 					}
 			}
 			else if(eventSrc == topMenu.osVisStyle)		//Change visual style to os style
@@ -398,10 +423,10 @@ public final class GUI extends JFrame {		//Only create one GUI.
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					SwingUtilities.updateComponentTreeUI(pane);
-					GUI.console.log("Updated look and feel.");
+					System.out.println("Updated look and feel.");
 				} catch (ClassNotFoundException | InstantiationException
 						| IllegalAccessException | UnsupportedLookAndFeelException ex) {
-					GUI.console.log("Failed to change visual style.");
+					System.out.println("Failed to change visual style.");
 				}
 			}
 			else if(eventSrc == topMenu.javaVisStyle)		//Change visual style to java default
@@ -409,16 +434,16 @@ public final class GUI extends JFrame {		//Only create one GUI.
 				try {
 					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 					SwingUtilities.updateComponentTreeUI(pane);
-					GUI.console.log("Updated look and feel.");
+					System.out.println("Updated look and feel.");
 				} catch (ClassNotFoundException | InstantiationException
 						| IllegalAccessException | UnsupportedLookAndFeelException ex) {
-					GUI.console.log("Failed to change visual style.");
+					System.out.println("Failed to change visual style.");
 				}
 			}
 			else if(eventSrc == topMenu.debug)
 			{
 				debug = !debug;
-				GUI.console.log("Debug strings: " + Boolean.toString(debug));
+				System.out.println("Debug strings: " + Boolean.toString(debug));
 				if(debug)
 					topMenu.debug.setText("Disable Debug Strings");
 				else

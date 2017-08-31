@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import autoEval.gui.ConsolePane;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -32,7 +33,7 @@ public class CommandFactory {
 	 */
 	public static PrecondensedCommand createCommand(String text)
 	{
-		GUI.console.dbg("CommandFactory.createCommand called");	//Debug
+		ConsolePane.dbg("CommandFactory.createCommand called");	//Debug
 		
 		//TODO make this better
 		if(text.contains("OUT"))
@@ -64,7 +65,7 @@ public class CommandFactory {
 			//if( ((Element) n.item(i).getChildNodes()). )
 		}
 		
-		GUI.console.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
+		ConsolePane.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
 		return new REM();
 	}
 	static class DBGXML {

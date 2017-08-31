@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import autoEval.gui.ConsolePane;
 import util.QuestionBoundList;
 import autoEval.gui.GUI;
 
@@ -220,13 +221,13 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 					selectXValue,
 					selectYValue
 					);		//Get temp bound from the selection point
-			GUI.console.dbg(tempBound2);
+			ConsolePane.dbg(tempBound2);
 			
 			//array of colors to create mutli color boxes
 			Color[] colors = {Color.red, Color.blue, Color.green, Color.orange, Color.black, Color.cyan, Color.yellow, Color.magenta, Color.pink, Color.gray};
 			
 			//Draw rectangle
-			GUI.console.dbg("DRAWING RECTANGLE");
+			ConsolePane.dbg("DRAWING RECTANGLE");
 			g2d.setColor(colors[1]);
 			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
 			
@@ -253,7 +254,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		}
 		else		//Start selection, get the first temp bound
 		{
-			GUI.console.dbg("Selecting first point.");
+			ConsolePane.dbg("Selecting first point.");
 
 			//Get the real value of the click event, assuming that the frame is larger than the image
 			int selectXValue = arg0.getX() - ((pane.getWidth() - imgBuff.getWidth()) / 2);
@@ -276,7 +277,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 					selectYValue
 					);		//Get temp bound from the selection point
 			
-			GUI.console.dbg(tempBound1);		//Print point on debug
+			ConsolePane.dbg(tempBound1);		//Print point on debug
 			
 			isSelecting = true;
 		}

@@ -1,5 +1,6 @@
 package storage.export.project;
 
+import autoEval.gui.ConsolePane;
 import autoEval.gui.GUI;
 import popupMenus.AreaType;
 import util.QuestionBoundList;
@@ -58,7 +59,7 @@ public class AutoEvalProjectByteGenerator {
 
 		fileBytes = new byte[byteCount];
 
-		GUI.console.dbg("Total number of bytes: " + fileBytes.length);
+		ConsolePane.dbg("Total number of bytes: " + fileBytes.length);
 
 
 		//Start writing

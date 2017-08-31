@@ -1,5 +1,6 @@
 package console.command.condensed;
 
+import autoEval.gui.ConsolePane;
 import console.Script;
 import autoEval.gui.GUI;
 
@@ -20,12 +21,12 @@ public class EXE implements ExecutableCommand {
 	@Override
 	public int execute() 
 	{
-		GUI.console.dbg("Executing Script at " + path);
+		ConsolePane.dbg("Executing Script at " + path);
 		
 		try 
 		{
-			GUI.console.dbg("Executing script.");
-			GUI.console.controller.exec(new Script(path));
+			ConsolePane.dbg("Executing script.");
+			ConsolePane.controller.exec(new Script(path));
 			return 1;
 		} 
 		catch (Exception e) 

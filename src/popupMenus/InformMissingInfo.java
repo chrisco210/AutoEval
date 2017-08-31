@@ -48,7 +48,8 @@ public class InformMissingInfo extends JDialog implements ActionListener {
 			txtrErrorYouHave.setEditable(false);
 			txtrErrorYouHave.setWrapStyleWord(true);
 			txtrErrorYouHave.setLineWrap(true);
-			txtrErrorYouHave.setText("Error.  You have not supplied enough information to parse responses.  Ensure you have selected areaSelector question area, and chosen areaSelector number of responses.");
+			txtrErrorYouHave.setText("Error. You have not supplied enough information to parse the responses.  Make sure that you have selected all questions in the image area selector, and " +
+					"you have selected the number of options in the questions. (See Help->Github to view full instructions)");
 			contentPanel.add(txtrErrorYouHave);
 		}
 		{

@@ -3,6 +3,7 @@ package autoEval.gui;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
 
 public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = -290214953363786855L;
@@ -29,32 +30,32 @@ public class MenuBar extends JMenuBar {
 	protected JMenuItem stats;
 	protected JMenuItem debug;
 	
-	public MenuBar()
+	public MenuBar(ActionListener action)
 	{
 		open = new JMenuItem("Open");
-		open.addActionListener(GUI.action);
+		open.addActionListener(action);
 		openFolder = new JMenuItem("Open Folder");
-		openFolder.addActionListener(GUI.action);
+		openFolder.addActionListener(action);
 		//Actions menu
 		actions = new JMenu("Actions");
 		run = new JMenuItem("Parse Form (Pixel Count)");
-		run.addActionListener(GUI.action);
+		run.addActionListener(action);
 		showResponses = new JMenuItem("Show Responses");
-		showResponses.addActionListener(GUI.action);
+		showResponses.addActionListener(action);
 		newRun = new JMenuItem("Parse Form(Visual)");
-		newRun.addActionListener(GUI.action);
+		newRun.addActionListener(action);
 		chooseQHeight = new JMenuItem("Question Height");
-		chooseQHeight.addActionListener(GUI.action);
+		chooseQHeight.addActionListener(action);
 		displayBounds = new JMenuItem("Display Bounds");
-		displayBounds.addActionListener(GUI.action);
+		displayBounds.addActionListener(action);
 		setQuestionCount = new JMenuItem("# of options...");
-		setQuestionCount.addActionListener(GUI.action);
+		setQuestionCount.addActionListener(action);
 		export = new JMenuItem("Export...");
-		export.addActionListener(GUI.action);
+		export.addActionListener(action);
 		importProject = new JMenuItem("Import");
-		importProject.addActionListener(GUI.action);
+		importProject.addActionListener(action);
 		stats = new JMenuItem("Statistics");
-		stats.addActionListener(GUI.action);
+		stats.addActionListener(action);
 		actions.add(run);
 		actions.add(newRun);
 		actions.add(showResponses);
@@ -69,14 +70,14 @@ public class MenuBar extends JMenuBar {
 		view = new JMenu("View");
 		visStyle = new JMenu("Visual Style");
 		osVisStyle = new JMenuItem("OS Components");
-		osVisStyle.addActionListener(GUI.action);
+		osVisStyle.addActionListener(action);
 		javaVisStyle = new JMenuItem("Java Components");
-		javaVisStyle.addActionListener(GUI.action);
+		javaVisStyle.addActionListener(action);
 		if(!GUI.debug)
 			debug = new JMenuItem("Enable Debug Strings");
 		else
 			debug = new JMenuItem("Disable Debug Strings");
-		debug.addActionListener(GUI.action);
+		debug.addActionListener(action);
 		visStyle.add(osVisStyle);
 		visStyle.add(javaVisStyle);
 		view.add(visStyle);
@@ -88,9 +89,9 @@ public class MenuBar extends JMenuBar {
 		//Help menu
 		help = new JMenu("Help");
 		about = new JMenuItem("About");
-		about.addActionListener(GUI.action);
+		about.addActionListener(action);
 		github = new JMenuItem("Github");
-		github.addActionListener(GUI.action);
+		github.addActionListener(action);
 		help.add(about);
 		help.add(github);
 		

@@ -1,6 +1,10 @@
 package util;
 
+import responses.answers.Page;
+
+import java.util.ArrayList;
+
 @FunctionalInterface
 public interface OnComplete {
-	abstract void onComplete();
+	void onFinishParse(ArrayList<Page> toWrite);
 }

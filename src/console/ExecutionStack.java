@@ -1,5 +1,6 @@
 package console;
 
+import autoEval.gui.ConsolePane;
 import autoEval.gui.GUI;
 import console.command.condensed.*;
 
@@ -38,7 +39,7 @@ public class ExecutionStack {
 	 */
 	public void quickExec(ExecutableCommand c)
 	{
-		GUI.console.dbg("console.ExecutionStack.quickExec called");		//debug
+		ConsolePane.dbg("console.ExecutionStack.quickExec called");		//debug
 		FLUSH();		//Flush the exection stack
 		JMP(0);		//Jump to location 0
 		PUSH(c);		//Push the command c onto location 0
@@ -48,7 +49,7 @@ public class ExecutionStack {
 	
 	protected void RUN()
 	{
-		GUI.console.dbg("Running instruction at " + ip);
+		ConsolePane.dbg("Running instruction at " + ip);
 		executionStack[ip].execute();
 	}
 	

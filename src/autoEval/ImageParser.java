@@ -19,7 +19,9 @@ public final class ImageParser extends Thread implements Runnable {
 	NumberChooser num;
 	private int[][] responses;
 
-	OnComplete onComplete;
+	private OnComplete onComplete;
+
+	private ArrayList<Page> responsesToWrite;
 
 	/**
 	 * Worker class for processing forms
@@ -40,41 +42,42 @@ public final class ImageParser extends Thread implements Runnable {
 	@Override
 	public void run() 
 	{
-		GUI.questionAns = new ArrayList<Page>(source.size());
-		
+		responsesToWrite = new ArrayList<Page>(source.size());
+
 		for(int j = 0; j < source.size(); j++)
 		{
 			parseResponse(j);
 		}
+
+		onComplete.onFinishParse(responsesToWrite);
 	}
 	
 	private void parseResponse(int pageNumber)
 	{
 		Page p = new Page();
-		GUI.questionAns.add(p);			//Add to an arraylist of Page classes in the GUI class
-			for(int i = 0; i < qBoundList.size(); i++)
-			{
-				Survey s = new Survey(
-						source.get(pageNumber), 
-						/*qBoundList.getBoundList(1).get(i)*/ qBoundList.getPointFromList(1, i), 
-						/*qBoundList.getBoundList(2).get(i)*/ qBoundList.getPointFromList(2, i), 
-						num.getValue()
-						);
-				try {
-					switch(qBoundList.getType(i))
-					{
-					case MultipleChoice:
-						p.addQuestion(new Question<Integer>(s.getResponse()));		//Add the response to the page
-						break;
-					default:
-						break;
-					}
-				} catch (IOException e) {
-					//TODO Auto Generated catch block
-					e.printStackTrace();
+		responsesToWrite.add(p);			//Add to an arraylist of Page classes in the GUI class
+		for(int i = 0; i < qBoundList.size(); i++)
+		{
+			Survey s = new Survey(
+					source.get(pageNumber),
+					/*qBoundList.getBoundList(1).get(i)*/ qBoundList.getPointFromList(1, i),
+					/*qBoundList.getBoundList(2).get(i)*/ qBoundList.getPointFromList(2, i),
+					num.getValue()
+					);
+			try {
+				switch(qBoundList.getType(i))
+				{
+				case MultipleChoice:
+					p.addQuestion(new Question<Integer>(s.getResponse()));		//Add the response to the page
+					break;
+				default:
+					break;
 				}
+			} catch (IOException e) {
+				//TODO Auto Generated catch block
+				e.printStackTrace();
 			}
-		onComplete.onComplete();
+		}
 	}
 
 	/**

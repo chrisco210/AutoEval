@@ -40,7 +40,7 @@ public final class ExportGUI {
 			switch(toSave.toString().substring(toSave.toString().lastIndexOf(".") + 1))		//Check what file extension the user saved as
 			{
 			case "csv":
-				Export csvExportClass = new CSVExport(GUI.questionAns);
+				Export csvExportClass = new CSVExport(callback.getPages());
 				try {
 					csvExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (IOException e) {
@@ -48,7 +48,7 @@ public final class ExportGUI {
 				}
 				break;
 			case "json":
-				Export jsonExportClass = new JSONExport(GUI.questionAns);
+				Export jsonExportClass = new JSONExport(callback.getPages());
 				try {
 					jsonExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (IOException e) {
@@ -56,7 +56,7 @@ public final class ExportGUI {
 				}
 				break;
 			case "aep":
-				Export projectExportClass = new ProjectExport(GUI.questionAns, GUI.source, callback.getQuestionBounds(), callback.getNumberChooser());
+				Export projectExportClass = new ProjectExport(callback.getPages(), callback.source, callback.getQuestionBounds(), callback.getNumberChooser());
 				try {
 					projectExportClass.saveExport(toSave.getAbsolutePath());
 				} catch (IOException e) {
@@ -64,7 +64,7 @@ public final class ExportGUI {
 				}
 				break;
 			case "txt":
-				Export textExportClass = new TextExport(GUI.questionAns);
+				Export textExportClass = new TextExport(callback.getPages());
 				try {
 					textExportClass.saveExport(toSave.getAbsolutePath());
 				} catch(IOException e) {

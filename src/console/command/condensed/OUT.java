@@ -19,7 +19,7 @@ public class OUT implements ExecutableCommand {
 	
 	@Override
 	public int execute() {
-		GUI.console.log(outText);
+		System.out.println(outText);
 		return 1;
 	}
 

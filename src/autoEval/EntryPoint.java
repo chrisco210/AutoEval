@@ -37,6 +37,6 @@ public final class EntryPoint {
 		//Start the GUI
 		
 		if(gui)
-			new GUIEntryPoint().run();
+			new Thread(new GUIEntryPoint()).start();
 	}
 }

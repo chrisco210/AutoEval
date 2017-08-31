@@ -2,6 +2,7 @@ package console;
 
 import java.util.HashMap;
 
+import autoEval.gui.ConsolePane;
 import autoEval.gui.GUI;
 import console.command.Variable;
 import console.command.condensed.ExecutableCommand;
@@ -43,7 +44,7 @@ public class Controller {
 	 */
 	public void exec(String exec)
 	{
-		GUI.console.dbg("Controller.stringExec called");
+		ConsolePane.dbg("Controller.stringExec called");
 		execStack.quickExec(
 				CommandFactory.createCommand(exec).lex()
 				);
@@ -75,7 +76,7 @@ public class Controller {
 		execStack.FLUSH();
 		execStack.JMP(0);
 		execStack.pushAll(s.getCommandArray());
-		GUI.console.dbg(s.getCommandArray());
+		ConsolePane.dbg(s.getCommandArray());
 		
 		for(int i = 0; i < s.size(); i++)
 		{
