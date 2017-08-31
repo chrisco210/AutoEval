@@ -30,7 +30,6 @@ import popupMenus.About;
 import popupMenus.ImageAreaSelector;
 import popupMenus.InformMissingInfo;
 import popupMenus.NumberChooser;
-import popupMenus.StatSetup;
 import responses.answers.Page;
 import responses.answers.Question;
 import storage.export.ExportGUI;
@@ -384,7 +383,7 @@ public final class GUI extends JFrame {		//Only create one GUI.
 			}
 			else if(eventSrc == topMenu.stats)		//Display statistics setup menu
 			{
-				StatSetup.main(null);
+				getConsolePane().log("Statistics is not yet implemented.");
 			}
 			else if(eventSrc == topMenu.github)		//Open github page in browser
 			{

@@ -21,7 +21,7 @@ public class AutoEvalProjectByteReader
 
 	public ArrayList<File> getFiles()
 	{
-
+		return new ArrayList<File>();       //TODO make this method work, this is just temp
 	}
 
 	/**

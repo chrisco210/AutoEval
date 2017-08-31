@@ -6,24 +6,11 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Window.Type;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import javax.swing.JTextField;
 import java.awt.GridLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
 import javax.swing.UIManager;
-import javax.swing.SwingConstants;
-import javax.swing.DropMode;
 import javax.swing.JTextArea;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 public class InformMissingInfo extends JDialog implements ActionListener {
 
