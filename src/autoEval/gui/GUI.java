@@ -10,10 +10,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -87,8 +85,6 @@ public final class GUI extends JFrame {
 	private final Container pane = getContentPane();		//Main content pane
 	private ActionListener action;		//Action listener class
 	public ConsolePane console;		//Console
-	private ImageIcon surveyImage;      //Image display
-	private JLabel imageLabel;		//More image display
 	private ImageAreaSelector areaSelector = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	private final NumberChooser num = new NumberChooser();
 	private JTree survey;			//TODO
@@ -274,6 +270,7 @@ public final class GUI extends JFrame {
 			}
 			else if(eventSrc == topMenu.newRun)		//Start areaSelector visual comparison read, not finished, may never be
 			{
+				System.out.println("Visual Parse is not supported yet");
 			}
 			else if(eventSrc == topMenu.export)		//storage.export the created data to areaSelector variety of formats.
 			{

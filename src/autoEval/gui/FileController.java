@@ -1,20 +1,9 @@
 package autoEval.gui;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import com.sun.istack.internal.NotNull;
-import popupMenus.ImageAreaSelector;
-import responses.answers.Page;
 
 public class FileController {
 	public ArrayList<File> source;
@@ -72,7 +61,7 @@ public class FileController {
 	 * @param folder the folder to load
 	 * @throws IOException
 	 */
-	protected void loadFolder(@NotNull File folder)
+	protected void loadFolder(File folder)
 	{
 		//Clear all images from the list, and remove them from the tab pane
 		clearSource();
