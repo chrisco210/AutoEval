@@ -47,7 +47,7 @@ public final class GUI extends JFrame {
 	/**
 	 * The ArrayList of responses
 	 */
-	private ArrayList<Page> questionAns;	//Store the responses to the questions.  TODO fix the number of pages in the constructor
+	private ArrayList<Page> questionAns;	//Store the responses to the questions.
 
 	/**
 	 * File Controller

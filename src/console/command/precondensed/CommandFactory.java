@@ -36,11 +36,11 @@ public class CommandFactory {
 		ConsolePane.dbg("CommandFactory.createCommand called");	//Debug
 		
 		//TODO make this better
-		if(text.contains("OUT"))
+		if(isCommand("OUT", text))
 			return new OUT(text);
-		else if(text.contains("REM"))
+		else if(isCommand("REM", text))
 			return new REM();
-		else if(text.contains("EXE"))
+		else if(isCommand("EXE", text))
 			return new EXE(text);
 		
 		Document doc = null;
@@ -68,6 +68,12 @@ public class CommandFactory {
 		ConsolePane.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
 		return new REM();
 	}
+
+	private static boolean isCommand(String commandName, String commandText)
+	{
+		return commandText.substring(0, commandName.length()).equals(commandName);
+	}
+
 	static class DBGXML {
 		public static String XML = ""
 				+ "<commands>"

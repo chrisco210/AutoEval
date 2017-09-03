@@ -12,7 +12,6 @@ import responses.answers.Question;
 import util.OnComplete;
 import util.QuestionBoundList;
 
-//TODO Move this class to different package
 public final class ImageParser extends Thread implements Runnable {
 	QuestionBoundList qBoundList;
 	ArrayList<File> source;
@@ -60,8 +59,8 @@ public final class ImageParser extends Thread implements Runnable {
 		{
 			Survey s = new Survey(
 					source.get(pageNumber),
-					/*qBoundList.getBoundList(1).get(i)*/ qBoundList.getPointFromList(1, i),
-					/*qBoundList.getBoundList(2).get(i)*/ qBoundList.getPointFromList(2, i),
+					qBoundList.getPointFromList(1, i),
+					qBoundList.getPointFromList(2, i),
 					num.getValue()
 					);
 			try {
@@ -74,7 +73,7 @@ public final class ImageParser extends Thread implements Runnable {
 					break;
 				}
 			} catch (IOException e) {
-				//TODO Auto Generated catch block
+				p.addQuestion(new Question<String>("Failed to read a response"));
 				e.printStackTrace();
 			}
 		}
