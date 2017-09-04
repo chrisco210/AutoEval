@@ -1,13 +1,23 @@
 package cf.rachlinski.autoEval.console.command;
 
+/**
+ * Variable for the variable stack in the console
+ * @param <E> the data type
+ */
 public class Variable<E> {
 	public E value;		//The value of the variable
 	private int pointer;
-	
-	
-	public Variable(E val)
+	private String name;
+
+	/**
+	 * Construct a new variable
+	 * @param val the value of the variable
+	 * @param name the name of the variable
+	 */
+	public Variable(E val, String name)
 	{
 		value = val;
+		this.name = name;
 	}
 	
 	/**
@@ -35,5 +45,10 @@ public class Variable<E> {
 	public int getPointer()
 	{
 		return(pointer);
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 }

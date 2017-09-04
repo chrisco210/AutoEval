@@ -32,7 +32,10 @@ public class CommandFactory {
 			return new REM();
 		else if(isCommand("EXE", text))
 			return new EXE(text);
-		
+		else if(isCommand("SET", text))
+			return new SET(text);
+
+
 		Document doc = null;
 		
 		try {
