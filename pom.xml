@@ -19,7 +19,7 @@
 			<configuration>
 			<archive>
 			  <manifest>
-				<mainClass>autoEval.EntryPoint</mainClass>
+				<mainClass>cf.rachlinski.autoEval.EntryPoint</mainClass>
 			 </manifest>
 			</archive>
 			<descriptorRefs>
