@@ -62,7 +62,7 @@ public class CommandFactory {
 		return new REM();
 	}
 
-	private static boolean isCommand(String commandName, String commandText)
+	public static boolean isCommand(String commandName, String commandText)
 	{
 		return commandText.substring(0, commandName.length()).equals(commandName);
 	}
