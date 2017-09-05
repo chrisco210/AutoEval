@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import cf.rachlinski.autoEval.console.command.Variable;
 import cf.rachlinski.autoEval.gui.ConsolePane;
 import cf.rachlinski.autoEval.console.command.condensed.ExecutableCommand;
 import cf.rachlinski.autoEval.console.command.precondensed.CommandFactory;
@@ -21,20 +19,8 @@ import cf.rachlinski.autoEval.console.command.precondensed.CommandFactory;
  * @author Christopher
  */
 public class Script implements Iterable<ExecutableCommand>{
-	/**
-	 * This is where the executable commands will be accessible after they have been lexed and parsed
-	 */
 	private ExecutableCommand[] commandList;
-	/**
-	 * This is the initial lines of the file
-	 */
-	private String[] fileLines;
-
-	/**
-	 * @param <K>
-	 */
-	private HashMap<Integer, Variable<?>> symbolList = new HashMap<>();
-
+	
 	/**
 	 * Create areaSelector new Script class
 	 * @param scriptFile the file to read
@@ -42,7 +28,13 @@ public class Script implements Iterable<ExecutableCommand>{
 	 */
 	public Script(File scriptFile) throws Exception
 	{
-		this.fileLines = getFileLines(scriptFile);
+		String[] fileLines = getFileLines(scriptFile);
+		
+		commandList = new ExecutableCommand[fileLines.length]; 		//Allocate space in the command list
+		
+		//parse all the lines in the file
+		for(int i = 0; i < commandList.length; i++)
+			commandList[i] = CommandFactory.createCommand(fileLines[i]).lex();
 	}
 	
 	/**
@@ -52,7 +44,16 @@ public class Script implements Iterable<ExecutableCommand>{
 	 */
 	public Script(String scriptPath) throws Exception
 	{
-		this.fileLines = getFileLines(new File(scriptPath));
+		
+		String[] fileLines = getFileLines(new File(scriptPath));
+		
+		commandList = new ExecutableCommand[fileLines.length]; 		//Allocate space in the command list
+		
+		//parse all the lines in the file
+		for(int i = 0; i < commandList.length; i++)
+			commandList[i] = CommandFactory.createCommand(fileLines[i]).lex();
+		//for(String s : getFileLines(new File(scriptPath)))
+		//		GUI.console.dbg(s);
 	}
 	
 	/**
@@ -61,18 +62,12 @@ public class Script implements Iterable<ExecutableCommand>{
 	 */
 	public Script(String[] commands)
 	{
-		fileLines = commands;
+		commandList = new ExecutableCommand[commands.length];
+		
+		for(int i = 0; i < commands.length; i++)
+			commandList[i] = CommandFactory.createCommand(commands[i]).lex();
 	}
-
-	public void generateCommandList()
-	{
-		//First, find all variable names
-		for(String s : fileLines)
-		{
-
-		}
-	}
-
+	
 	/**
 	 * Create areaSelector new script class based on areaSelector string of commands seperated by areaSelector custom line delimiter
 	 * @param commands areaSelector string containing the commands, with commands seperated by areaSelector line delimiter
