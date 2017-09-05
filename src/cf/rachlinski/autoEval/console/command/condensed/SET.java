@@ -1,9 +1,7 @@
 package cf.rachlinski.autoEval.console.command.condensed;
 
-import cf.rachlinski.autoEval.console.VariableStack;
 import cf.rachlinski.autoEval.console.command.Variable;
 import cf.rachlinski.autoEval.gui.ConsolePane;
-import com.sun.istack.internal.NotNull;
 
 /**
  * Command to set the value of a variable

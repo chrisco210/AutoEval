@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import cf.rachlinski.autoEval.console.command.Variable;
 import cf.rachlinski.autoEval.gui.ConsolePane;
@@ -51,36 +54,34 @@ public class CommandFactory {
 			e.printStackTrace();
 			System.err.println("Warning! Failed to read commands.xml.  \n" +
 					"If you have modified files inside the jar, please undo these changes and restart the program.  \n");
+			throw new MalformedCommandsXml();
 		}
 
 		//Get a list of all the command nodes
 		NodeList n = doc.getElementsByTagName("command");
 
 		//This is where the desired node will be stored
-		Node selectedNode = null;
+		String className;
 
-		//Iterate through all command tags, and match the one we want with
-		for(int i = 0; i < n.getLength(); i++)
-		{
-			if(n.item(i).getAttributes().getNamedItem("name").getNodeValue().equals(nameCommandRequested))
-			{
-				selectedNode = n.item(i);
-			}
-		}
-
-		//If the command was not found
-		if(selectedNode == null)
-		{
-			ConsolePane.controller.exec(DefaultScripts.CMD_NOT_RECOGNIZED);
-			return new REM();
-		}
-
-		ConsolePane.dbg("Node Name: " + selectedNode.getChildNodes().item(1).getNodeName());
-		ConsolePane.dbg("Creating Class: " + selectedNode.getChildNodes().item(1).getTextContent());
-
+		//Use XPath to get the contents of the class node
 		try
 		{
-			return (PrecondensedCommand) Class.forName(selectedNode.getChildNodes().item(1).getTextContent()).getConstructor(String.class).newInstance(text);
+			ConsolePane.dbg(nameCommandRequested);
+			className =  (String) XPathFactory.newInstance().newXPath().compile(
+					"/commands/command[@name='" + nameCommandRequested + "']/class").evaluate(doc, XPathConstants.STRING
+			);
+		}
+		catch (XPathExpressionException e)
+		{
+			e.printStackTrace();
+			throw new MalformedCommandsXml();
+		}
+
+		ConsolePane.dbg("Class name: " + className);
+
+		try		//Attempt to return the precondensed command
+		{
+			return (PrecondensedCommand) Class.forName(className).getConstructor(String.class).newInstance(text);
 		}
 		catch (InstantiationException e)
 		{
@@ -109,10 +110,5 @@ public class CommandFactory {
 
 		throw new MalformedCommandsXml();
 
-	}
-
-	private static boolean isCommand(String commandName, String commandText)
-	{
-		return commandText.substring(0, commandName.length()).equals(commandName);
 	}
 }
