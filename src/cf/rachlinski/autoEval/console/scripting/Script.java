@@ -1,4 +1,4 @@
-package cf.rachlinski.autoEval.console;
+package cf.rachlinski.autoEval.console.scripting;
 
 import java.io.File;
 import java.io.IOException;

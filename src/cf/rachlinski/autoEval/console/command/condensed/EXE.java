@@ -1,7 +1,7 @@
 package cf.rachlinski.autoEval.console.command.condensed;
 
 import cf.rachlinski.autoEval.gui.ConsolePane;
-import cf.rachlinski.autoEval.console.Script;
+import cf.rachlinski.autoEval.console.scripting.Script;
 
 /**
  * Command to execute a script

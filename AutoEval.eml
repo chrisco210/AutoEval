@@ -8,5 +8,7 @@
 		<level name="Maven: com.github.cliftonlabs:json-simple:2.1.2" value="project"/>
 		<level name="Maven: com.sanityinc:jargs:2.0-SNAPSHOT" value="project"/>
 		<level name="Maven: commons-io:commons-io:2.5" value="project"/>
+		<level name="Maven: org.avaje:ebean:2.8.1" value="project"/>
+		<level name="Maven: javax.persistence:persistence-api:1.0" value="project"/>
 	</levels>
 </component>

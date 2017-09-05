@@ -2,6 +2,7 @@ package cf.rachlinski.autoEval.console;
 
 import java.util.HashMap;
 
+import cf.rachlinski.autoEval.console.scripting.Script;
 import cf.rachlinski.autoEval.gui.ConsolePane;
 import cf.rachlinski.autoEval.console.command.Variable;
 import cf.rachlinski.autoEval.console.command.condensed.ExecutableCommand;

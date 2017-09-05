@@ -1,0 +1,14 @@
+<commands>
+    <command name="OUT">
+        <class>cf.rachlinski.autoEval.console.command.precondensed.OUT</class>
+    </command>
+    <command name="EXE">
+        <class>cf.rachlinski.autoEval.console.command.precondensed.EXE</class>
+    </command>
+    <command name="SET">
+        <class>cf.rachlinski.autoEval.console.command.precondensed.SET</class>
+    </command>
+    <command name="REM">
+        <class>cf.rachlinski.autoEval.console.command.precondensed.REM</class>
+    </command>
+</commands>

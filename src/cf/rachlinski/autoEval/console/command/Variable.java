@@ -6,6 +6,9 @@ package cf.rachlinski.autoEval.console.command;
  */
 public class Variable<E> {
 	public E value;		//The value of the variable
+	/**
+	 * @deprecated
+	 */
 	private int pointer;
 	private String name;
 
@@ -19,7 +22,9 @@ public class Variable<E> {
 		value = val;
 		this.name = name;
 	}
-	
+
+
+
 	/**
 	 * Get the value of the variable
 	 * @return the value of the variable
@@ -50,5 +55,14 @@ public class Variable<E> {
 	public String getName()
 	{
 		return name;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Variable{" +
+				"name=" + name
+				+ ",value=" + value +
+				'}';
 	}
 }

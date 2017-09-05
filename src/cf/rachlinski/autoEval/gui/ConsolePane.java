@@ -35,8 +35,11 @@ public class ConsolePane extends JPanel
 		consoleTextBox.setEditable(false);
 
 		//Set stderr and stdout
-		System.setErr(new PrintStream(new ConsoleOutputStream(this.consoleTextBox)));
+		if(!GUI.debug)
+			System.setErr(new PrintStream(new ConsoleOutputStream(this.consoleTextBox)));
+
 		System.setOut(new PrintStream(new ConsoleOutputStream(this.consoleTextBox)));
+
 
 		textBoxContainer = new JScrollPane(consoleTextBox);
 

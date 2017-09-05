@@ -1,8 +1,12 @@
 package cf.rachlinski.autoEval.console;
 
 import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import cf.rachlinski.autoEval.console.command.Variable;
+import cf.rachlinski.autoEval.gui.ConsolePane;
+import com.avaje.ebean.validation.NotNull;
 
 /**
  * This is kind of a variable map now, but lets not talk about it
@@ -44,7 +48,21 @@ public class VariableStack {
 	{
 		return variableStack.get(variableName);
 	}
-	
+
+	/**
+	 * Do not add stuff with this.
+	 * @return
+	 */
+	public HashMap<String, Variable<?>> getVarStack()
+	{
+		return variableStack;
+	}
+
+	public void forEach(BiConsumer<String,Variable<?>> consumer)
+	{
+		variableStack.forEach(consumer);
+	}
+
 	/**
 	 * Set the variable stack HashMap to the one provided
 	 * @param map the map to use
@@ -61,6 +79,7 @@ public class VariableStack {
 	 */
 	public void set(Variable<?> v, String name)
 	{
+		ConsolePane.dbg(v);
 		variableStack.put(name, v);
 	}
 	
@@ -81,5 +100,10 @@ public class VariableStack {
 	public void free(String name)
 	{
 		variableStack.remove(name);
+	}
+
+	public int size()
+	{
+		return variableStack.size();
 	}
 }

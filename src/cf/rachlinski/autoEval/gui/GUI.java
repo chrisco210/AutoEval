@@ -18,7 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import cf.rachlinski.autoEval.ImageParser;
+import cf.rachlinski.autoEval.util.ImageParser;
 import cf.rachlinski.autoEval.util.OnComplete;
 import cf.rachlinski.autoEval.popupMenus.About;
 import cf.rachlinski.autoEval.popupMenus.ImageAreaSelector;
