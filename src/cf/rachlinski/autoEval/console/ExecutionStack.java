@@ -64,7 +64,12 @@ public class ExecutionStack {
 		FLUSH();		//Clear the stack
 		executionStack = commandList;		//Update executions tack tomatch the command list
 	}
-	
+
+	public void setStackSize(int size)
+	{
+		executionStack = new ExecutableCommand[size];
+	}
+
 	protected void FLUSH()
 	{
 		executionStack = new ExecutableCommand[1];
@@ -74,7 +79,7 @@ public class ExecutionStack {
 	 * Push a command onto the stack at the location of the isntruction pointer
 	 * @param c the command to push onto the stack
 	 */
-	private void PUSH(ExecutableCommand c)
+	public void PUSH(ExecutableCommand c)
 	{
 		executionStack[ip] = c;
 	}

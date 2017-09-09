@@ -20,8 +20,6 @@ public class SET implements ExecutableCommand {
 	@Override
 	public int execute()
 	{
-		ConsolePane.dbg("Condensed: " + set);
-		ConsolePane.controller.getUserVars().set(set, set.getName());
 		return 1;
 	}
 

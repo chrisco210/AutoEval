@@ -1,7 +1,10 @@
 package cf.rachlinski.autoEval.console.command.condensed;
 
+import cf.rachlinski.autoEval.console.command.precondensed.PrecondensedCommand;
 import cf.rachlinski.autoEval.gui.ConsolePane;
 import cf.rachlinski.autoEval.console.scripting.Script;
+
+import java.io.File;
 
 /**
  * Command to execute a script
@@ -11,9 +14,11 @@ import cf.rachlinski.autoEval.console.scripting.Script;
  */
 public class EXE implements ExecutableCommand {
 	private String path;
-	
-	public EXE(String scriptPath)
+	private boolean usePrecondensed;
+
+	public EXE(String scriptPath, boolean usePrecondensed)
 	{
+		this.usePrecondensed = usePrecondensed;
 		path = scriptPath;
 	}
 	
@@ -24,8 +29,11 @@ public class EXE implements ExecutableCommand {
 		
 		try 
 		{
-			ConsolePane.dbg("Executing script.");
-			ConsolePane.controller.exec(new Script(path));
+			if(usePrecondensed)
+				ConsolePane.controller.exec(new Script(new File(path), PrecondensedCommand.class));
+			else
+				ConsolePane.controller.exec(new Script(new File(path), ExecutableCommand.class));
+
 			return 1;
 		} 
 		catch (Exception e) 

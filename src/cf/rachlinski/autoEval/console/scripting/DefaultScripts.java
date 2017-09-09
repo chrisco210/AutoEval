@@ -1,5 +1,8 @@
 package cf.rachlinski.autoEval.console.scripting;
 
+import cf.rachlinski.autoEval.console.command.condensed.ExecutableCommand;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -10,7 +13,7 @@ public class DefaultScripts {
 	{
 		try
 		{
-			CMD_NOT_RECOGNIZED = new Script(DefaultScripts.class.getResource("/resources/scripts/cmdnotfound.aesc").getFile());
+			CMD_NOT_RECOGNIZED = new Script(new File(DefaultScripts.class.getResource("/resources/scripts/cmdnotfound.aesc").getFile()), ExecutableCommand.class);
 		}
 		catch (Exception e)
 		{

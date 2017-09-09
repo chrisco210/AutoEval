@@ -1,0 +1,5 @@
+OUT Variable Test
+OUT Setting variable test as string Yeah!
+SET string test Yeah!
+OUT Does this work:
+OUT $test

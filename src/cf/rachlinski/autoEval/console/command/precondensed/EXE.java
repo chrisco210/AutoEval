@@ -12,7 +12,9 @@ public class EXE extends PrecondensedCommand {
 	@Override
 	public ExecutableCommand lex() 
 	{
-		return  new cf.rachlinski.autoEval.console.command.condensed.EXE(args[1]);
+		boolean usePrecondensed = Boolean.parseBoolean(args[2]);
+
+		return  new cf.rachlinski.autoEval.console.command.condensed.EXE(args[3], usePrecondensed);
 	}
 
 }

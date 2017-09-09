@@ -75,15 +75,33 @@ public class Controller {
 		
 		execStack.FLUSH();
 		execStack.JMP(0);
-		execStack.pushAll(s.getCommandArray());
-		ConsolePane.dbg(s.getCommandArray());
-		
-		for(int i = 0; i < s.size(); i++)
+
+		execStack.setStackSize(s.size());
+
+		ConsolePane.dbg(s.isUsingPrecondensedCommands());
+
+		if(!s.isUsingPrecondensedCommands())
 		{
-			execStack.RUN();
-			execStack.INC();
+			execStack.pushAll((ExecutableCommand[]) s.getCommandArray());
+			ConsolePane.dbg(s.getCommandArray());
+
+			for(int i = 0; i < s.size(); i++)
+			{
+				execStack.RUN();
+				execStack.INC();
+			}
 		}
-		
+		else
+		{
+			for(int i = 0; i < s.size(); i++)
+			{
+				execStack.PUSH(((PrecondensedCommand) s.getCommand(execStack.getIP())).lex());
+				execStack.RUN();
+				execStack.INC();
+			}
+		}
+
+		//Cleanup
 		execStack.FLUSH();
 		execStack.pushAll(oldExecStack);
 		execStack.JMP(oldPointer);

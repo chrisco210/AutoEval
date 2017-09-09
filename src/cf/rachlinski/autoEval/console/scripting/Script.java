@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import cf.rachlinski.autoEval.console.command.precondensed.PrecondensedCommand;
 import cf.rachlinski.autoEval.gui.ConsolePane;
 import cf.rachlinski.autoEval.console.command.condensed.ExecutableCommand;
 import cf.rachlinski.autoEval.console.command.precondensed.CommandFactory;
@@ -18,29 +19,49 @@ import cf.rachlinski.autoEval.console.command.precondensed.CommandFactory;
  * There are areaSelector ton of different constructors to suit every need, so make sure you are using the right one.
  * @author Christopher
  */
-public class Script implements Iterable<ExecutableCommand>{
-	private ExecutableCommand[] commandList;
-	
+public class Script
+{
+	private Object[] commandList;
+	private boolean isPrecondensed;
+
 	/**
 	 * Create areaSelector new Script class
 	 * @param scriptFile the file to read
-	 * @throws IllegalArgumentException if the file is not accessable
+	 * @throws IllegalArgumentException if the file is not accessible
 	 */
-	public Script(File scriptFile) throws Exception
+	public Script(File scriptFile, Class<?> type) throws Exception
 	{
+		if( !((type == PrecondensedCommand.class) || (type == ExecutableCommand.class)) )
+			throw new IllegalArgumentException("You must specify type either PrecondensedCommand or ExecutableCommand");
+
+		isPrecondensed = (type == PrecondensedCommand.class);
+
 		String[] fileLines = getFileLines(scriptFile);
 		
-		commandList = new ExecutableCommand[fileLines.length]; 		//Allocate space in the command list
-		
+		commandList = new Object[fileLines.length]; 		//Allocate space in the command list
+
 		//parse all the lines in the file
-		for(int i = 0; i < commandList.length; i++)
-			commandList[i] = CommandFactory.createCommand(fileLines[i]).lex();
+		if(isPrecondensed)
+		{
+			for(int i = 0; i < commandList.length; i++)
+			{
+				commandList[i] = CommandFactory.createCommand(fileLines[i]);
+			}
+		}
+		else
+		{
+			for(int i = 0; i < commandList.length; i++)
+			{
+				commandList[i] = CommandFactory.createCommand(fileLines[i]).lex();
+			}
+		}
 	}
-	
+
 	/**
-	 * Create areaSelector new script based on areaSelector path to the file as areaSelector string
+	 * Create a new script based on a path to the file as areaSelector string
 	 * @param scriptPath
-	 * @throws Exception 
+	 * @throws Exception
+	 * @deprecated
 	 */
 	public Script(String scriptPath) throws Exception
 	{
@@ -55,38 +76,39 @@ public class Script implements Iterable<ExecutableCommand>{
 		//for(String s : getFileLines(new File(scriptPath)))
 		//		GUI.console.dbg(s);
 	}
-	
+
 	/**
-	 * Create areaSelector new Script class based on an array of commands
-	 * @param commands the array of commands to parse
+	 * Get a boolean value based on if the script class is using a precondensed command array
+	 * @return true if it is using precondensed commands, or false if it is using condensed commands
 	 */
-	public Script(String[] commands)
+	public boolean isUsingPrecondensedCommands()
 	{
-		commandList = new ExecutableCommand[commands.length];
-		
-		for(int i = 0; i < commands.length; i++)
-			commandList[i] = CommandFactory.createCommand(commands[i]).lex();
+		return isPrecondensed;
 	}
-	
+
 	/**
-	 * Create areaSelector new script class based on areaSelector string of commands seperated by areaSelector custom line delimiter
-	 * @param commands areaSelector string containing the commands, with commands seperated by areaSelector line delimiter
-	 * @param delimiter the line delimiter to use
-	 * NOTE: THIS FUNCTION DOES NOT WORK YET! DO NOT USE
+	 * Get the array of commands
+	 * @return the array of commands
 	 */
-	public Script(String commands, String delimiter)
-	{
-		String[] commandLines = commands.split(delimiter);
-		
-		for(int i = 0; i < commandLines.length; i++)
-			commandList[i] = CommandFactory.createCommand(commandLines[i]).lex();
-	}
-	
-	public ExecutableCommand[] getCommandArray()
+	public Object[] getCommandArray()
 	{
 		return commandList;
 	}
-	
+
+	/**
+	 * Get a single command
+	 * @param index the index...
+	 * @return the fuck do you think?
+	 */
+	public Object getCommand(int index)
+	{
+		return commandList[index];
+	}
+
+	/**
+	 * Get the size of the script
+	 * @return the number of elements in the commandList
+	 */
 	public int size()
 	{
 		return commandList.length;
@@ -125,10 +147,5 @@ public class Script implements Iterable<ExecutableCommand>{
 		ConsolePane.dbg("-------");
 		//return fileLines;
 		return fileLines.toArray(new String[fileLines.size()]);
-	}
-
-	@Override
-	public Iterator<ExecutableCommand> iterator() {
-		return Arrays.asList(commandList).iterator();
 	}
 }
