@@ -43,6 +43,8 @@ public class Script
 		//parse all the lines in the file
 		if(isPrecondensed)
 		{
+			ConsolePane.dbg("Script class created using precondensed commands");
+
 			for(int i = 0; i < commandList.length; i++)
 			{
 				commandList[i] = CommandFactory.createCommand(fileLines[i]);
@@ -50,6 +52,8 @@ public class Script
 		}
 		else
 		{
+			ConsolePane.dbg("Script class created using condensed commands");
+
 			for(int i = 0; i < commandList.length; i++)
 			{
 				commandList[i] = CommandFactory.createCommand(fileLines[i]).lex();
@@ -57,12 +61,14 @@ public class Script
 		}
 	}
 
+
 	/**
 	 * Create a new script based on a path to the file as areaSelector string
 	 * @param scriptPath
 	 * @throws Exception
 	 * @deprecated
 	 */
+	/*
 	public Script(String scriptPath) throws Exception
 	{
 		
@@ -76,6 +82,7 @@ public class Script
 		//for(String s : getFileLines(new File(scriptPath)))
 		//		GUI.console.dbg(s);
 	}
+	*/
 
 	/**
 	 * Get a boolean value based on if the script class is using a precondensed command array

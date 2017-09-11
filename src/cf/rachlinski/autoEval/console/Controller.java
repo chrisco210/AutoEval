@@ -78,10 +78,10 @@ public class Controller {
 
 		execStack.setStackSize(s.size());
 
-		ConsolePane.dbg(s.isUsingPrecondensedCommands());
 
 		if(!s.isUsingPrecondensedCommands())
 		{
+
 			execStack.pushAll((ExecutableCommand[]) s.getCommandArray());
 			ConsolePane.dbg(s.getCommandArray());
 

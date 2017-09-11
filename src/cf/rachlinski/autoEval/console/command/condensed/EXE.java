@@ -25,14 +25,16 @@ public class EXE implements ExecutableCommand {
 	@Override
 	public int execute() 
 	{
-		ConsolePane.dbg("Executing Script at " + path);
-		
 		try 
 		{
 			if(usePrecondensed)
+			{
 				ConsolePane.controller.exec(new Script(new File(path), PrecondensedCommand.class));
+			}
 			else
+			{
 				ConsolePane.controller.exec(new Script(new File(path), ExecutableCommand.class));
+			}
 
 			return 1;
 		} 

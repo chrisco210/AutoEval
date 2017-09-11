@@ -20,13 +20,14 @@ public class OUT extends PrecondensedCommand {
 			if(args[i].charAt(0) == '$')
 			{
 				String variableName = args[i].substring(1);
-
+				ConsolePane.dbg(variableName);
 				try
 				{
 					args[i] = ConsolePane.controller.getUserVars().get(variableName).getValue().toString();
 				}
 				catch (NullPointerException e)
 				{
+					e.printStackTrace();
 					args[i] = "null";
 				}
 			}

@@ -7,7 +7,6 @@ package cf.rachlinski.autoEval.console.command.condensed;
  *
  */
 public class OUT implements ExecutableCommand {
-	private int[] variableLocations;
 
 	private String outText;
 	

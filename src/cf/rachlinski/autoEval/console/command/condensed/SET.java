@@ -20,6 +20,7 @@ public class SET implements ExecutableCommand {
 	@Override
 	public int execute()
 	{
+		ConsolePane.controller.getUserVars().getVarStack().put(set.getName(), set);
 		return 1;
 	}
 
