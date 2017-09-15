@@ -27,7 +27,7 @@ public final class EntryPoint {
 			System.exit(0);
 		}
 		
-		
+		//This is annoying.  I don't really think I need command line arguments, but they will be implemented later TODO
 		//Check if the user doesnt want to disply the GUI
 		//if(!parser.getOptionValue(doGui))
 		//	gui = false;
@@ -35,6 +35,6 @@ public final class EntryPoint {
 		//Start the GUI
 		
 		if(gui)
-			new Thread(new GUIEntryPoint()).start();
+			new Thread(new GuiLoader()).start();
 	}
 }

@@ -15,7 +15,6 @@ public final class ImageParser extends Thread implements Runnable {
 	QuestionBoundList qBoundList;
 	ArrayList<File> source;
 	NumberChooser num;
-	private int[][] responses;
 
 	private OnComplete onComplete;
 
@@ -44,7 +43,11 @@ public final class ImageParser extends Thread implements Runnable {
 
 		for(int j = 0; j < source.size(); j++)
 		{
-			parseResponse(j);
+			Thread t  = new Thread(() ->
+			{
+				parseResponse(j);
+			}
+			).start();
 		}
 
 		onComplete.onFinishParse(responsesToWrite);
@@ -78,13 +81,8 @@ public final class ImageParser extends Thread implements Runnable {
 		}
 	}
 
-	/**
-	* Return areaSelector two dimensional array of the multiple choice responses
-	* @returns areaSelector two dimensional array of multiple choice responses
-	*/
-	public int[][] getResponses()
+	private interface IntegerRunnable
 	{
-		return(responses);
+		abstract int passInt(int i);
 	}
-
 }
