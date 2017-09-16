@@ -43,11 +43,7 @@ public final class ImageParser extends Thread implements Runnable {
 
 		for(int j = 0; j < source.size(); j++)
 		{
-			Thread t  = new Thread(() ->
-			{
 				parseResponse(j);
-			}
-			).start();
 		}
 
 		onComplete.onFinishParse(responsesToWrite);
@@ -79,10 +75,5 @@ public final class ImageParser extends Thread implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private interface IntegerRunnable
-	{
-		abstract int passInt(int i);
 	}
 }

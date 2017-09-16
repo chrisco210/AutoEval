@@ -1,7 +1,5 @@
 package cf.rachlinski.autoEval.gui;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -86,10 +84,50 @@ public final class GUI extends JFrame {
 	private ActionListener action;		//Action listener class
 	public ConsolePane console;		//Console
 	private ImageAreaSelector areaSelector = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
-	private final NumberChooser num = new NumberChooser();
+	private NumberChooser num = new NumberChooser();
 	private JTree survey;			//TODO
 	private DefaultMutableTreeNode question;
-	
+
+	private ActionListener listener;
+
+	/**
+	 * Construct a GUI class.  This constructor allows for usage of the GUIController class,
+	 * allowing for different components and updatability.
+	 *
+	 * @param title The title of the window
+	 * @param size The size of the window
+	 * @param topMenu The menu bar to use
+	 * @param statusLabel the status label to use
+	 * @param console the ConsolePane to use
+	 * @param survey the JTree to use
+	 * @param areaSelector the ImageAreaSelector to use
+	 * @param num the NumberChooser to use
+	 */
+	public GUI(String title,
+			   Dimension size,
+			   MenuBar topMenu,
+			   StatusBar statusLabel,
+			   ConsolePane console,
+			   CenterTabPane tabPane,
+			   JTree survey,
+			   ImageAreaSelector areaSelector,
+			   NumberChooser num,
+			   ActionListener listener
+			   )
+	{
+		this.topMenu = topMenu;
+		this.statusLabel = statusLabel;
+		this.centerPane = tabPane;
+		this.console = console;
+		this.survey = survey;
+		this.areaSelector = areaSelector;
+		this.num = num;
+		this.listener = listener;
+
+		this.setTitle(title);
+		this.setSize(size);
+	}
+
 	/**
 	 * The main GUI of the program
 	 */

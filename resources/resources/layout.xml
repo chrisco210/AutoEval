@@ -1,0 +1,14 @@
+<layout>
+    <mapping component="CenterTabPane">
+        <position>Center</position>
+    </mapping>
+    <mapping component="StatusBar">
+        <position>South</position>
+    </mapping>
+    <mapping component="JTree">
+        <position>West</position>
+    </mapping>
+    <mapping component="MenuBar">
+        <position>North</position>
+    </mapping>
+</layout>
