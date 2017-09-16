@@ -81,13 +81,10 @@ public final class GUI extends JFrame {
 	private StatusBar statusLabel;		//Where the program status is displayed, bottom of screen
 	private CenterTabPane centerPane;		//Central tab pane
 	private final Container pane = getContentPane();		//Main content pane
-	private ActionListener action;		//Action listener class
 	public ConsolePane console;		//Console
 	private ImageAreaSelector areaSelector = null;		//Define ImageAreaSelector early so its scope reaches all functions, same for num
 	private NumberChooser num = new NumberChooser();
 	private JTree survey;			//TODO
-	private DefaultMutableTreeNode question;
-
 	private ActionListener listener;
 
 	/**
@@ -111,8 +108,7 @@ public final class GUI extends JFrame {
 			   CenterTabPane tabPane,
 			   JTree survey,
 			   ImageAreaSelector areaSelector,
-			   NumberChooser num,
-			   ActionListener listener
+			   NumberChooser num
 			   )
 	{
 		this.topMenu = topMenu;
@@ -122,62 +118,41 @@ public final class GUI extends JFrame {
 		this.survey = survey;
 		this.areaSelector = areaSelector;
 		this.num = num;
-		this.listener = listener;
+
+		this.listener = new topMenuBarEventListener(this);
 
 		this.setTitle(title);
 		this.setSize(size);
 	}
 
-	/**
-	 * The main GUI of the program
-	 */
-	public GUI() 
+	public void setCenterPane(CenterTabPane p)
 	{
-		//Setup frame properties
-		setTitle("AutoEval");
-       	setSize(1000, 750);        
-        setDefaultCloseOperation(EXIT_ON_CLOSE);    
-        action = new topMenuBarEventListener(this);
-        
-		//Pane stuff
-		pane.setLayout(new BorderLayout());
-		
-		//Create center tab pane
-		centerPane = new CenterTabPane(this);
-		
-		//Create menu bar and add it to top of screen
-		topMenu = new MenuBar(action);
-		pane.add(topMenu, BorderLayout.NORTH);
-		
-		
-		//Create console pane 
-		console = new ConsolePane();
-		
-		
-		//Tabbed pane stuff
-		centerPane.add("Console", console);
-		pane.add(centerPane, BorderLayout.CENTER);
-		
-		
-		//Response tree
-		question = new DefaultMutableTreeNode("Questions");
-		survey = new JTree(question);
-		pane.add(survey, BorderLayout.WEST);
-		
-		
-		
-		//Status Bar
-		statusLabel = new StatusBar();
-		statusLabel.setText("Done.");
-		pane.add(statusLabel, BorderLayout.SOUTH);
-
-		//File Controller
-		fileController = new FileController(this);
-		
-		setVisible(true);		//Display the form
-		getStatusBar().setStatus("Done.");
+		this.centerPane = p;
 	}
 
+	public void setTopMenu(MenuBar menuBar)
+	{
+		this.topMenu = menuBar;
+	}
+
+
+	/**
+	 * Add all the components to the locations specified in layout.xml
+	 * @param map
+	 */
+	public void assembleComponents(LayoutMap map)
+	{
+		ConsolePane.dbg(map.getComponentLocation("MenuBar"));
+		this.add(topMenu, map.getComponentLocation("MenuBar"));
+		ConsolePane.dbg(map.getComponentLocation("CenterTabPane"));
+		this.add(centerPane, map.getComponentLocation("CenterTabPane"));
+		ConsolePane.dbg(map.getComponentLocation("StatusBar"));
+		this.add(statusLabel, map.getComponentLocation("StatusBar"));
+		ConsolePane.dbg(map.getComponentLocation("JTree"));
+		this.add(survey, map.getComponentLocation("JTree"));
+
+		centerPane.add("Console", console);
+	}
 
 	/**
 	 * Get the number chooser
@@ -242,6 +217,11 @@ public final class GUI extends JFrame {
 		return num.getValue();
 	}
 
+	public ActionListener getListener()
+	{
+		return listener;
+	}
+
 	/**
 	 * Instantiate the image area selector
 	 */
@@ -249,7 +229,7 @@ public final class GUI extends JFrame {
 	{
 		areaSelector = new ImageAreaSelector(f);
 	}
-	
+
 	/**
 	 * Subclass to handle Action Events from the menu bar
 	 * @author Christopher
@@ -264,7 +244,7 @@ public final class GUI extends JFrame {
 		}
 
 		public void actionPerformed(ActionEvent e)			//Clean up this function, maybe create functions for opening files and such
-		{	
+		{
 			Object eventSrc = e.getSource();
 			//Read menu bar inputs
 			if(eventSrc == topMenu.open){		//Single File Open
@@ -280,15 +260,15 @@ public final class GUI extends JFrame {
 			else if(eventSrc == topMenu.openFolder){		//Single File Open
 				new Thread(() ->
 				{
-				getStatusBar().setStatus("Opening File");
+					getStatusBar().setStatus("Opening File");
 
-				JFileChooser chooser = new JFileChooser();
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					JFileChooser chooser = new JFileChooser();
+					chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-				if(chooser.showOpenDialog(actionSender) == JFileChooser.APPROVE_OPTION)
-					fileController.loadFolder(chooser.getSelectedFile());
+					if(chooser.showOpenDialog(actionSender) == JFileChooser.APPROVE_OPTION)
+						fileController.loadFolder(chooser.getSelectedFile());
 
-				getStatusBar().setStatus("Done.");
+					getStatusBar().setStatus("Done.");
 				}).start();
 			}
 			else if(eventSrc == topMenu.run)
@@ -299,7 +279,7 @@ public final class GUI extends JFrame {
 					InformMissingInfo.main(null);
 					return;
 				}
-				
+
 				getStatusBar().setStatus("Parsing");
 				OnComplete onFinish = toWrite -> {questionAns = toWrite; getStatusBar().setStatus("Done.");};
 				ImageParser w = new ImageParser(areaSelector.getQuestionBoundList(), source, num, 0, onFinish);
@@ -315,7 +295,7 @@ public final class GUI extends JFrame {
 				Runnable export = () -> new ExportGUI(actionSender);
 				new Thread(export).start();
 			}
-			else if(eventSrc == topMenu.chooseQHeight)		//Choose question height 
+			else if(eventSrc == topMenu.chooseQHeight)		//Choose question height
 			{
 				getStatusBar().setStatus("Choosing Option Height");
 				try {
@@ -351,11 +331,11 @@ public final class GUI extends JFrame {
 			}
 			else if(eventSrc == topMenu.github)		//Open github page in browser
 			{
-					try {
-						Desktop.getDesktop().browse(new URI("https://github.com/chrisco210/AutoEval"));
-					} catch (IOException | URISyntaxException e1) {
-						System.out.println("Failed to open github.");
-					}
+				try {
+					Desktop.getDesktop().browse(new URI("https://github.com/chrisco210/AutoEval"));
+				} catch (IOException | URISyntaxException e1) {
+					System.out.println("Failed to open github.");
+				}
 			}
 			else if(eventSrc == topMenu.osVisStyle)		//Change visual style to os style
 			{
@@ -388,6 +368,6 @@ public final class GUI extends JFrame {
 				else
 					topMenu.debug.setText("Enable Debug Strings");
 			}
-		} 
+		}
 	}
 }

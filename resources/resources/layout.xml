@@ -1,4 +1,5 @@
 <layout>
+    <layoutType>BorderLayout</layoutType>
     <mapping component="CenterTabPane">
         <position>Center</position>
     </mapping>
