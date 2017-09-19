@@ -27,11 +27,14 @@ import cf.rachlinski.autoEval.util.QuestionBoundList;
 import cf.rachlinski.autoEval.gui.GUI;
 
 public class ImageAreaSelector extends AbstractAreaSelector implements ActionListener, MouseListener, MouseMotionListener{
+
+	private static final int BOUND_LIST_SIZE = 16;
+
 	/*		--------Variables--------		*/
 	private BufferedImage imgBuff;
 	private Point tempBound1;
 	private Point tempBound2;
-	private QuestionBoundList boundList= new QuestionBoundList(10);			//TODO Determine the number of questions
+	private QuestionBoundList boundList= new QuestionBoundList(ImageAreaSelector.BOUND_LIST_SIZE);
 	private boolean isSelecting = false;
 	
 	/*		--------GUI ELEMENTS--------		*/

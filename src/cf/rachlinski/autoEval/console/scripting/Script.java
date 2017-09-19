@@ -138,7 +138,7 @@ public class Script
 
 		
 		Stream<String> inputStream = Files.lines(toGet.toPath());		//Use java 8 stream class to read all the lines of the file
-		ArrayList<String> fileLines = new ArrayList<String>(100);		//TODO fix size of arraylist in constructors
+		ArrayList<String> fileLines = new ArrayList<String>(Math.toIntExact(inputStream.count()));
 		
 		Consumer<? super String> r = (ln) -> {
 			fileLines.add(ln);
@@ -147,11 +147,7 @@ public class Script
 		
 		inputStream.forEach(r);
 		inputStream.close();
-		
-		ConsolePane.dbg("File lines:");
-		ConsolePane.dbg(fileLines);
-		
-		ConsolePane.dbg("-------");
+
 		//return fileLines;
 		return fileLines.toArray(new String[fileLines.size()]);
 	}

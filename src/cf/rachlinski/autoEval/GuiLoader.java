@@ -35,7 +35,7 @@ public final class GuiLoader implements Runnable {
 		g.setTopMenu(new MenuBar(g.getListener()));
 
 
-		//TODO
+		//TODO catch exceptions
 		try
 		{
 			g.assembleComponents(new LayoutMap(this.getClass().getResourceAsStream("/resources/layout.xml")));

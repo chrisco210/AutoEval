@@ -68,7 +68,6 @@ public final class ExportGUI {
 				try {
 					textExportClass.saveExport(toSave.getAbsolutePath());
 				} catch(IOException e) {
-					//TODO handle exceptions in storage.export, or at least make an error message
 					e.printStackTrace();
 				}
 			}
