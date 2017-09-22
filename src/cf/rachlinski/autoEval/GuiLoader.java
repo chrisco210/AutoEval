@@ -34,8 +34,6 @@ public final class GuiLoader implements Runnable {
 		g.setCenterPane(new CenterTabPane(g));
 		g.setTopMenu(new MenuBar(g.getListener()));
 
-
-		//TODO catch exceptions
 		try
 		{
 			g.assembleComponents(new LayoutMap(this.getClass().getResourceAsStream("/resources/layout.xml")));
@@ -47,10 +45,12 @@ public final class GuiLoader implements Runnable {
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.err.println("Failed to load LayoutXML! If you have edited files in the JAR, please replace them.");
 		}
 		catch (SAXException e)
 		{
 			e.printStackTrace();
+			System.err.println("Malformed Layout XML! Fix it.");
 		}
 
 		controller.setWindow(g);

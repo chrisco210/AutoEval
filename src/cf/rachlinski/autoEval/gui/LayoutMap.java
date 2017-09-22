@@ -36,6 +36,7 @@ public class LayoutMap
 		}
 		catch (XPathExpressionException e)
 		{
+			e.printStackTrace();
 			return null;
 		}
 	}

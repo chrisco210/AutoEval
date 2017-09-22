@@ -138,20 +138,26 @@ public final class GUI extends JFrame {
 
 	/**
 	 * Add all the components to the locations specified in layout.xml
-	 * @param map
+	 * @param map the LayoutMap to assemble components by
 	 */
 	public void assembleComponents(LayoutMap map)
 	{
+		ConsolePane.dbg(map.getComponentLocation("StatusBar"));
+		this.add(statusLabel, map.getComponentLocation("StatusBar"));
 		ConsolePane.dbg(map.getComponentLocation("MenuBar"));
 		this.add(topMenu, map.getComponentLocation("MenuBar"));
 		ConsolePane.dbg(map.getComponentLocation("CenterTabPane"));
 		this.add(centerPane, map.getComponentLocation("CenterTabPane"));
-		ConsolePane.dbg(map.getComponentLocation("StatusBar"));
-		this.add(statusLabel, map.getComponentLocation("StatusBar"));
 		ConsolePane.dbg(map.getComponentLocation("JTree"));
 		this.add(survey, map.getComponentLocation("JTree"));
 
 		centerPane.add("Console", console);
+
+		getStatusBar().setStatus("Done.");
+
+		//Reload visibility
+		pane.setVisible(false);
+		pane.setVisible(true);
 	}
 
 	/**
