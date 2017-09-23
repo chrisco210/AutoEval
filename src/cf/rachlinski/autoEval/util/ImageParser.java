@@ -25,9 +25,8 @@ public final class ImageParser extends Thread implements Runnable {
 	 * @param a the ImageAreaSelector class to use
 	 * @param source Source File ArrayList
 	 * @param num NumberChooser class to use
-	 * @param questionNum which question to use on the page
 	 */
-	public ImageParser(QuestionBoundList a, ArrayList<File> source, NumberChooser num, int questionNum, OnComplete onFinish)
+	public ImageParser(QuestionBoundList a, ArrayList<File> source, NumberChooser num, OnComplete onFinish)
 	{
 		qBoundList = a;
 		this.source = source;

@@ -29,7 +29,9 @@ public class MenuBar extends JMenuBar {
 	protected JMenuItem github;
 	protected JMenuItem stats;
 	protected JMenuItem debug;
-	
+	protected JMenuItem splitConsole;
+
+
 	public MenuBar(ActionListener action)
 	{
 		open = new JMenuItem("Open");
@@ -68,20 +70,27 @@ public class MenuBar extends JMenuBar {
 		file.add(importProject);
 		//View menu
 		view = new JMenu("View");
+		splitConsole = new JMenuItem("Console to New Window");
 		visStyle = new JMenu("Visual Style");
 		osVisStyle = new JMenuItem("OS Components");
 		osVisStyle.addActionListener(action);
 		javaVisStyle = new JMenuItem("Java Components");
 		javaVisStyle.addActionListener(action);
 		if(!GUI.debug)
+		{
 			debug = new JMenuItem("Enable Debug Strings");
+		}
 		else
+		{
 			debug = new JMenuItem("Disable Debug Strings");
+		}
 		debug.addActionListener(action);
+		splitConsole.addActionListener(action);
 		visStyle.add(osVisStyle);
 		visStyle.add(javaVisStyle);
 		view.add(visStyle);
 		view.add(debug);
+		view.add(splitConsole);
 		//Edit menu
 		edit = new JMenu("Image");
 		edit.add(chooseQHeight);

@@ -2,18 +2,15 @@ package cf.rachlinski.autoEval.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import cf.rachlinski.autoEval.util.ImageParser;
@@ -50,7 +47,7 @@ public final class GUI extends JFrame {
 	/**
 	 * File Controller
 	 */
-	private FileController fileController;
+	private final FileController fileController;
 
 	/*			Flags		*/
 
@@ -120,6 +117,8 @@ public final class GUI extends JFrame {
 		this.num = num;
 
 		this.listener = new topMenuBarEventListener(this);
+
+		this.fileController = new FileController(this);
 
 		this.setTitle(title);
 		this.setSize(size);
@@ -288,7 +287,7 @@ public final class GUI extends JFrame {
 
 				getStatusBar().setStatus("Parsing");
 				OnComplete onFinish = toWrite -> {questionAns = toWrite; getStatusBar().setStatus("Done.");};
-				ImageParser w = new ImageParser(areaSelector.getQuestionBoundList(), source, num, 0, onFinish);
+				ImageParser w = new ImageParser(areaSelector.getQuestionBoundList(), fileController.getFiles(), num, onFinish);
 				w.start();
 
 			}
@@ -373,6 +372,26 @@ public final class GUI extends JFrame {
 					topMenu.debug.setText("Disable Debug Strings");
 				else
 					topMenu.debug.setText("Enable Debug Strings");
+			}
+			else if(eventSrc == topMenu.splitConsole)
+			{
+				actionSender.remove(console);
+
+				JFrame frame = new JFrame("Console");
+				frame.setLayout(new BorderLayout());
+				frame.add(console, BorderLayout.CENTER);
+				frame.setSize(500, 500);
+				frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				frame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowDeactivated(WindowEvent e)
+					{
+						actionSender.add(console);
+						actionSender.pane.setVisible(false);
+						actionSender.pane.setVisible(true);
+					}
+				});
+				frame.setVisible(true);
 			}
 		}
 	}
