@@ -1,10 +1,9 @@
 package cf.rachlinski.autoEval;
 
+import cf.rachlinski.autoEval.console.scripting.EnvironmentConstants;
 import com.sanityinc.jargs.CmdLineParser;
 import com.sanityinc.jargs.CmdLineParser.Option;
 import com.sanityinc.jargs.CmdLineParser.OptionException;
-
-import cf.rachlinski.autoEval.console.scripting.EnvironmentConstants;
 
 public final class EntryPoint {
 	private static boolean gui = true; 

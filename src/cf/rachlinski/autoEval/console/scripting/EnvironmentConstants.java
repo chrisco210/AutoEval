@@ -7,6 +7,6 @@ public class EnvironmentConstants {
 	
 	public static void SETUP_CONSTANTS()
 	{
-		PROGRAM_ROOT = GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		//PROGRAM_ROOT = GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 	}
 }
