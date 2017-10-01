@@ -22,12 +22,19 @@ public class Header
 	 */
 	Header(char identifier, int length)
 	{
-
+		short[] lenBytes = Header.intToBytes(length);
+		header = new byte[] {
+				(byte) identifier,
+				(byte) lenBytes[0],
+				(byte) lenBytes[1],
+				(byte) lenBytes[2],
+				(byte) lenBytes[3]
+		};
 	}
 
 	/**
 	 * Get the header content
-	 * @return an array of 8 bytes
+	 * @return an array of 5 bytes
 	 */
 	public byte[] get()
 	{
@@ -35,7 +42,7 @@ public class Header
 	}
 
 	/**
-	 * Convert an integer into an array of 4 bytes
+	 * Convert an {@code int } into an array of 4 {@code byte}s
 	 * Note that this function will ignore the sign bit
 	 * The array of bytes is encoded in Little Endian IE The least significant byte is first
 	 * @param n the integer to convert
@@ -48,6 +55,7 @@ public class Header
 		for(int i = 3; i >= 0; i--)
 		{
 			bytes[i] = (short) (n / (int) Math.pow(256, i));
+			n %= Math.pow(256, i);
 		}
 
 		return bytes;

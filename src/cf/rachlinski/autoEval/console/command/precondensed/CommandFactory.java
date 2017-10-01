@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import cf.rachlinski.autoEval.console.scripting.DefaultScripts;
+import test.cf.rachlinski.autoEvalTests.HeaderTest;
 
 
 public class CommandFactory {
@@ -38,7 +39,8 @@ public class CommandFactory {
 		{
 			if(text.equals("DMPUVARSTACK"))
 				System.out.println(ConsolePane.controller.getUserVars().getVarStack().toString());
-
+			else if(text.equals("HEADTEST"));
+			HeaderTest.headerTest2();
 		}
 
 		//The name of the command requested (Which should be the first thing they typed
