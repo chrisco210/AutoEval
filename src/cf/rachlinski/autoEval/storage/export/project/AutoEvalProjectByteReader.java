@@ -67,7 +67,7 @@ public class AutoEvalProjectByteReader
 							toRead[j + 5],
 							toRead[j + 6],
 							toRead[j + 7]
-					} == Headers.END.get())
+					} == DefaultHeaders.END.get())
 					{
 						finished = true;
 					}

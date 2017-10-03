@@ -4,9 +4,11 @@ import cf.rachlinski.autoEval.gui.ConsolePane;
 import cf.rachlinski.autoEval.util.QuestionBoundList;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class to automatically generate the bytes of an auto eval project file
@@ -41,50 +43,25 @@ public class AutoEvalProjectByteGenerator {
 	 */
 	public AutoEvalProjectByteGenerator(ArrayList<File> fileSource, QuestionBoundList bounds, byte optionCount)
 	{
-		//Get the total number of bytes that will be written to the file, initialized to 1 because byte 0 is optionCount
-		byteCount = 10;
-		//Get size of the file names
-		for(File f : fileSource)
-			byteCount += f.getPath().getBytes(Charset.forName("UTF-8")).length;
+		byteCount = 0;
 
-		//Get the size of the question bound lists
-		//How we get the size:
-		//(NUM_POINTS * sizeof(int) * 2 for x and y values) * 2 for the two points + 1 byte * NUM_AREATYPES
-		byteCount += (bounds.size() * 8 * 2) + bounds.size() * 4;
+		int sectorPointer = 0;
+		Sector[] sectors = new Sector[1 + fileSource.size() + bounds.size() + 1];
 
-		//Factor in the headers
-		byteCount += (fileSource.size() * 16) + (bounds.size() * 16);
+		sectors[sectorPointer] = new Sector(DefaultHeaders.VERSION_HEADER, new byte[] {2, 0, 0, 0});
+		sectorPointer++;
 
-		fileBytes = new byte[byteCount];
-
-		ConsolePane.dbg("Total number of bytes: " + fileBytes.length);
-
-
-		//Start writing
-		writeArray(Headers.VERSION_HEADER.get());        //write the version header
-		writeByte(optionCount);     //set the option count, this only takes one byte, so it doesn't need areaSelector header
-
-		//Write the file paths
+		//Create bytes for all file paths
 		for(File f : fileSource)
 		{
-			writeArray(Headers.FILE_PATH.get());
-			writeArray(f.getPath().getBytes(Charset.forName("UTF-8")));
-			writeArray(Headers.END.get());
-		}
 
-		//Write all points
+			sectors[sectorPointer] = SectorFactory.createSector('f', f.getAbsolutePath());
+
+			sectorPointer++;
+		}
 		for(int i = 0; i < bounds.size(); i++)
 		{
-			writeArray(Headers.BOUND.get());
-			//Write data for point 1
-			writeInt(bounds.getPointFromList(1, i).x);
-			writeInt(bounds.getPointFromList(1, i).y);
-			//Write data for point 2
-			writeInt(bounds.getPointFromList(2, i).x);
-			writeInt(bounds.getPointFromList(2, i).y);
-			//Write the area type
-			writeInt(bounds.getType(i).ordinal());
-			writeArray(Headers.END.get());
+			bounds.get
 		}
 	}
 
