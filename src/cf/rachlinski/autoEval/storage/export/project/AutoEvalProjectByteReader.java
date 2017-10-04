@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 public class AutoEvalProjectByteReader
 {
+
 	private byte[] toRead;
 	private int version;
 
@@ -54,6 +55,8 @@ public class AutoEvalProjectByteReader
 				int j = i + 8;      //J for iterator
 				int byteCount = 0;      //Byte count
 
+
+				/* TODO this all needs to be removed and fixed
 				//While loop to count the number of bytes in the
 				while(!finished)
 				{
@@ -78,6 +81,7 @@ public class AutoEvalProjectByteReader
 					}
 				}
 				i += 16 + byteCount;
+				*/
 			}
 
 		}

@@ -32,5 +32,7 @@ public final class SectorFactory
 			//TODO handle exception
 			e.printStackTrace();
 		}
+
+		return null;
 	}
 }

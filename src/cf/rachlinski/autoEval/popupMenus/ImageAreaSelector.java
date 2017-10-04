@@ -155,7 +155,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 		boundList.add(
 				new Point(Integer.parseInt(xPos1.getText()), Integer.parseInt(yPos1.getText())),
 				new Point(Integer.parseInt(xPos2.getText()), Integer.parseInt(yPos2.getText()))
-				);
+		);
 		
 		Graphics2D g2d = imgBuff.createGraphics();
 		
@@ -219,11 +219,11 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			if(selectYValue > imgBuff.getHeight())
 				selectYValue = imgBuff.getHeight() - 1;
 			
-			//Get real value of tempBound1, assuming that the frame is bigger than the image
+			//Get real value of tempBound1, assuming that the frame is bigger than the image TODO account for frame being smaller than image
 			tempBound2 = new Point(
 					selectXValue,
 					selectYValue
-					);		//Get temp bound from the selection point
+			);		//Get temp bound from the selection point
 			ConsolePane.dbg(tempBound2);
 			
 			//array of colors to create mutli color boxes
@@ -232,7 +232,7 @@ public class ImageAreaSelector extends AbstractAreaSelector implements ActionLis
 			//Draw rectangle
 			ConsolePane.dbg("DRAWING RECTANGLE");
 			g2d.setColor(colors[1]);
-			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x, tempBound2.y);
+			g2d.drawRect(tempBound1.x, tempBound1.y, tempBound2.x - tempBound1.x, tempBound2.y - tempBound2.y);
 			
 			/*
 			bound1.add(tempBound1);
